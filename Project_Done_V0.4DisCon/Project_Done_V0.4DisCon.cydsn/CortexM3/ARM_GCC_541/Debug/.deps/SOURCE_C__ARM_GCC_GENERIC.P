@@ -1,0 +1,134 @@
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/CortexM3/ARM_GCC_541/Debug/main.o : C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/ADC_SAR_1.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/ADC_SAR_1_Bypass.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/ADC_SAR_1_Bypass_aliases.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/ADC_SAR_1_IRQ.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/ADC_SAR_2.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/ADC_SAR_2_Bypass.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/ADC_SAR_2_Bypass_aliases.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/ADC_SAR_2_IRQ.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/AMux_1.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/CYDMAC.H C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/CYFITTER.H C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/Clock_PWM.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/Clock_PWM_step.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/Clock_aclk.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/Clock_soc.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/CyDmac.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/CyFlash.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/CyLib.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/CySpc.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/DMA_1_dma.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/DMA_2_dma.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/H_ENA.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/H_ENA_aliases.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/H_ENB.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/H_ENB_aliases.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/H_INA.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/H_INA_aliases.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/H_INB.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/H_INB_aliases.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/ISR_DMA_1.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/ISR_DMA_2.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/ISR_Sw.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/PIN_ADC_IN_1.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/PIN_ADC_IN_1_aliases.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/PIN_ADC_IN_AZ.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/PIN_ADC_IN_AZ_aliases.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/PIN_ADC_IN_EL.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/PIN_ADC_IN_EL_aliases.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/PIN_SWITCH.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/PIN_SWITCH_aliases.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/PWM.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/PWM_step.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/PWMout.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/PWMout_aliases.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/S_DIR.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/S_DIR_aliases.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/S_EN.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/S_EN_aliases.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/S_STEP.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/S_STEP_aliases.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/UART_1.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/UART_1_IntClock.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/cmsis_armcc.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/cmsis_compiler.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/cmsis_gcc.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/core_cm3.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/core_cm3_psoc5.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/cyPm.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/cy_em_eeprom.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/cydevice.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/cydisabledsheets.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/cyfitter.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/cyfitter_cfg.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/cypins.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/cytypes.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/project.h C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/main.c 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/ADC_SAR_1.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/ADC_SAR_1_Bypass.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/ADC_SAR_1_Bypass_aliases.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/ADC_SAR_1_IRQ.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/ADC_SAR_2.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/ADC_SAR_2_Bypass.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/ADC_SAR_2_Bypass_aliases.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/ADC_SAR_2_IRQ.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/AMux_1.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/CYDMAC.H : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/CYFITTER.H : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/Clock_PWM.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/Clock_PWM_step.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/Clock_aclk.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/Clock_soc.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/CyFlash.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/CyLib.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/CySpc.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/DMA_1_dma.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/DMA_2_dma.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/H_ENA.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/H_ENA_aliases.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/H_ENB.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/H_ENB_aliases.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/H_INA.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/H_INA_aliases.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/H_INB.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/H_INB_aliases.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/ISR_DMA_1.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/ISR_DMA_2.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/ISR_Sw.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/PIN_ADC_IN_1.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/PIN_ADC_IN_1_aliases.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/PIN_ADC_IN_AZ.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/PIN_ADC_IN_AZ_aliases.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/PIN_ADC_IN_EL.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/PIN_ADC_IN_EL_aliases.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/PIN_SWITCH.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/PIN_SWITCH_aliases.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/PWM.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/PWM_step.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/PWMout.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/PWMout_aliases.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/S_DIR.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/S_DIR_aliases.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/S_EN.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/S_EN_aliases.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/S_STEP.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/S_STEP_aliases.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/UART_1.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/UART_1_IntClock.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/cmsis_armcc.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/cmsis_compiler.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/cmsis_gcc.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/core_cm3.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/core_cm3_psoc5.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/cyPm.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/cy_em_eeprom.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/cydevice.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/cydevice_trm.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/cydisabledsheets.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/cyfitter_cfg.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/cypins.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/cytypes.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/Generated_Source/PSoC5/project.h : 
+
+C:/Users/almsk/Dropbox/P5\ -\ B2-203/Projekt/PSoC/SampleOgMotor/Project_Done_V0.4DisCon/Project_Done_V0.4DisCon.cydsn/main.c : 
+

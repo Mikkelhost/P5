@@ -1,0 +1,5043 @@
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.global	k
+  20              		.data
+  21              		.align	2
+  22              		.type	k, %object
+  23              		.size	k, 4
+  24              	k:
+  25 0000 10000000 		.word	16
+  26              		.global	pi
+  27              		.align	2
+  28              		.type	pi, %object
+  29              		.size	pi, 4
+  30              	pi:
+  31 0004 F90F4940 		.word	1078530041
+  32              		.global	half_pi
+  33              		.align	2
+  34              		.type	half_pi, %object
+  35              		.size	half_pi, 4
+  36              	half_pi:
+  37 0008 8716C93F 		.word	1070143111
+  38              		.global	prev_1_AOA_Az
+  39              		.bss
+  40              		.align	2
+  41              		.type	prev_1_AOA_Az, %object
+  42              		.size	prev_1_AOA_Az, 4
+  43              	prev_1_AOA_Az:
+  44 0000 00000000 		.space	4
+  45              		.global	prev_2_AOA_Az
+  46              		.align	2
+  47              		.type	prev_2_AOA_Az, %object
+  48              		.size	prev_2_AOA_Az, 4
+  49              	prev_2_AOA_Az:
+  50 0004 00000000 		.space	4
+  51              		.global	prev_1_DC_speed
+  52              		.align	2
+  53              		.type	prev_1_DC_speed, %object
+  54              		.size	prev_1_DC_speed, 4
+  55              	prev_1_DC_speed:
+  56 0008 00000000 		.space	4
+  57              		.global	prev_2_DC_speed
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 2
+
+
+  58              		.align	2
+  59              		.type	prev_2_DC_speed, %object
+  60              		.size	prev_2_DC_speed, 4
+  61              	prev_2_DC_speed:
+  62 000c 00000000 		.space	4
+  63              		.global	Step_integral
+  64              		.align	2
+  65              		.type	Step_integral, %object
+  66              		.size	Step_integral, 4
+  67              	Step_integral:
+  68 0010 00000000 		.space	4
+  69              		.global	Step_derivative
+  70              		.align	2
+  71              		.type	Step_derivative, %object
+  72              		.size	Step_derivative, 4
+  73              	Step_derivative:
+  74 0014 00000000 		.space	4
+  75              		.global	prev_AoA_El
+  76              		.align	2
+  77              		.type	prev_AoA_El, %object
+  78              		.size	prev_AoA_El, 4
+  79              	prev_AoA_El:
+  80 0018 00000000 		.space	4
+  81              		.global	adc_sampleArray_1
+  82              		.align	2
+  83              		.type	adc_sampleArray_1, %object
+  84              		.size	adc_sampleArray_1, 256
+  85              	adc_sampleArray_1:
+  86 001c 00000000 		.space	256
+  86      00000000 
+  86      00000000 
+  86      00000000 
+  86      00000000 
+  87              		.global	adc_sampleArray_2
+  88              		.align	2
+  89              		.type	adc_sampleArray_2, %object
+  90              		.size	adc_sampleArray_2, 256
+  91              	adc_sampleArray_2:
+  92 011c 00000000 		.space	256
+  92      00000000 
+  92      00000000 
+  92      00000000 
+  92      00000000 
+  93              		.global	Cos_sampleArray
+  94              		.align	2
+  95              		.type	Cos_sampleArray, %object
+  96              		.size	Cos_sampleArray, 512
+  97              	Cos_sampleArray:
+  98 021c 00000000 		.space	512
+  98      00000000 
+  98      00000000 
+  98      00000000 
+  98      00000000 
+  99              		.global	Sin_sampleArray
+ 100              		.align	2
+ 101              		.type	Sin_sampleArray, %object
+ 102              		.size	Sin_sampleArray, 512
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 3
+
+
+ 103              	Sin_sampleArray:
+ 104 041c 00000000 		.space	512
+ 104      00000000 
+ 104      00000000 
+ 104      00000000 
+ 104      00000000 
+ 105              		.comm	switch_flag,1,1
+ 106              		.comm	DMADone_1_flag,1,1
+ 107              		.comm	DMADone_2_flag,1,1
+ 108              		.global	state
+ 109              		.align	2
+ 110              		.type	state, %object
+ 111              		.size	state, 4
+ 112              	state:
+ 113 061c 00000000 		.space	4
+ 114              		.global	AmpThreshold
+ 115              		.data
+ 116              		.align	2
+ 117              		.type	AmpThreshold, %object
+ 118              		.size	AmpThreshold, 4
+ 119              	AmpThreshold:
+ 120 000c 00C0DA45 		.word	1171963904
+ 121              		.comm	DMA_1_Chan,1,1
+ 122              		.comm	DMA_2_Chan,1,1
+ 123              		.comm	DMA_1_TD,1,4
+ 124              		.comm	DMA_2_TD,1,4
+ 125              		.global	__aeabi_i2f
+ 126              		.global	__aeabi_fmul
+ 127              		.global	__aeabi_fadd
+ 128              		.global	__aeabi_fdiv
+ 129              		.global	__aeabi_fcmplt
+ 130              		.global	__aeabi_fsub
+ 131              		.global	__aeabi_fcmpgt
+ 132              		.section	.text.PhaseDifference,"ax",%progbits
+ 133              		.align	2
+ 134              		.global	PhaseDifference
+ 135              		.thumb
+ 136              		.thumb_func
+ 137              		.type	PhaseDifference, %function
+ 138              	PhaseDifference:
+ 139              	.LFB64:
+ 140              		.file 1 "main.c"
+   1:main.c        **** /* This project is made by EIT group 513 at Aalborg university */
+   2:main.c        **** 
+   3:main.c        **** #include <project.h>
+   4:main.c        **** #include <math.h>
+   5:main.c        **** #include <stdlib.h>
+   6:main.c        **** #include <string.h>
+   7:main.c        **** #include <stdio.h>
+   8:main.c        **** 
+   9:main.c        **** 
+  10:main.c        **** /*define for the number of samples to be transferred to memory on each switch press*/
+  11:main.c        **** #define NO_OF_SAMPLES 128
+  12:main.c        **** 
+  13:main.c        **** int k = 16; //K = 261 for N = 1024 & f = 200 kHz, K = 131 for N = 1024 & f = 100 kHz
+  14:main.c        ****             //K = 16, for N = 128 & f = 100 kHz
+  15:main.c        ****   /* Lovely pi */
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 4
+
+
+  16:main.c        **** float pi = 3.1416;
+  17:main.c        **** float half_pi = 1.571;
+  18:main.c        **** 
+  19:main.c        **** 
+  20:main.c        **** /* Værdier til Motorerne*/
+  21:main.c        **** //  float integral = 0;
+  22:main.c        **** //  float derivative  = 0;
+  23:main.c        **** //  float prev_AoA_Az = 0;
+  24:main.c        ****    float prev_1_AOA_Az = 0;
+  25:main.c        ****    float prev_2_AOA_Az = 0;
+  26:main.c        ****    float prev_1_DC_speed = 0;
+  27:main.c        ****    float prev_2_DC_speed = 0;
+  28:main.c        **** 
+  29:main.c        **** 
+  30:main.c        ****   float Step_integral = 0;
+  31:main.c        ****   float Step_derivative  = 0;
+  32:main.c        ****   float prev_AoA_El = 0;
+  33:main.c        **** 
+  34:main.c        **** /* Arrays for saving samples*/
+  35:main.c        **** uint16 adc_sampleArray_1[NO_OF_SAMPLES] = {0};
+  36:main.c        **** uint16 adc_sampleArray_2[NO_OF_SAMPLES] = {0};
+  37:main.c        **** 
+  38:main.c        **** /*Array for pre calculation */
+  39:main.c        **** float Cos_sampleArray[NO_OF_SAMPLES] = {0};
+  40:main.c        **** float Sin_sampleArray[NO_OF_SAMPLES] = {0};
+  41:main.c        **** 
+  42:main.c        **** /* These variables are used to indicate if Pin_Switch is pressed or DMADone_flag is pressed */
+  43:main.c        **** volatile uint8 switch_flag;
+  44:main.c        **** volatile uint8 DMADone_1_flag;
+  45:main.c        **** volatile uint8 DMADone_2_flag;
+  46:main.c        **** 
+  47:main.c        ****  /* Statemachine */
+  48:main.c        **** int state = 0; //0 = Initalize, 1, search, 2 = PinPointAoA
+  49:main.c        **** 
+  50:main.c        **** /* Threshhold for detecting a signal in seach */
+  51:main.c        **** float AmpThreshold = 7000; //Skal nok lave en test for at finde en god værdi
+  52:main.c        **** 
+  53:main.c        **** /* Variable declarations for DMA . 
+  54:main.c        **** * These variables are defined as global variables to avoid "may be used before being set" warning 
+  55:main.c        **** * issued by the PSoC 5 compilers  MDK/RVDS.In this case these variables are automatically initializ
+  56:main.c        **** 
+  57:main.c        **** /* DMA_Chan is used to store the DMA channel handle */ 
+  58:main.c        **** uint8 DMA_1_Chan;
+  59:main.c        **** uint8 DMA_2_Chan;
+  60:main.c        **** 
+  61:main.c        **** /* DMA_TD array is used to store all of the TDs associated with the channel
+  62:main.c        ****  * Since there is only one TD in this example, DMA_TD array contains only one element */
+  63:main.c        **** uint8 DMA_1_TD[1];
+  64:main.c        **** uint8 DMA_2_TD[1];
+  65:main.c        **** 
+  66:main.c        **** /* DMA_DISABLE_TD definition not available for PSoC 5LP inside CyDmac.h in PSoC Creator 2.1 SP1.
+  67:main.c        ****  * So, manually define the DMA_DISABLE_TD */
+  68:main.c        **** #if (CY_PSOC5LP)
+  69:main.c        **** 	#if !defined(DMA_DISABLE_TD)
+  70:main.c        **** 	    #define DMA_DISABLE_TD          0xFEu
+  71:main.c        **** 	#endif
+  72:main.c        **** #endif  /* (CY_PSOC5LP) */
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 5
+
+
+  73:main.c        **** 
+  74:main.c        **** 
+  75:main.c        **** 
+  76:main.c        ****                                     /* FUNCTIONS */
+  77:main.c        **** float PhaseDifference(uint16 a[], uint16 b[])
+  78:main.c        **** {
+ 141              		.loc 1 78 0
+ 142              		.cfi_startproc
+ 143              		@ args = 0, pretend = 0, frame = 48
+ 144              		@ frame_needed = 1, uses_anonymous_args = 0
+ 145 0000 80B5     		push	{r7, lr}
+ 146              		.cfi_def_cfa_offset 8
+ 147              		.cfi_offset 7, -8
+ 148              		.cfi_offset 14, -4
+ 149 0002 8CB0     		sub	sp, sp, #48
+ 150              		.cfi_def_cfa_offset 56
+ 151 0004 00AF     		add	r7, sp, #0
+ 152              		.cfi_def_cfa_register 7
+ 153 0006 7860     		str	r0, [r7, #4]
+ 154 0008 3960     		str	r1, [r7]
+  79:main.c        ****   //værdien som kommer ud
+  80:main.c        ****   float c;
+  81:main.c        **** 
+  82:main.c        **** 
+  83:main.c        ****   float theta_a = 0, theta_b = 0;
+ 155              		.loc 1 83 0
+ 156 000a 4FF00003 		mov	r3, #0
+ 157 000e BB62     		str	r3, [r7, #40]	@ float
+ 158 0010 4FF00003 		mov	r3, #0
+ 159 0014 7B62     		str	r3, [r7, #36]	@ float
+  84:main.c        **** 
+  85:main.c        ****     
+  86:main.c        **** // Offset der ved 0 grader fase forskell, skal sættes til 0 hvis man ønsker at finde det ved 0. 
+  87:main.c        ****   float OFFSET = 0;
+ 160              		.loc 1 87 0
+ 161 0016 4FF00003 		mov	r3, #0
+ 162 001a FB60     		str	r3, [r7, #12]	@ float
+  88:main.c        **** 
+  89:main.c        **** // Frequency spectrum variables
+  90:main.c        ****   float Are = {0};
+ 163              		.loc 1 90 0
+ 164 001c 4FF00003 		mov	r3, #0
+ 165 0020 3B62     		str	r3, [r7, #32]	@ float
+  91:main.c        ****   float Aim = {0};
+ 166              		.loc 1 91 0
+ 167 0022 4FF00003 		mov	r3, #0
+ 168 0026 FB61     		str	r3, [r7, #28]	@ float
+  92:main.c        ****   float Bre = {0};
+ 169              		.loc 1 92 0
+ 170 0028 4FF00003 		mov	r3, #0
+ 171 002c BB61     		str	r3, [r7, #24]	@ float
+  93:main.c        ****   float Bim = {0};
+ 172              		.loc 1 93 0
+ 173 002e 4FF00003 		mov	r3, #0
+ 174 0032 7B61     		str	r3, [r7, #20]	@ float
+ 175              	.LBB2:
+  94:main.c        **** 
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 6
+
+
+  95:main.c        ****  //float test_az[NO_OF_SAMPLES] = {0}, test_bz[NO_OF_SAMPLES] = {0};
+  96:main.c        **** 
+  97:main.c        **** 
+  98:main.c        ****  // Calculate DFT of x using brute force
+  99:main.c        **** 
+ 100:main.c        ****     for(int n=0; n<NO_OF_SAMPLES; n++)
+ 176              		.loc 1 100 0
+ 177 0034 0023     		movs	r3, #0
+ 178 0036 3B61     		str	r3, [r7, #16]
+ 179 0038 5AE0     		b	.L2
+ 180              	.L3:
+ 101:main.c        ****     {  
+ 102:main.c        ****         Are = Are + a[n]*Cos_sampleArray[n];
+ 181              		.loc 1 102 0 discriminator 3
+ 182 003a 3B69     		ldr	r3, [r7, #16]
+ 183 003c 5B00     		lsls	r3, r3, #1
+ 184 003e 7A68     		ldr	r2, [r7, #4]
+ 185 0040 1344     		add	r3, r3, r2
+ 186 0042 1B88     		ldrh	r3, [r3]
+ 187 0044 1846     		mov	r0, r3
+ 188 0046 FFF7FEFF 		bl	__aeabi_i2f
+ 189 004a 7E4A     		ldr	r2, .L28
+ 190 004c 3B69     		ldr	r3, [r7, #16]
+ 191 004e 52F82330 		ldr	r3, [r2, r3, lsl #2]	@ float
+ 192 0052 1946     		mov	r1, r3
+ 193 0054 FFF7FEFF 		bl	__aeabi_fmul
+ 194 0058 0346     		mov	r3, r0
+ 195 005a 1946     		mov	r1, r3
+ 196 005c 386A     		ldr	r0, [r7, #32]	@ float
+ 197 005e FFF7FEFF 		bl	__aeabi_fadd
+ 198 0062 0346     		mov	r3, r0
+ 199 0064 3B62     		str	r3, [r7, #32]	@ float
+ 103:main.c        ****         Aim = Aim + a[n]*Sin_sampleArray[n]; 
+ 200              		.loc 1 103 0 discriminator 3
+ 201 0066 3B69     		ldr	r3, [r7, #16]
+ 202 0068 5B00     		lsls	r3, r3, #1
+ 203 006a 7A68     		ldr	r2, [r7, #4]
+ 204 006c 1344     		add	r3, r3, r2
+ 205 006e 1B88     		ldrh	r3, [r3]
+ 206 0070 1846     		mov	r0, r3
+ 207 0072 FFF7FEFF 		bl	__aeabi_i2f
+ 208 0076 744A     		ldr	r2, .L28+4
+ 209 0078 3B69     		ldr	r3, [r7, #16]
+ 210 007a 52F82330 		ldr	r3, [r2, r3, lsl #2]	@ float
+ 211 007e 1946     		mov	r1, r3
+ 212 0080 FFF7FEFF 		bl	__aeabi_fmul
+ 213 0084 0346     		mov	r3, r0
+ 214 0086 1946     		mov	r1, r3
+ 215 0088 F869     		ldr	r0, [r7, #28]	@ float
+ 216 008a FFF7FEFF 		bl	__aeabi_fadd
+ 217 008e 0346     		mov	r3, r0
+ 218 0090 FB61     		str	r3, [r7, #28]	@ float
+ 104:main.c        ****         Bre = Bre + b[n]*Cos_sampleArray[n];
+ 219              		.loc 1 104 0 discriminator 3
+ 220 0092 3B69     		ldr	r3, [r7, #16]
+ 221 0094 5B00     		lsls	r3, r3, #1
+ 222 0096 3A68     		ldr	r2, [r7]
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 7
+
+
+ 223 0098 1344     		add	r3, r3, r2
+ 224 009a 1B88     		ldrh	r3, [r3]
+ 225 009c 1846     		mov	r0, r3
+ 226 009e FFF7FEFF 		bl	__aeabi_i2f
+ 227 00a2 684A     		ldr	r2, .L28
+ 228 00a4 3B69     		ldr	r3, [r7, #16]
+ 229 00a6 52F82330 		ldr	r3, [r2, r3, lsl #2]	@ float
+ 230 00aa 1946     		mov	r1, r3
+ 231 00ac FFF7FEFF 		bl	__aeabi_fmul
+ 232 00b0 0346     		mov	r3, r0
+ 233 00b2 1946     		mov	r1, r3
+ 234 00b4 B869     		ldr	r0, [r7, #24]	@ float
+ 235 00b6 FFF7FEFF 		bl	__aeabi_fadd
+ 236 00ba 0346     		mov	r3, r0
+ 237 00bc BB61     		str	r3, [r7, #24]	@ float
+ 105:main.c        ****         Bim = Bim + b[n]*Sin_sampleArray[n];
+ 238              		.loc 1 105 0 discriminator 3
+ 239 00be 3B69     		ldr	r3, [r7, #16]
+ 240 00c0 5B00     		lsls	r3, r3, #1
+ 241 00c2 3A68     		ldr	r2, [r7]
+ 242 00c4 1344     		add	r3, r3, r2
+ 243 00c6 1B88     		ldrh	r3, [r3]
+ 244 00c8 1846     		mov	r0, r3
+ 245 00ca FFF7FEFF 		bl	__aeabi_i2f
+ 246 00ce 5E4A     		ldr	r2, .L28+4
+ 247 00d0 3B69     		ldr	r3, [r7, #16]
+ 248 00d2 52F82330 		ldr	r3, [r2, r3, lsl #2]	@ float
+ 249 00d6 1946     		mov	r1, r3
+ 250 00d8 FFF7FEFF 		bl	__aeabi_fmul
+ 251 00dc 0346     		mov	r3, r0
+ 252 00de 1946     		mov	r1, r3
+ 253 00e0 7869     		ldr	r0, [r7, #20]	@ float
+ 254 00e2 FFF7FEFF 		bl	__aeabi_fadd
+ 255 00e6 0346     		mov	r3, r0
+ 256 00e8 7B61     		str	r3, [r7, #20]	@ float
+ 100:main.c        ****     {  
+ 257              		.loc 1 100 0 discriminator 3
+ 258 00ea 3B69     		ldr	r3, [r7, #16]
+ 259 00ec 0133     		adds	r3, r3, #1
+ 260 00ee 3B61     		str	r3, [r7, #16]
+ 261              	.L2:
+ 100:main.c        ****     {  
+ 262              		.loc 1 100 0 is_stmt 0 discriminator 1
+ 263 00f0 3B69     		ldr	r3, [r7, #16]
+ 264 00f2 7F2B     		cmp	r3, #127
+ 265 00f4 A1DD     		ble	.L3
+ 266              	.LBE2:
+ 106:main.c        ****        // test_az[n] = a[n];
+ 107:main.c        ****        // test_bz[n] = b[n];
+ 108:main.c        ****     }
+ 109:main.c        **** 
+ 110:main.c        ****     theta_a = atanf(Aim/Are);
+ 267              		.loc 1 110 0 is_stmt 1
+ 268 00f6 396A     		ldr	r1, [r7, #32]	@ float
+ 269 00f8 F869     		ldr	r0, [r7, #28]	@ float
+ 270 00fa FFF7FEFF 		bl	__aeabi_fdiv
+ 271 00fe 0346     		mov	r3, r0
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 8
+
+
+ 272 0100 1846     		mov	r0, r3
+ 273 0102 FFF7FEFF 		bl	atanf
+ 274 0106 B862     		str	r0, [r7, #40]	@ float
+ 111:main.c        ****     theta_b = atanf(Bim/Bre);
+ 275              		.loc 1 111 0
+ 276 0108 B969     		ldr	r1, [r7, #24]	@ float
+ 277 010a 7869     		ldr	r0, [r7, #20]	@ float
+ 278 010c FFF7FEFF 		bl	__aeabi_fdiv
+ 279 0110 0346     		mov	r3, r0
+ 280 0112 1846     		mov	r0, r3
+ 281 0114 FFF7FEFF 		bl	atanf
+ 282 0118 7862     		str	r0, [r7, #36]	@ float
+ 112:main.c        ****     
+ 113:main.c        ****     //Kompensere for tangens fejl 
+ 114:main.c        ****     if((Aim < 0) && (Are < 0 ))  
+ 283              		.loc 1 114 0
+ 284 011a 4FF00001 		mov	r1, #0
+ 285 011e F869     		ldr	r0, [r7, #28]	@ float
+ 286 0120 FFF7FEFF 		bl	__aeabi_fcmplt
+ 287 0124 0346     		mov	r3, r0
+ 288 0126 002B     		cmp	r3, #0
+ 289 0128 10D0     		beq	.L4
+ 290              		.loc 1 114 0 is_stmt 0 discriminator 1
+ 291 012a 4FF00001 		mov	r1, #0
+ 292 012e 386A     		ldr	r0, [r7, #32]	@ float
+ 293 0130 FFF7FEFF 		bl	__aeabi_fcmplt
+ 294 0134 0346     		mov	r3, r0
+ 295 0136 002B     		cmp	r3, #0
+ 296 0138 08D0     		beq	.L4
+ 115:main.c        ****     {
+ 116:main.c        ****         theta_a = theta_a - pi;
+ 297              		.loc 1 116 0 is_stmt 1
+ 298 013a 444B     		ldr	r3, .L28+8
+ 299 013c 1B68     		ldr	r3, [r3]	@ float
+ 300 013e 1946     		mov	r1, r3
+ 301 0140 B86A     		ldr	r0, [r7, #40]	@ float
+ 302 0142 FFF7FEFF 		bl	__aeabi_fsub
+ 303 0146 0346     		mov	r3, r0
+ 304 0148 BB62     		str	r3, [r7, #40]	@ float
+ 305 014a 0FE0     		b	.L7
+ 306              	.L4:
+ 117:main.c        ****     } else if (Are < 0 )
+ 307              		.loc 1 117 0
+ 308 014c 4FF00001 		mov	r1, #0
+ 309 0150 386A     		ldr	r0, [r7, #32]	@ float
+ 310 0152 FFF7FEFF 		bl	__aeabi_fcmplt
+ 311 0156 0346     		mov	r3, r0
+ 312 0158 002B     		cmp	r3, #0
+ 313 015a 07D0     		beq	.L7
+ 118:main.c        ****     {
+ 119:main.c        ****         theta_a = theta_a + pi;   
+ 314              		.loc 1 119 0
+ 315 015c 3B4B     		ldr	r3, .L28+8
+ 316 015e 1B68     		ldr	r3, [r3]	@ float
+ 317 0160 1946     		mov	r1, r3
+ 318 0162 B86A     		ldr	r0, [r7, #40]	@ float
+ 319 0164 FFF7FEFF 		bl	__aeabi_fadd
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 9
+
+
+ 320 0168 0346     		mov	r3, r0
+ 321 016a BB62     		str	r3, [r7, #40]	@ float
+ 322              	.L7:
+ 120:main.c        ****     }
+ 121:main.c        ****     
+ 122:main.c        ****     if((Bim < 0) && (Bre < 0 ))
+ 323              		.loc 1 122 0
+ 324 016c 4FF00001 		mov	r1, #0
+ 325 0170 7869     		ldr	r0, [r7, #20]	@ float
+ 326 0172 FFF7FEFF 		bl	__aeabi_fcmplt
+ 327 0176 0346     		mov	r3, r0
+ 328 0178 002B     		cmp	r3, #0
+ 329 017a 10D0     		beq	.L9
+ 330              		.loc 1 122 0 is_stmt 0 discriminator 1
+ 331 017c 4FF00001 		mov	r1, #0
+ 332 0180 B869     		ldr	r0, [r7, #24]	@ float
+ 333 0182 FFF7FEFF 		bl	__aeabi_fcmplt
+ 334 0186 0346     		mov	r3, r0
+ 335 0188 002B     		cmp	r3, #0
+ 336 018a 08D0     		beq	.L9
+ 123:main.c        ****     {
+ 124:main.c        ****         theta_b = theta_b - pi;
+ 337              		.loc 1 124 0 is_stmt 1
+ 338 018c 2F4B     		ldr	r3, .L28+8
+ 339 018e 1B68     		ldr	r3, [r3]	@ float
+ 340 0190 1946     		mov	r1, r3
+ 341 0192 786A     		ldr	r0, [r7, #36]	@ float
+ 342 0194 FFF7FEFF 		bl	__aeabi_fsub
+ 343 0198 0346     		mov	r3, r0
+ 344 019a 7B62     		str	r3, [r7, #36]	@ float
+ 345 019c 0FE0     		b	.L12
+ 346              	.L9:
+ 125:main.c        ****     } else if (Bre < 0 )
+ 347              		.loc 1 125 0
+ 348 019e 4FF00001 		mov	r1, #0
+ 349 01a2 B869     		ldr	r0, [r7, #24]	@ float
+ 350 01a4 FFF7FEFF 		bl	__aeabi_fcmplt
+ 351 01a8 0346     		mov	r3, r0
+ 352 01aa 002B     		cmp	r3, #0
+ 353 01ac 07D0     		beq	.L12
+ 126:main.c        ****     {
+ 127:main.c        ****         theta_b = theta_b + pi;   
+ 354              		.loc 1 127 0
+ 355 01ae 274B     		ldr	r3, .L28+8
+ 356 01b0 1B68     		ldr	r3, [r3]	@ float
+ 357 01b2 1946     		mov	r1, r3
+ 358 01b4 786A     		ldr	r0, [r7, #36]	@ float
+ 359 01b6 FFF7FEFF 		bl	__aeabi_fadd
+ 360 01ba 0346     		mov	r3, r0
+ 361 01bc 7B62     		str	r3, [r7, #36]	@ float
+ 362              	.L12:
+ 128:main.c        ****     }
+ 129:main.c        ****     
+ 130:main.c        ****  
+ 131:main.c        ****     c = theta_a - theta_b - OFFSET ; //Calculate the phase difference
+ 363              		.loc 1 131 0
+ 364 01be 796A     		ldr	r1, [r7, #36]	@ float
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 10
+
+
+ 365 01c0 B86A     		ldr	r0, [r7, #40]	@ float
+ 366 01c2 FFF7FEFF 		bl	__aeabi_fsub
+ 367 01c6 0346     		mov	r3, r0
+ 368 01c8 F968     		ldr	r1, [r7, #12]	@ float
+ 369 01ca 1846     		mov	r0, r3
+ 370 01cc FFF7FEFF 		bl	__aeabi_fsub
+ 371 01d0 0346     		mov	r3, r0
+ 372 01d2 FB62     		str	r3, [r7, #44]	@ float
+ 132:main.c        ****     
+ 133:main.c        ****     if ( c < -(pi))  //Sørger for "overflow" på enhedscirklen
+ 373              		.loc 1 133 0
+ 374 01d4 1D4B     		ldr	r3, .L28+8
+ 375 01d6 1B68     		ldr	r3, [r3]	@ float
+ 376 01d8 83F00043 		eor	r3, r3, #-2147483648
+ 377 01dc F96A     		ldr	r1, [r7, #44]	@ float
+ 378 01de 1846     		mov	r0, r3
+ 379 01e0 FFF7FEFF 		bl	__aeabi_fcmpgt
+ 380 01e4 0346     		mov	r3, r0
+ 381 01e6 002B     		cmp	r3, #0
+ 382 01e8 0DD0     		beq	.L27
+ 134:main.c        ****     {
+ 135:main.c        ****         c = c + (2*pi);
+ 383              		.loc 1 135 0
+ 384 01ea 184B     		ldr	r3, .L28+8
+ 385 01ec 1B68     		ldr	r3, [r3]	@ float
+ 386 01ee 1946     		mov	r1, r3
+ 387 01f0 1846     		mov	r0, r3
+ 388 01f2 FFF7FEFF 		bl	__aeabi_fadd
+ 389 01f6 0346     		mov	r3, r0
+ 390 01f8 1946     		mov	r1, r3
+ 391 01fa F86A     		ldr	r0, [r7, #44]	@ float
+ 392 01fc FFF7FEFF 		bl	__aeabi_fadd
+ 393 0200 0346     		mov	r3, r0
+ 394 0202 FB62     		str	r3, [r7, #44]	@ float
+ 395 0204 15E0     		b	.L16
+ 396              	.L27:
+ 136:main.c        ****     } else if (c > (pi))
+ 397              		.loc 1 136 0
+ 398 0206 114B     		ldr	r3, .L28+8
+ 399 0208 1B68     		ldr	r3, [r3]	@ float
+ 400 020a 1946     		mov	r1, r3
+ 401 020c F86A     		ldr	r0, [r7, #44]	@ float
+ 402 020e FFF7FEFF 		bl	__aeabi_fcmpgt
+ 403 0212 0346     		mov	r3, r0
+ 404 0214 002B     		cmp	r3, #0
+ 405 0216 0CD0     		beq	.L16
+ 137:main.c        ****     {
+ 138:main.c        ****         c = c - (2*pi);
+ 406              		.loc 1 138 0
+ 407 0218 0C4B     		ldr	r3, .L28+8
+ 408 021a 1B68     		ldr	r3, [r3]	@ float
+ 409 021c 1946     		mov	r1, r3
+ 410 021e 1846     		mov	r0, r3
+ 411 0220 FFF7FEFF 		bl	__aeabi_fadd
+ 412 0224 0346     		mov	r3, r0
+ 413 0226 1946     		mov	r1, r3
+ 414 0228 F86A     		ldr	r0, [r7, #44]	@ float
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 11
+
+
+ 415 022a FFF7FEFF 		bl	__aeabi_fsub
+ 416 022e 0346     		mov	r3, r0
+ 417 0230 FB62     		str	r3, [r7, #44]	@ float
+ 418              	.L16:
+ 139:main.c        ****     }
+ 140:main.c        ****     c = -c; //Bruger den negative, da det er sådan vi har sat det op i øjeblikket, 
+ 419              		.loc 1 140 0
+ 420 0232 FB6A     		ldr	r3, [r7, #44]
+ 421 0234 83F00043 		eor	r3, r3, #-2147483648
+ 422 0238 FB62     		str	r3, [r7, #44]	@ float
+ 141:main.c        ****             //skal checkes efter når antennerne kommer på
+ 142:main.c        ****     
+ 143:main.c        ****     
+ 144:main.c        ****     return c;   
+ 423              		.loc 1 144 0
+ 424 023a FB6A     		ldr	r3, [r7, #44]	@ float
+ 145:main.c        **** }
+ 425              		.loc 1 145 0
+ 426 023c 1846     		mov	r0, r3
+ 427 023e 3037     		adds	r7, r7, #48
+ 428              		.cfi_def_cfa_offset 8
+ 429 0240 BD46     		mov	sp, r7
+ 430              		.cfi_def_cfa_register 13
+ 431              		@ sp needed
+ 432 0242 80BD     		pop	{r7, pc}
+ 433              	.L29:
+ 434              		.align	2
+ 435              	.L28:
+ 436 0244 00000000 		.word	Cos_sampleArray
+ 437 0248 00000000 		.word	Sin_sampleArray
+ 438 024c 00000000 		.word	pi
+ 439              		.cfi_endproc
+ 440              	.LFE64:
+ 441              		.size	PhaseDifference, .-PhaseDifference
+ 442              		.global	__aeabi_f2d
+ 443              		.global	__aeabi_dsub
+ 444              		.global	__aeabi_d2f
+ 445              		.section	.text.PhaseDifferenceEL,"ax",%progbits
+ 446              		.align	2
+ 447              		.global	PhaseDifferenceEL
+ 448              		.thumb
+ 449              		.thumb_func
+ 450              		.type	PhaseDifferenceEL, %function
+ 451              	PhaseDifferenceEL:
+ 452              	.LFB65:
+ 146:main.c        **** 
+ 147:main.c        **** 
+ 148:main.c        **** float PhaseDifferenceEL(uint16 a[], uint16 b[]) //Er blevet lavet for at sætte et offset på kun v
+ 149:main.c        **** {
+ 453              		.loc 1 149 0
+ 454              		.cfi_startproc
+ 455              		@ args = 0, pretend = 0, frame = 48
+ 456              		@ frame_needed = 1, uses_anonymous_args = 0
+ 457 0000 B0B5     		push	{r4, r5, r7, lr}
+ 458              		.cfi_def_cfa_offset 16
+ 459              		.cfi_offset 4, -16
+ 460              		.cfi_offset 5, -12
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 12
+
+
+ 461              		.cfi_offset 7, -8
+ 462              		.cfi_offset 14, -4
+ 463 0002 8CB0     		sub	sp, sp, #48
+ 464              		.cfi_def_cfa_offset 64
+ 465 0004 00AF     		add	r7, sp, #0
+ 466              		.cfi_def_cfa_register 7
+ 467 0006 7860     		str	r0, [r7, #4]
+ 468 0008 3960     		str	r1, [r7]
+ 150:main.c        ****   //værdien som kommer ud
+ 151:main.c        ****   float c;
+ 152:main.c        **** 
+ 153:main.c        **** 
+ 154:main.c        ****   float theta_a = 0, theta_b = 0;
+ 469              		.loc 1 154 0
+ 470 000a 4FF00003 		mov	r3, #0
+ 471 000e BB62     		str	r3, [r7, #40]	@ float
+ 472 0010 4FF00003 		mov	r3, #0
+ 473 0014 7B62     		str	r3, [r7, #36]	@ float
+ 155:main.c        **** 
+ 156:main.c        ****     
+ 157:main.c        **** // Offset der ved 0 grader fase forskell, skal sættes til 0 hvis man ønsker at finde det ved 0. 
+ 158:main.c        ****   float OFFSET = 0;
+ 474              		.loc 1 158 0
+ 475 0016 4FF00003 		mov	r3, #0
+ 476 001a FB60     		str	r3, [r7, #12]	@ float
+ 159:main.c        **** 
+ 160:main.c        **** // Frequency spectrum variables
+ 161:main.c        ****   float Are = {0};
+ 477              		.loc 1 161 0
+ 478 001c 4FF00003 		mov	r3, #0
+ 479 0020 3B62     		str	r3, [r7, #32]	@ float
+ 162:main.c        ****   float Aim = {0};
+ 480              		.loc 1 162 0
+ 481 0022 4FF00003 		mov	r3, #0
+ 482 0026 FB61     		str	r3, [r7, #28]	@ float
+ 163:main.c        ****   float Bre = {0};
+ 483              		.loc 1 163 0
+ 484 0028 4FF00003 		mov	r3, #0
+ 485 002c BB61     		str	r3, [r7, #24]	@ float
+ 164:main.c        ****   float Bim = {0};
+ 486              		.loc 1 164 0
+ 487 002e 4FF00003 		mov	r3, #0
+ 488 0032 7B61     		str	r3, [r7, #20]	@ float
+ 489              	.LBB3:
+ 165:main.c        **** 
+ 166:main.c        **** //   float test_a[NO_OF_SAMPLES] = {0}, test_b[NO_OF_SAMPLES] = {0};
+ 167:main.c        **** 
+ 168:main.c        ****  // Calculate DFT of x using brute force
+ 169:main.c        **** 
+ 170:main.c        ****     for(int n=0; n<NO_OF_SAMPLES; n++)
+ 490              		.loc 1 170 0
+ 491 0034 0023     		movs	r3, #0
+ 492 0036 3B61     		str	r3, [r7, #16]
+ 493 0038 5AE0     		b	.L31
+ 494              	.L32:
+ 171:main.c        ****     {  
+ 172:main.c        ****         Are = Are + a[n]*Cos_sampleArray[n];
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 13
+
+
+ 495              		.loc 1 172 0 discriminator 3
+ 496 003a 3B69     		ldr	r3, [r7, #16]
+ 497 003c 5B00     		lsls	r3, r3, #1
+ 498 003e 7A68     		ldr	r2, [r7, #4]
+ 499 0040 1344     		add	r3, r3, r2
+ 500 0042 1B88     		ldrh	r3, [r3]
+ 501 0044 1846     		mov	r0, r3
+ 502 0046 FFF7FEFF 		bl	__aeabi_i2f
+ 503 004a 914A     		ldr	r2, .L57+8
+ 504 004c 3B69     		ldr	r3, [r7, #16]
+ 505 004e 52F82330 		ldr	r3, [r2, r3, lsl #2]	@ float
+ 506 0052 1946     		mov	r1, r3
+ 507 0054 FFF7FEFF 		bl	__aeabi_fmul
+ 508 0058 0346     		mov	r3, r0
+ 509 005a 1946     		mov	r1, r3
+ 510 005c 386A     		ldr	r0, [r7, #32]	@ float
+ 511 005e FFF7FEFF 		bl	__aeabi_fadd
+ 512 0062 0346     		mov	r3, r0
+ 513 0064 3B62     		str	r3, [r7, #32]	@ float
+ 173:main.c        ****         Aim = Aim + a[n]*Sin_sampleArray[n]; 
+ 514              		.loc 1 173 0 discriminator 3
+ 515 0066 3B69     		ldr	r3, [r7, #16]
+ 516 0068 5B00     		lsls	r3, r3, #1
+ 517 006a 7A68     		ldr	r2, [r7, #4]
+ 518 006c 1344     		add	r3, r3, r2
+ 519 006e 1B88     		ldrh	r3, [r3]
+ 520 0070 1846     		mov	r0, r3
+ 521 0072 FFF7FEFF 		bl	__aeabi_i2f
+ 522 0076 874A     		ldr	r2, .L57+12
+ 523 0078 3B69     		ldr	r3, [r7, #16]
+ 524 007a 52F82330 		ldr	r3, [r2, r3, lsl #2]	@ float
+ 525 007e 1946     		mov	r1, r3
+ 526 0080 FFF7FEFF 		bl	__aeabi_fmul
+ 527 0084 0346     		mov	r3, r0
+ 528 0086 1946     		mov	r1, r3
+ 529 0088 F869     		ldr	r0, [r7, #28]	@ float
+ 530 008a FFF7FEFF 		bl	__aeabi_fadd
+ 531 008e 0346     		mov	r3, r0
+ 532 0090 FB61     		str	r3, [r7, #28]	@ float
+ 174:main.c        ****         Bre = Bre + b[n]*Cos_sampleArray[n];
+ 533              		.loc 1 174 0 discriminator 3
+ 534 0092 3B69     		ldr	r3, [r7, #16]
+ 535 0094 5B00     		lsls	r3, r3, #1
+ 536 0096 3A68     		ldr	r2, [r7]
+ 537 0098 1344     		add	r3, r3, r2
+ 538 009a 1B88     		ldrh	r3, [r3]
+ 539 009c 1846     		mov	r0, r3
+ 540 009e FFF7FEFF 		bl	__aeabi_i2f
+ 541 00a2 7B4A     		ldr	r2, .L57+8
+ 542 00a4 3B69     		ldr	r3, [r7, #16]
+ 543 00a6 52F82330 		ldr	r3, [r2, r3, lsl #2]	@ float
+ 544 00aa 1946     		mov	r1, r3
+ 545 00ac FFF7FEFF 		bl	__aeabi_fmul
+ 546 00b0 0346     		mov	r3, r0
+ 547 00b2 1946     		mov	r1, r3
+ 548 00b4 B869     		ldr	r0, [r7, #24]	@ float
+ 549 00b6 FFF7FEFF 		bl	__aeabi_fadd
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 14
+
+
+ 550 00ba 0346     		mov	r3, r0
+ 551 00bc BB61     		str	r3, [r7, #24]	@ float
+ 175:main.c        ****         Bim = Bim + b[n]*Sin_sampleArray[n];
+ 552              		.loc 1 175 0 discriminator 3
+ 553 00be 3B69     		ldr	r3, [r7, #16]
+ 554 00c0 5B00     		lsls	r3, r3, #1
+ 555 00c2 3A68     		ldr	r2, [r7]
+ 556 00c4 1344     		add	r3, r3, r2
+ 557 00c6 1B88     		ldrh	r3, [r3]
+ 558 00c8 1846     		mov	r0, r3
+ 559 00ca FFF7FEFF 		bl	__aeabi_i2f
+ 560 00ce 714A     		ldr	r2, .L57+12
+ 561 00d0 3B69     		ldr	r3, [r7, #16]
+ 562 00d2 52F82330 		ldr	r3, [r2, r3, lsl #2]	@ float
+ 563 00d6 1946     		mov	r1, r3
+ 564 00d8 FFF7FEFF 		bl	__aeabi_fmul
+ 565 00dc 0346     		mov	r3, r0
+ 566 00de 1946     		mov	r1, r3
+ 567 00e0 7869     		ldr	r0, [r7, #20]	@ float
+ 568 00e2 FFF7FEFF 		bl	__aeabi_fadd
+ 569 00e6 0346     		mov	r3, r0
+ 570 00e8 7B61     		str	r3, [r7, #20]	@ float
+ 170:main.c        ****     {  
+ 571              		.loc 1 170 0 discriminator 3
+ 572 00ea 3B69     		ldr	r3, [r7, #16]
+ 573 00ec 0133     		adds	r3, r3, #1
+ 574 00ee 3B61     		str	r3, [r7, #16]
+ 575              	.L31:
+ 170:main.c        ****     {  
+ 576              		.loc 1 170 0 is_stmt 0 discriminator 1
+ 577 00f0 3B69     		ldr	r3, [r7, #16]
+ 578 00f2 7F2B     		cmp	r3, #127
+ 579 00f4 A1DD     		ble	.L32
+ 580              	.LBE3:
+ 176:main.c        **** //        test_a[n] = a[n];
+ 177:main.c        **** //        test_b[n] = b[n];
+ 178:main.c        ****     }
+ 179:main.c        **** 
+ 180:main.c        ****     theta_a = atanf(Aim/Are);
+ 581              		.loc 1 180 0 is_stmt 1
+ 582 00f6 396A     		ldr	r1, [r7, #32]	@ float
+ 583 00f8 F869     		ldr	r0, [r7, #28]	@ float
+ 584 00fa FFF7FEFF 		bl	__aeabi_fdiv
+ 585 00fe 0346     		mov	r3, r0
+ 586 0100 1846     		mov	r0, r3
+ 587 0102 FFF7FEFF 		bl	atanf
+ 588 0106 B862     		str	r0, [r7, #40]	@ float
+ 181:main.c        ****     theta_b = atanf(Bim/Bre)-pi;
+ 589              		.loc 1 181 0
+ 590 0108 B969     		ldr	r1, [r7, #24]	@ float
+ 591 010a 7869     		ldr	r0, [r7, #20]	@ float
+ 592 010c FFF7FEFF 		bl	__aeabi_fdiv
+ 593 0110 0346     		mov	r3, r0
+ 594 0112 1846     		mov	r0, r3
+ 595 0114 FFF7FEFF 		bl	atanf
+ 596 0118 0246     		mov	r2, r0
+ 597 011a 5F4B     		ldr	r3, .L57+16
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 15
+
+
+ 598 011c 1B68     		ldr	r3, [r3]	@ float
+ 599 011e 1946     		mov	r1, r3
+ 600 0120 1046     		mov	r0, r2
+ 601 0122 FFF7FEFF 		bl	__aeabi_fsub
+ 602 0126 0346     		mov	r3, r0
+ 603 0128 7B62     		str	r3, [r7, #36]	@ float
+ 182:main.c        ****     
+ 183:main.c        ****     //Kompensere for tangens fejl 
+ 184:main.c        ****     if((Aim < 0) && (Are < 0 ))  
+ 604              		.loc 1 184 0
+ 605 012a 4FF00001 		mov	r1, #0
+ 606 012e F869     		ldr	r0, [r7, #28]	@ float
+ 607 0130 FFF7FEFF 		bl	__aeabi_fcmplt
+ 608 0134 0346     		mov	r3, r0
+ 609 0136 002B     		cmp	r3, #0
+ 610 0138 10D0     		beq	.L33
+ 611              		.loc 1 184 0 is_stmt 0 discriminator 1
+ 612 013a 4FF00001 		mov	r1, #0
+ 613 013e 386A     		ldr	r0, [r7, #32]	@ float
+ 614 0140 FFF7FEFF 		bl	__aeabi_fcmplt
+ 615 0144 0346     		mov	r3, r0
+ 616 0146 002B     		cmp	r3, #0
+ 617 0148 08D0     		beq	.L33
+ 185:main.c        ****     {
+ 186:main.c        ****         theta_a = theta_a - pi;
+ 618              		.loc 1 186 0 is_stmt 1
+ 619 014a 534B     		ldr	r3, .L57+16
+ 620 014c 1B68     		ldr	r3, [r3]	@ float
+ 621 014e 1946     		mov	r1, r3
+ 622 0150 B86A     		ldr	r0, [r7, #40]	@ float
+ 623 0152 FFF7FEFF 		bl	__aeabi_fsub
+ 624 0156 0346     		mov	r3, r0
+ 625 0158 BB62     		str	r3, [r7, #40]	@ float
+ 626 015a 0FE0     		b	.L36
+ 627              	.L33:
+ 187:main.c        ****     } else if (Are < 0 )
+ 628              		.loc 1 187 0
+ 629 015c 4FF00001 		mov	r1, #0
+ 630 0160 386A     		ldr	r0, [r7, #32]	@ float
+ 631 0162 FFF7FEFF 		bl	__aeabi_fcmplt
+ 632 0166 0346     		mov	r3, r0
+ 633 0168 002B     		cmp	r3, #0
+ 634 016a 07D0     		beq	.L36
+ 188:main.c        ****     {
+ 189:main.c        ****         theta_a = theta_a + pi;   
+ 635              		.loc 1 189 0
+ 636 016c 4A4B     		ldr	r3, .L57+16
+ 637 016e 1B68     		ldr	r3, [r3]	@ float
+ 638 0170 1946     		mov	r1, r3
+ 639 0172 B86A     		ldr	r0, [r7, #40]	@ float
+ 640 0174 FFF7FEFF 		bl	__aeabi_fadd
+ 641 0178 0346     		mov	r3, r0
+ 642 017a BB62     		str	r3, [r7, #40]	@ float
+ 643              	.L36:
+ 190:main.c        ****     }
+ 191:main.c        ****     
+ 192:main.c        ****     if((Bim < 0) && (Bre < 0 ))
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 16
+
+
+ 644              		.loc 1 192 0
+ 645 017c 4FF00001 		mov	r1, #0
+ 646 0180 7869     		ldr	r0, [r7, #20]	@ float
+ 647 0182 FFF7FEFF 		bl	__aeabi_fcmplt
+ 648 0186 0346     		mov	r3, r0
+ 649 0188 002B     		cmp	r3, #0
+ 650 018a 10D0     		beq	.L38
+ 651              		.loc 1 192 0 is_stmt 0 discriminator 1
+ 652 018c 4FF00001 		mov	r1, #0
+ 653 0190 B869     		ldr	r0, [r7, #24]	@ float
+ 654 0192 FFF7FEFF 		bl	__aeabi_fcmplt
+ 655 0196 0346     		mov	r3, r0
+ 656 0198 002B     		cmp	r3, #0
+ 657 019a 08D0     		beq	.L38
+ 193:main.c        ****     {
+ 194:main.c        ****         theta_b = theta_b - pi;
+ 658              		.loc 1 194 0 is_stmt 1
+ 659 019c 3E4B     		ldr	r3, .L57+16
+ 660 019e 1B68     		ldr	r3, [r3]	@ float
+ 661 01a0 1946     		mov	r1, r3
+ 662 01a2 786A     		ldr	r0, [r7, #36]	@ float
+ 663 01a4 FFF7FEFF 		bl	__aeabi_fsub
+ 664 01a8 0346     		mov	r3, r0
+ 665 01aa 7B62     		str	r3, [r7, #36]	@ float
+ 666 01ac 0FE0     		b	.L41
+ 667              	.L38:
+ 195:main.c        ****     } else if (Bre < 0 )
+ 668              		.loc 1 195 0
+ 669 01ae 4FF00001 		mov	r1, #0
+ 670 01b2 B869     		ldr	r0, [r7, #24]	@ float
+ 671 01b4 FFF7FEFF 		bl	__aeabi_fcmplt
+ 672 01b8 0346     		mov	r3, r0
+ 673 01ba 002B     		cmp	r3, #0
+ 674 01bc 07D0     		beq	.L41
+ 196:main.c        ****     {
+ 197:main.c        ****         theta_b = theta_b + pi;   
+ 675              		.loc 1 197 0
+ 676 01be 364B     		ldr	r3, .L57+16
+ 677 01c0 1B68     		ldr	r3, [r3]	@ float
+ 678 01c2 1946     		mov	r1, r3
+ 679 01c4 786A     		ldr	r0, [r7, #36]	@ float
+ 680 01c6 FFF7FEFF 		bl	__aeabi_fadd
+ 681 01ca 0346     		mov	r3, r0
+ 682 01cc 7B62     		str	r3, [r7, #36]	@ float
+ 683              	.L41:
+ 198:main.c        ****     }
+ 199:main.c        ****     
+ 200:main.c        ****  
+ 201:main.c        ****     c = theta_a - theta_b - 1.571- OFFSET; //Calculate the phase difference
+ 684              		.loc 1 201 0
+ 685 01ce 796A     		ldr	r1, [r7, #36]	@ float
+ 686 01d0 B86A     		ldr	r0, [r7, #40]	@ float
+ 687 01d2 FFF7FEFF 		bl	__aeabi_fsub
+ 688 01d6 0346     		mov	r3, r0
+ 689 01d8 1846     		mov	r0, r3
+ 690 01da FFF7FEFF 		bl	__aeabi_f2d
+ 691 01de 2AA3     		adr	r3, .L57
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 17
+
+
+ 692 01e0 D3E90023 		ldrd	r2, [r3]
+ 693 01e4 FFF7FEFF 		bl	__aeabi_dsub
+ 694 01e8 0346     		mov	r3, r0
+ 695 01ea 0C46     		mov	r4, r1
+ 696 01ec 2546     		mov	r5, r4
+ 697 01ee 1C46     		mov	r4, r3
+ 698 01f0 F868     		ldr	r0, [r7, #12]	@ float
+ 699 01f2 FFF7FEFF 		bl	__aeabi_f2d
+ 700 01f6 0246     		mov	r2, r0
+ 701 01f8 0B46     		mov	r3, r1
+ 702 01fa 2046     		mov	r0, r4
+ 703 01fc 2946     		mov	r1, r5
+ 704 01fe FFF7FEFF 		bl	__aeabi_dsub
+ 705 0202 0346     		mov	r3, r0
+ 706 0204 0C46     		mov	r4, r1
+ 707 0206 1846     		mov	r0, r3
+ 708 0208 2146     		mov	r1, r4
+ 709 020a FFF7FEFF 		bl	__aeabi_d2f
+ 710 020e 0346     		mov	r3, r0
+ 711 0210 FB62     		str	r3, [r7, #44]	@ float
+ 202:main.c        ****     
+ 203:main.c        ****     if ( c < -(pi))  //Sørger for "overflow" på enhedscirklen
+ 712              		.loc 1 203 0
+ 713 0212 214B     		ldr	r3, .L57+16
+ 714 0214 1B68     		ldr	r3, [r3]	@ float
+ 715 0216 83F00043 		eor	r3, r3, #-2147483648
+ 716 021a F96A     		ldr	r1, [r7, #44]	@ float
+ 717 021c 1846     		mov	r0, r3
+ 718 021e FFF7FEFF 		bl	__aeabi_fcmpgt
+ 719 0222 0346     		mov	r3, r0
+ 720 0224 002B     		cmp	r3, #0
+ 721 0226 0DD0     		beq	.L56
+ 204:main.c        ****     {
+ 205:main.c        ****         c = c + (2*pi);
+ 722              		.loc 1 205 0
+ 723 0228 1B4B     		ldr	r3, .L57+16
+ 724 022a 1B68     		ldr	r3, [r3]	@ float
+ 725 022c 1946     		mov	r1, r3
+ 726 022e 1846     		mov	r0, r3
+ 727 0230 FFF7FEFF 		bl	__aeabi_fadd
+ 728 0234 0346     		mov	r3, r0
+ 729 0236 1946     		mov	r1, r3
+ 730 0238 F86A     		ldr	r0, [r7, #44]	@ float
+ 731 023a FFF7FEFF 		bl	__aeabi_fadd
+ 732 023e 0346     		mov	r3, r0
+ 733 0240 FB62     		str	r3, [r7, #44]	@ float
+ 734 0242 15E0     		b	.L45
+ 735              	.L56:
+ 206:main.c        ****     } else if (c > (pi))
+ 736              		.loc 1 206 0
+ 737 0244 144B     		ldr	r3, .L57+16
+ 738 0246 1B68     		ldr	r3, [r3]	@ float
+ 739 0248 1946     		mov	r1, r3
+ 740 024a F86A     		ldr	r0, [r7, #44]	@ float
+ 741 024c FFF7FEFF 		bl	__aeabi_fcmpgt
+ 742 0250 0346     		mov	r3, r0
+ 743 0252 002B     		cmp	r3, #0
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 18
+
+
+ 744 0254 0CD0     		beq	.L45
+ 207:main.c        ****     {
+ 208:main.c        ****         c = c - (2*pi);
+ 745              		.loc 1 208 0
+ 746 0256 104B     		ldr	r3, .L57+16
+ 747 0258 1B68     		ldr	r3, [r3]	@ float
+ 748 025a 1946     		mov	r1, r3
+ 749 025c 1846     		mov	r0, r3
+ 750 025e FFF7FEFF 		bl	__aeabi_fadd
+ 751 0262 0346     		mov	r3, r0
+ 752 0264 1946     		mov	r1, r3
+ 753 0266 F86A     		ldr	r0, [r7, #44]	@ float
+ 754 0268 FFF7FEFF 		bl	__aeabi_fsub
+ 755 026c 0346     		mov	r3, r0
+ 756 026e FB62     		str	r3, [r7, #44]	@ float
+ 757              	.L45:
+ 209:main.c        ****     }
+ 210:main.c        ****     c = -c; //Bruger den negative, da det er sådan vi har sat det op i øjeblikket, 
+ 758              		.loc 1 210 0
+ 759 0270 FB6A     		ldr	r3, [r7, #44]
+ 760 0272 83F00043 		eor	r3, r3, #-2147483648
+ 761 0276 FB62     		str	r3, [r7, #44]	@ float
+ 211:main.c        ****             //skal checkes efter når antennerne kommer på
+ 212:main.c        ****     
+ 213:main.c        ****     
+ 214:main.c        ****     return c;   
+ 762              		.loc 1 214 0
+ 763 0278 FB6A     		ldr	r3, [r7, #44]	@ float
+ 215:main.c        **** }
+ 764              		.loc 1 215 0
+ 765 027a 1846     		mov	r0, r3
+ 766 027c 3037     		adds	r7, r7, #48
+ 767              		.cfi_def_cfa_offset 16
+ 768 027e BD46     		mov	sp, r7
+ 769              		.cfi_def_cfa_register 13
+ 770              		@ sp needed
+ 771 0280 B0BD     		pop	{r4, r5, r7, pc}
+ 772              	.L58:
+ 773 0282 00BFAFF3 		.align	3
+ 773      0080
+ 774              	.L57:
+ 775 0288 894160E5 		.word	-446676599
+ 776 028c D022F93F 		.word	1073291984
+ 777 0290 00000000 		.word	Cos_sampleArray
+ 778 0294 00000000 		.word	Sin_sampleArray
+ 779 0298 00000000 		.word	pi
+ 780              		.cfi_endproc
+ 781              	.LFE65:
+ 782              		.size	PhaseDifferenceEL, .-PhaseDifferenceEL
+ 783              		.section	.text.AmplitudeDFT,"ax",%progbits
+ 784              		.align	2
+ 785              		.global	AmplitudeDFT
+ 786              		.thumb
+ 787              		.thumb_func
+ 788              		.type	AmplitudeDFT, %function
+ 789              	AmplitudeDFT:
+ 790              	.LFB66:
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 19
+
+
+ 216:main.c        **** 
+ 217:main.c        **** float AmplitudeDFT(uint16 a[]) //Lytter kun til den ene (Hurtigere)
+ 218:main.c        **** {
+ 791              		.loc 1 218 0
+ 792              		.cfi_startproc
+ 793              		@ args = 0, pretend = 0, frame = 24
+ 794              		@ frame_needed = 1, uses_anonymous_args = 0
+ 795 0000 90B5     		push	{r4, r7, lr}
+ 796              		.cfi_def_cfa_offset 12
+ 797              		.cfi_offset 4, -12
+ 798              		.cfi_offset 7, -8
+ 799              		.cfi_offset 14, -4
+ 800 0002 87B0     		sub	sp, sp, #28
+ 801              		.cfi_def_cfa_offset 40
+ 802 0004 00AF     		add	r7, sp, #0
+ 803              		.cfi_def_cfa_register 7
+ 804 0006 7860     		str	r0, [r7, #4]
+ 219:main.c        ****  //værdien som kommer ud
+ 220:main.c        ****   float amp;
+ 221:main.c        ****     
+ 222:main.c        ****     
+ 223:main.c        ****     // Frequency spectrum variables
+ 224:main.c        ****   float Are = {0};
+ 805              		.loc 1 224 0
+ 806 0008 4FF00003 		mov	r3, #0
+ 807 000c 7B61     		str	r3, [r7, #20]	@ float
+ 225:main.c        ****   float Aim = {0};
+ 808              		.loc 1 225 0
+ 809 000e 4FF00003 		mov	r3, #0
+ 810 0012 3B61     		str	r3, [r7, #16]	@ float
+ 811              	.LBB4:
+ 226:main.c        **** 
+ 227:main.c        **** 
+ 228:main.c        ****  // Calculate DFT of x using brute force
+ 229:main.c        **** 
+ 230:main.c        ****     for(int n=0; n<NO_OF_SAMPLES; n++)
+ 812              		.loc 1 230 0
+ 813 0014 0023     		movs	r3, #0
+ 814 0016 FB60     		str	r3, [r7, #12]
+ 815 0018 2EE0     		b	.L60
+ 816              	.L61:
+ 231:main.c        ****     {  
+ 232:main.c        ****         Are = Are + a[n]*Cos_sampleArray[n];
+ 817              		.loc 1 232 0 discriminator 3
+ 818 001a FB68     		ldr	r3, [r7, #12]
+ 819 001c 5B00     		lsls	r3, r3, #1
+ 820 001e 7A68     		ldr	r2, [r7, #4]
+ 821 0020 1344     		add	r3, r3, r2
+ 822 0022 1B88     		ldrh	r3, [r3]
+ 823 0024 1846     		mov	r0, r3
+ 824 0026 FFF7FEFF 		bl	__aeabi_i2f
+ 825 002a 284A     		ldr	r2, .L63
+ 826 002c FB68     		ldr	r3, [r7, #12]
+ 827 002e 52F82330 		ldr	r3, [r2, r3, lsl #2]	@ float
+ 828 0032 1946     		mov	r1, r3
+ 829 0034 FFF7FEFF 		bl	__aeabi_fmul
+ 830 0038 0346     		mov	r3, r0
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 20
+
+
+ 831 003a 1946     		mov	r1, r3
+ 832 003c 7869     		ldr	r0, [r7, #20]	@ float
+ 833 003e FFF7FEFF 		bl	__aeabi_fadd
+ 834 0042 0346     		mov	r3, r0
+ 835 0044 7B61     		str	r3, [r7, #20]	@ float
+ 233:main.c        ****         Aim = Aim + a[n]*Sin_sampleArray[n]; 
+ 836              		.loc 1 233 0 discriminator 3
+ 837 0046 FB68     		ldr	r3, [r7, #12]
+ 838 0048 5B00     		lsls	r3, r3, #1
+ 839 004a 7A68     		ldr	r2, [r7, #4]
+ 840 004c 1344     		add	r3, r3, r2
+ 841 004e 1B88     		ldrh	r3, [r3]
+ 842 0050 1846     		mov	r0, r3
+ 843 0052 FFF7FEFF 		bl	__aeabi_i2f
+ 844 0056 1E4A     		ldr	r2, .L63+4
+ 845 0058 FB68     		ldr	r3, [r7, #12]
+ 846 005a 52F82330 		ldr	r3, [r2, r3, lsl #2]	@ float
+ 847 005e 1946     		mov	r1, r3
+ 848 0060 FFF7FEFF 		bl	__aeabi_fmul
+ 849 0064 0346     		mov	r3, r0
+ 850 0066 1946     		mov	r1, r3
+ 851 0068 3869     		ldr	r0, [r7, #16]	@ float
+ 852 006a FFF7FEFF 		bl	__aeabi_fadd
+ 853 006e 0346     		mov	r3, r0
+ 854 0070 3B61     		str	r3, [r7, #16]	@ float
+ 230:main.c        ****     {  
+ 855              		.loc 1 230 0 discriminator 3
+ 856 0072 FB68     		ldr	r3, [r7, #12]
+ 857 0074 0133     		adds	r3, r3, #1
+ 858 0076 FB60     		str	r3, [r7, #12]
+ 859              	.L60:
+ 230:main.c        ****     {  
+ 860              		.loc 1 230 0 is_stmt 0 discriminator 1
+ 861 0078 FB68     		ldr	r3, [r7, #12]
+ 862 007a 7F2B     		cmp	r3, #127
+ 863 007c CDDD     		ble	.L61
+ 864              	.LBE4:
+ 234:main.c        ****     }
+ 235:main.c        ****     
+ 236:main.c        ****     amp = sqrt(Are*Are + Aim*Aim);
+ 865              		.loc 1 236 0 is_stmt 1
+ 866 007e 7969     		ldr	r1, [r7, #20]	@ float
+ 867 0080 7869     		ldr	r0, [r7, #20]	@ float
+ 868 0082 FFF7FEFF 		bl	__aeabi_fmul
+ 869 0086 0346     		mov	r3, r0
+ 870 0088 1C46     		mov	r4, r3
+ 871 008a 3969     		ldr	r1, [r7, #16]	@ float
+ 872 008c 3869     		ldr	r0, [r7, #16]	@ float
+ 873 008e FFF7FEFF 		bl	__aeabi_fmul
+ 874 0092 0346     		mov	r3, r0
+ 875 0094 1946     		mov	r1, r3
+ 876 0096 2046     		mov	r0, r4
+ 877 0098 FFF7FEFF 		bl	__aeabi_fadd
+ 878 009c 0346     		mov	r3, r0
+ 879 009e 1846     		mov	r0, r3
+ 880 00a0 FFF7FEFF 		bl	__aeabi_f2d
+ 881 00a4 0346     		mov	r3, r0
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 21
+
+
+ 882 00a6 0C46     		mov	r4, r1
+ 883 00a8 1846     		mov	r0, r3
+ 884 00aa 2146     		mov	r1, r4
+ 885 00ac FFF7FEFF 		bl	sqrt
+ 886 00b0 0346     		mov	r3, r0
+ 887 00b2 0C46     		mov	r4, r1
+ 888 00b4 1846     		mov	r0, r3
+ 889 00b6 2146     		mov	r1, r4
+ 890 00b8 FFF7FEFF 		bl	__aeabi_d2f
+ 891 00bc 0346     		mov	r3, r0
+ 892 00be BB60     		str	r3, [r7, #8]	@ float
+ 237:main.c        ****     
+ 238:main.c        ****     return amp;
+ 893              		.loc 1 238 0
+ 894 00c0 BB68     		ldr	r3, [r7, #8]	@ float
+ 239:main.c        **** }
+ 895              		.loc 1 239 0
+ 896 00c2 1846     		mov	r0, r3
+ 897 00c4 1C37     		adds	r7, r7, #28
+ 898              		.cfi_def_cfa_offset 12
+ 899 00c6 BD46     		mov	sp, r7
+ 900              		.cfi_def_cfa_register 13
+ 901              		@ sp needed
+ 902 00c8 90BD     		pop	{r4, r7, pc}
+ 903              	.L64:
+ 904 00ca 00BF     		.align	2
+ 905              	.L63:
+ 906 00cc 00000000 		.word	Cos_sampleArray
+ 907 00d0 00000000 		.word	Sin_sampleArray
+ 908              		.cfi_endproc
+ 909              	.LFE66:
+ 910              		.size	AmplitudeDFT, .-AmplitudeDFT
+ 911              		.section	.text.DMA_getSample,"ax",%progbits
+ 912              		.align	2
+ 913              		.global	DMA_getSample
+ 914              		.thumb
+ 915              		.thumb_func
+ 916              		.type	DMA_getSample, %function
+ 917              	DMA_getSample:
+ 918              	.LFB67:
+ 240:main.c        **** 
+ 241:main.c        **** 
+ 242:main.c        **** void DMA_getSample(void) 
+ 243:main.c        **** {
+ 919              		.loc 1 243 0
+ 920              		.cfi_startproc
+ 921              		@ args = 0, pretend = 0, frame = 0
+ 922              		@ frame_needed = 1, uses_anonymous_args = 0
+ 923 0000 80B5     		push	{r7, lr}
+ 924              		.cfi_def_cfa_offset 8
+ 925              		.cfi_offset 7, -8
+ 926              		.cfi_offset 14, -4
+ 927 0002 00AF     		add	r7, sp, #0
+ 928              		.cfi_def_cfa_register 7
+ 244:main.c        ****     /* Enable the DMA channel */
+ 245:main.c        **** 	CyDmaChEnable(DMA_1_Chan, 1);
+ 929              		.loc 1 245 0
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 22
+
+
+ 930 0004 064B     		ldr	r3, .L66
+ 931 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 932 0008 0121     		movs	r1, #1
+ 933 000a 1846     		mov	r0, r3
+ 934 000c FFF7FEFF 		bl	CyDmaChEnable
+ 246:main.c        ****     CyDmaChEnable(DMA_2_Chan, 1);
+ 935              		.loc 1 246 0
+ 936 0010 044B     		ldr	r3, .L66+4
+ 937 0012 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 938 0014 0121     		movs	r1, #1
+ 939 0016 1846     		mov	r0, r3
+ 940 0018 FFF7FEFF 		bl	CyDmaChEnable
+ 247:main.c        **** }
+ 941              		.loc 1 247 0
+ 942 001c 00BF     		nop
+ 943 001e 80BD     		pop	{r7, pc}
+ 944              	.L67:
+ 945              		.align	2
+ 946              	.L66:
+ 947 0020 00000000 		.word	DMA_1_Chan
+ 948 0024 00000000 		.word	DMA_2_Chan
+ 949              		.cfi_endproc
+ 950              	.LFE67:
+ 951              		.size	DMA_getSample, .-DMA_getSample
+ 952              		.section	.text.MotorSetup,"ax",%progbits
+ 953              		.align	2
+ 954              		.global	MotorSetup
+ 955              		.thumb
+ 956              		.thumb_func
+ 957              		.type	MotorSetup, %function
+ 958              	MotorSetup:
+ 959              	.LFB68:
+ 248:main.c        **** 
+ 249:main.c        **** 
+ 250:main.c        **** void MotorSetup(void) 
+ 251:main.c        **** {
+ 960              		.loc 1 251 0
+ 961              		.cfi_startproc
+ 962              		@ args = 0, pretend = 0, frame = 0
+ 963              		@ frame_needed = 1, uses_anonymous_args = 0
+ 964 0000 80B5     		push	{r7, lr}
+ 965              		.cfi_def_cfa_offset 8
+ 966              		.cfi_offset 7, -8
+ 967              		.cfi_offset 14, -4
+ 968 0002 00AF     		add	r7, sp, #0
+ 969              		.cfi_def_cfa_register 7
+ 252:main.c        **** //DC Motor
+ 253:main.c        ****     PWM_Start();
+ 970              		.loc 1 253 0
+ 971 0004 FFF7FEFF 		bl	PWM_Start
+ 254:main.c        ****     H_ENA_Write(1); //INA = 1 & INA = 1: Brake to VDD
+ 972              		.loc 1 254 0
+ 973 0008 0120     		movs	r0, #1
+ 974 000a FFF7FEFF 		bl	H_ENA_Write
+ 255:main.c        ****     H_ENB_Write(1); //INA = 1 & INA = 0: Clockwise (CW)
+ 975              		.loc 1 255 0
+ 976 000e 0120     		movs	r0, #1
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 23
+
+
+ 977 0010 FFF7FEFF 		bl	H_ENB_Write
+ 256:main.c        ****     H_INA_Write(1); //INA = 0 & INA = 1: Counterclockwise (CCW)
+ 978              		.loc 1 256 0
+ 979 0014 0120     		movs	r0, #1
+ 980 0016 FFF7FEFF 		bl	H_INA_Write
+ 257:main.c        ****     H_INB_Write(0); //INA = 0 & INA = 0: Brake to GND
+ 981              		.loc 1 257 0
+ 982 001a 0020     		movs	r0, #0
+ 983 001c FFF7FEFF 		bl	H_INB_Write
+ 258:main.c        ****    
+ 259:main.c        **** // STEPPER
+ 260:main.c        ****     S_EN_Write(1);
+ 984              		.loc 1 260 0
+ 985 0020 0120     		movs	r0, #1
+ 986 0022 FFF7FEFF 		bl	S_EN_Write
+ 261:main.c        ****     S_DIR_Write(1);
+ 987              		.loc 1 261 0
+ 988 0026 0120     		movs	r0, #1
+ 989 0028 FFF7FEFF 		bl	S_DIR_Write
+ 262:main.c        ****     PWM_step_Start();
+ 990              		.loc 1 262 0
+ 991 002c FFF7FEFF 		bl	PWM_step_Start
+ 263:main.c        **** }
+ 992              		.loc 1 263 0
+ 993 0030 00BF     		nop
+ 994 0032 80BD     		pop	{r7, pc}
+ 995              		.cfi_endproc
+ 996              	.LFE68:
+ 997              		.size	MotorSetup, .-MotorSetup
+ 998              		.section	.text.DCMotorControl,"ax",%progbits
+ 999              		.align	2
+ 1000              		.global	DCMotorControl
+ 1001              		.thumb
+ 1002              		.thumb_func
+ 1003              		.type	DCMotorControl, %function
+ 1004              	DCMotorControl:
+ 1005              	.LFB69:
+ 264:main.c        **** 
+ 265:main.c        **** void DCMotorControl(int DC_dir, int DC_Speed)
+ 266:main.c        **** {
+ 1006              		.loc 1 266 0
+ 1007              		.cfi_startproc
+ 1008              		@ args = 0, pretend = 0, frame = 8
+ 1009              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1010 0000 80B5     		push	{r7, lr}
+ 1011              		.cfi_def_cfa_offset 8
+ 1012              		.cfi_offset 7, -8
+ 1013              		.cfi_offset 14, -4
+ 1014 0002 82B0     		sub	sp, sp, #8
+ 1015              		.cfi_def_cfa_offset 16
+ 1016 0004 00AF     		add	r7, sp, #0
+ 1017              		.cfi_def_cfa_register 7
+ 1018 0006 7860     		str	r0, [r7, #4]
+ 1019 0008 3960     		str	r1, [r7]
+ 267:main.c        ****  if (DC_Speed > 0) {
+ 1020              		.loc 1 267 0
+ 1021 000a 3B68     		ldr	r3, [r7]
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 24
+
+
+ 1022 000c 002B     		cmp	r3, #0
+ 1023 000e 0EDD     		ble	.L70
+ 268:main.c        ****      H_INA_Write(DC_dir); //DC_dir = 1: Clockwise
+ 1024              		.loc 1 268 0
+ 1025 0010 7B68     		ldr	r3, [r7, #4]
+ 1026 0012 DBB2     		uxtb	r3, r3
+ 1027 0014 1846     		mov	r0, r3
+ 1028 0016 FFF7FEFF 		bl	H_INA_Write
+ 269:main.c        ****      H_INB_Write(!DC_dir);
+ 1029              		.loc 1 269 0
+ 1030 001a 7B68     		ldr	r3, [r7, #4]
+ 1031 001c 002B     		cmp	r3, #0
+ 1032 001e 0CBF     		ite	eq
+ 1033 0020 0123     		moveq	r3, #1
+ 1034 0022 0023     		movne	r3, #0
+ 1035 0024 DBB2     		uxtb	r3, r3
+ 1036 0026 1846     		mov	r0, r3
+ 1037 0028 FFF7FEFF 		bl	H_INB_Write
+ 1038 002c 05E0     		b	.L71
+ 1039              	.L70:
+ 270:main.c        **** } else { //Brake to GND
+ 271:main.c        ****      H_INA_Write(0);
+ 1040              		.loc 1 271 0
+ 1041 002e 0020     		movs	r0, #0
+ 1042 0030 FFF7FEFF 		bl	H_INA_Write
+ 272:main.c        ****      H_INB_Write(0);
+ 1043              		.loc 1 272 0
+ 1044 0034 0020     		movs	r0, #0
+ 1045 0036 FFF7FEFF 		bl	H_INB_Write
+ 1046              	.L71:
+ 273:main.c        **** }
+ 274:main.c        **** 
+ 275:main.c        **** PWM_WriteCompare(DC_Speed); // 0 - 1000. 
+ 1047              		.loc 1 275 0
+ 1048 003a 3B68     		ldr	r3, [r7]
+ 1049 003c 9BB2     		uxth	r3, r3
+ 1050 003e 1846     		mov	r0, r3
+ 1051 0040 FFF7FEFF 		bl	PWM_WriteCompare
+ 276:main.c        **** }
+ 1052              		.loc 1 276 0
+ 1053 0044 00BF     		nop
+ 1054 0046 0837     		adds	r7, r7, #8
+ 1055              		.cfi_def_cfa_offset 8
+ 1056 0048 BD46     		mov	sp, r7
+ 1057              		.cfi_def_cfa_register 13
+ 1058              		@ sp needed
+ 1059 004a 80BD     		pop	{r7, pc}
+ 1060              		.cfi_endproc
+ 1061              	.LFE69:
+ 1062              		.size	DCMotorControl, .-DCMotorControl
+ 1063              		.section	.text.StepperMotorControl,"ax",%progbits
+ 1064              		.align	2
+ 1065              		.global	StepperMotorControl
+ 1066              		.thumb
+ 1067              		.thumb_func
+ 1068              		.type	StepperMotorControl, %function
+ 1069              	StepperMotorControl:
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 25
+
+
+ 1070              	.LFB70:
+ 277:main.c        **** 
+ 278:main.c        **** 
+ 279:main.c        **** void StepperMotorControl(int Step_dir, int Step_Speed)
+ 280:main.c        **** {
+ 1071              		.loc 1 280 0
+ 1072              		.cfi_startproc
+ 1073              		@ args = 0, pretend = 0, frame = 16
+ 1074              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1075 0000 80B5     		push	{r7, lr}
+ 1076              		.cfi_def_cfa_offset 8
+ 1077              		.cfi_offset 7, -8
+ 1078              		.cfi_offset 14, -4
+ 1079 0002 84B0     		sub	sp, sp, #16
+ 1080              		.cfi_def_cfa_offset 24
+ 1081 0004 00AF     		add	r7, sp, #0
+ 1082              		.cfi_def_cfa_register 7
+ 1083 0006 7860     		str	r0, [r7, #4]
+ 1084 0008 3960     		str	r1, [r7]
+ 281:main.c        ****     //Step_dir: 0 = DOWN (Clockwise), 1 = UP (CounterClockwise)
+ 282:main.c        ****     /* Variabler til styring af motorerne */
+ 283:main.c        ****     int distance = 0;  //Skal bruges til at holde styr på at den ikke hakker ind i standen.
+ 1085              		.loc 1 283 0
+ 1086 000a 0023     		movs	r3, #0
+ 1087 000c FB60     		str	r3, [r7, #12]
+ 284:main.c        ****     int stepping = 0;  
+ 1088              		.loc 1 284 0
+ 1089 000e 0023     		movs	r3, #0
+ 1090 0010 BB60     		str	r3, [r7, #8]
+ 285:main.c        ****     
+ 286:main.c        ****     
+ 287:main.c        ****     if(Step_Speed > 60000)
+ 1091              		.loc 1 287 0
+ 1092 0012 3B68     		ldr	r3, [r7]
+ 1093 0014 4EF66022 		movw	r2, #60000
+ 1094 0018 9342     		cmp	r3, r2
+ 1095 001a 03DD     		ble	.L73
+ 288:main.c        ****     {
+ 289:main.c        ****       PWM_step_WriteCompare(0); //Stopper den.
+ 1096              		.loc 1 289 0
+ 1097 001c 0020     		movs	r0, #0
+ 1098 001e FFF7FEFF 		bl	PWM_step_WriteCompare
+ 1099 0022 07E0     		b	.L74
+ 1100              	.L73:
+ 290:main.c        ****     } else 
+ 291:main.c        ****     {
+ 292:main.c        ****       PWM_step_WriteCompare((int)(Step_Speed/2));
+ 1101              		.loc 1 292 0
+ 1102 0024 3B68     		ldr	r3, [r7]
+ 1103 0026 DA0F     		lsrs	r2, r3, #31
+ 1104 0028 1344     		add	r3, r3, r2
+ 1105 002a 5B10     		asrs	r3, r3, #1
+ 1106 002c 9BB2     		uxth	r3, r3
+ 1107 002e 1846     		mov	r0, r3
+ 1108 0030 FFF7FEFF 		bl	PWM_step_WriteCompare
+ 1109              	.L74:
+ 293:main.c        ****     }
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 26
+
+
+ 294:main.c        ****     
+ 295:main.c        **** 
+ 296:main.c        ****     /* DER SKAL SKRIVES EN FUNKTION SOM STOPPER STEPPER, HVIS DEN RAMMER KANTEN*/ 
+ 297:main.c        ****     
+ 298:main.c        ****     
+ 299:main.c        ****     S_DIR_Write(Step_dir);
+ 1110              		.loc 1 299 0
+ 1111 0034 7B68     		ldr	r3, [r7, #4]
+ 1112 0036 DBB2     		uxtb	r3, r3
+ 1113 0038 1846     		mov	r0, r3
+ 1114 003a FFF7FEFF 		bl	S_DIR_Write
+ 300:main.c        ****     PWM_step_WritePeriod(Step_Speed);
+ 1115              		.loc 1 300 0
+ 1116 003e 3B68     		ldr	r3, [r7]
+ 1117 0040 9BB2     		uxth	r3, r3
+ 1118 0042 1846     		mov	r0, r3
+ 1119 0044 FFF7FEFF 		bl	PWM_step_WritePeriod
+ 301:main.c        ****     
+ 302:main.c        **** }
+ 1120              		.loc 1 302 0
+ 1121 0048 00BF     		nop
+ 1122 004a 1037     		adds	r7, r7, #16
+ 1123              		.cfi_def_cfa_offset 8
+ 1124 004c BD46     		mov	sp, r7
+ 1125              		.cfi_def_cfa_register 13
+ 1126              		@ sp needed
+ 1127 004e 80BD     		pop	{r7, pc}
+ 1128              		.cfi_endproc
+ 1129              	.LFE70:
+ 1130              		.size	StepperMotorControl, .-StepperMotorControl
+ 1131              		.section	.text.Setup,"ax",%progbits
+ 1132              		.align	2
+ 1133              		.global	Setup
+ 1134              		.thumb
+ 1135              		.thumb_func
+ 1136              		.type	Setup, %function
+ 1137              	Setup:
+ 1138              	.LFB71:
+ 303:main.c        **** 
+ 304:main.c        **** 
+ 305:main.c        **** void Setup(void) 
+ 306:main.c        **** {
+ 1139              		.loc 1 306 0
+ 1140              		.cfi_startproc
+ 1141              		@ args = 0, pretend = 0, frame = 8
+ 1142              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1143 0000 90B5     		push	{r4, r7, lr}
+ 1144              		.cfi_def_cfa_offset 12
+ 1145              		.cfi_offset 4, -12
+ 1146              		.cfi_offset 7, -8
+ 1147              		.cfi_offset 14, -4
+ 1148 0002 83B0     		sub	sp, sp, #12
+ 1149              		.cfi_def_cfa_offset 24
+ 1150 0004 00AF     		add	r7, sp, #0
+ 1151              		.cfi_def_cfa_register 7
+ 307:main.c        ****     /* Start ADC */
+ 308:main.c        **** 	ADC_SAR_1_Start();
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 27
+
+
+ 1152              		.loc 1 308 0
+ 1153 0006 FFF7FEFF 		bl	ADC_SAR_1_Start
+ 309:main.c        ****     ADC_SAR_2_Start();
+ 1154              		.loc 1 309 0
+ 1155 000a FFF7FEFF 		bl	ADC_SAR_2_Start
+ 310:main.c        ****     
+ 311:main.c        ****     /* Disable the ADC ISR as it is not required */
+ 312:main.c        ****     ADC_SAR_1_IRQ_Disable();
+ 1156              		.loc 1 312 0
+ 1157 000e FFF7FEFF 		bl	ADC_SAR_1_IRQ_Disable
+ 313:main.c        ****     ADC_SAR_2_IRQ_Disable();
+ 1158              		.loc 1 313 0
+ 1159 0012 FFF7FEFF 		bl	ADC_SAR_2_IRQ_Disable
+ 314:main.c        **** 
+ 315:main.c        **** 	/* Start ADC conversion */
+ 316:main.c        **** 	//ADC_SAR_1_StartConvert();
+ 317:main.c        ****     //ADC_SAR_2_StartConvert();
+ 318:main.c        ****     
+ 319:main.c        ****     /*Start UART */
+ 320:main.c        ****     UART_1_Start();
+ 1160              		.loc 1 320 0
+ 1161 0016 FFF7FEFF 		bl	UART_1_Start
+ 321:main.c        ****     
+ 322:main.c        ****     // MUX Start
+ 323:main.c        ****     AMux_1_Start();   // Brug AMUX_1_Fastselec(xxx); til at skifte mux 
+ 1162              		.loc 1 323 0
+ 1163 001a FFF7FEFF 		bl	AMux_1_Start
+ 324:main.c        ****     
+ 325:main.c        ****     // motor setep
+ 326:main.c        ****     MotorSetup();
+ 1164              		.loc 1 326 0
+ 1165 001e FFF7FEFF 		bl	MotorSetup
+ 1166              	.LBB5:
+ 327:main.c        ****     
+ 328:main.c        ****     /* Pre calculate different values */ 
+ 329:main.c        ****     for (int n = 0; n < NO_OF_SAMPLES; n++)
+ 1167              		.loc 1 329 0
+ 1168 0022 0023     		movs	r3, #0
+ 1169 0024 7B60     		str	r3, [r7, #4]
+ 1170 0026 5AE0     		b	.L76
+ 1171              	.L77:
+ 1172              	.LBB6:
+ 330:main.c        ****     {
+ 331:main.c        ****         int N = NO_OF_SAMPLES;
+ 1173              		.loc 1 331 0 discriminator 3
+ 1174 0028 8023     		movs	r3, #128
+ 1175 002a 3B60     		str	r3, [r7]
+ 332:main.c        ****         Cos_sampleArray[n] = cosf(n*2*pi*k/N);
+ 1176              		.loc 1 332 0 discriminator 3
+ 1177 002c 7B68     		ldr	r3, [r7, #4]
+ 1178 002e 5B00     		lsls	r3, r3, #1
+ 1179 0030 1846     		mov	r0, r3
+ 1180 0032 FFF7FEFF 		bl	__aeabi_i2f
+ 1181 0036 0246     		mov	r2, r0
+ 1182 0038 2C4B     		ldr	r3, .L78
+ 1183 003a 1B68     		ldr	r3, [r3]	@ float
+ 1184 003c 1946     		mov	r1, r3
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 28
+
+
+ 1185 003e 1046     		mov	r0, r2
+ 1186 0040 FFF7FEFF 		bl	__aeabi_fmul
+ 1187 0044 0346     		mov	r3, r0
+ 1188 0046 1C46     		mov	r4, r3
+ 1189 0048 294B     		ldr	r3, .L78+4
+ 1190 004a 1B68     		ldr	r3, [r3]
+ 1191 004c 1846     		mov	r0, r3
+ 1192 004e FFF7FEFF 		bl	__aeabi_i2f
+ 1193 0052 0346     		mov	r3, r0
+ 1194 0054 1946     		mov	r1, r3
+ 1195 0056 2046     		mov	r0, r4
+ 1196 0058 FFF7FEFF 		bl	__aeabi_fmul
+ 1197 005c 0346     		mov	r3, r0
+ 1198 005e 1C46     		mov	r4, r3
+ 1199 0060 3868     		ldr	r0, [r7]
+ 1200 0062 FFF7FEFF 		bl	__aeabi_i2f
+ 1201 0066 0346     		mov	r3, r0
+ 1202 0068 1946     		mov	r1, r3
+ 1203 006a 2046     		mov	r0, r4
+ 1204 006c FFF7FEFF 		bl	__aeabi_fdiv
+ 1205 0070 0346     		mov	r3, r0
+ 1206 0072 1846     		mov	r0, r3
+ 1207 0074 FFF7FEFF 		bl	cosf
+ 1208 0078 0146     		mov	r1, r0
+ 1209 007a 1E4A     		ldr	r2, .L78+8
+ 1210 007c 7B68     		ldr	r3, [r7, #4]
+ 1211 007e 42F82310 		str	r1, [r2, r3, lsl #2]	@ float
+ 333:main.c        ****         Sin_sampleArray[n] = sinf(n*2*pi*k/N);      
+ 1212              		.loc 1 333 0 discriminator 3
+ 1213 0082 7B68     		ldr	r3, [r7, #4]
+ 1214 0084 5B00     		lsls	r3, r3, #1
+ 1215 0086 1846     		mov	r0, r3
+ 1216 0088 FFF7FEFF 		bl	__aeabi_i2f
+ 1217 008c 0246     		mov	r2, r0
+ 1218 008e 174B     		ldr	r3, .L78
+ 1219 0090 1B68     		ldr	r3, [r3]	@ float
+ 1220 0092 1946     		mov	r1, r3
+ 1221 0094 1046     		mov	r0, r2
+ 1222 0096 FFF7FEFF 		bl	__aeabi_fmul
+ 1223 009a 0346     		mov	r3, r0
+ 1224 009c 1C46     		mov	r4, r3
+ 1225 009e 144B     		ldr	r3, .L78+4
+ 1226 00a0 1B68     		ldr	r3, [r3]
+ 1227 00a2 1846     		mov	r0, r3
+ 1228 00a4 FFF7FEFF 		bl	__aeabi_i2f
+ 1229 00a8 0346     		mov	r3, r0
+ 1230 00aa 1946     		mov	r1, r3
+ 1231 00ac 2046     		mov	r0, r4
+ 1232 00ae FFF7FEFF 		bl	__aeabi_fmul
+ 1233 00b2 0346     		mov	r3, r0
+ 1234 00b4 1C46     		mov	r4, r3
+ 1235 00b6 3868     		ldr	r0, [r7]
+ 1236 00b8 FFF7FEFF 		bl	__aeabi_i2f
+ 1237 00bc 0346     		mov	r3, r0
+ 1238 00be 1946     		mov	r1, r3
+ 1239 00c0 2046     		mov	r0, r4
+ 1240 00c2 FFF7FEFF 		bl	__aeabi_fdiv
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 29
+
+
+ 1241 00c6 0346     		mov	r3, r0
+ 1242 00c8 1846     		mov	r0, r3
+ 1243 00ca FFF7FEFF 		bl	sinf
+ 1244 00ce 0146     		mov	r1, r0
+ 1245 00d0 094A     		ldr	r2, .L78+12
+ 1246 00d2 7B68     		ldr	r3, [r7, #4]
+ 1247 00d4 42F82310 		str	r1, [r2, r3, lsl #2]	@ float
+ 1248              	.LBE6:
+ 329:main.c        ****     {
+ 1249              		.loc 1 329 0 discriminator 3
+ 1250 00d8 7B68     		ldr	r3, [r7, #4]
+ 1251 00da 0133     		adds	r3, r3, #1
+ 1252 00dc 7B60     		str	r3, [r7, #4]
+ 1253              	.L76:
+ 329:main.c        ****     {
+ 1254              		.loc 1 329 0 is_stmt 0 discriminator 1
+ 1255 00de 7B68     		ldr	r3, [r7, #4]
+ 1256 00e0 7F2B     		cmp	r3, #127
+ 1257 00e2 A1DD     		ble	.L77
+ 1258              	.LBE5:
+ 334:main.c        ****     }
+ 335:main.c        **** }
+ 1259              		.loc 1 335 0 is_stmt 1
+ 1260 00e4 00BF     		nop
+ 1261 00e6 0C37     		adds	r7, r7, #12
+ 1262              		.cfi_def_cfa_offset 12
+ 1263 00e8 BD46     		mov	sp, r7
+ 1264              		.cfi_def_cfa_register 13
+ 1265              		@ sp needed
+ 1266 00ea 90BD     		pop	{r4, r7, pc}
+ 1267              	.L79:
+ 1268              		.align	2
+ 1269              	.L78:
+ 1270 00ec 00000000 		.word	pi
+ 1271 00f0 00000000 		.word	k
+ 1272 00f4 00000000 		.word	Cos_sampleArray
+ 1273 00f8 00000000 		.word	Sin_sampleArray
+ 1274              		.cfi_endproc
+ 1275              	.LFE71:
+ 1276              		.size	Setup, .-Setup
+ 1277              		.section	.text.search,"ax",%progbits
+ 1278              		.align	2
+ 1279              		.global	search
+ 1280              		.thumb
+ 1281              		.thumb_func
+ 1282              		.type	search, %function
+ 1283              	search:
+ 1284              	.LFB72:
+ 336:main.c        **** 
+ 337:main.c        **** 
+ 338:main.c        **** void search(void)
+ 339:main.c        **** {
+ 1285              		.loc 1 339 0
+ 1286              		.cfi_startproc
+ 1287              		@ args = 0, pretend = 0, frame = 24
+ 1288              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1289 0000 80B5     		push	{r7, lr}
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 30
+
+
+ 1290              		.cfi_def_cfa_offset 8
+ 1291              		.cfi_offset 7, -8
+ 1292              		.cfi_offset 14, -4
+ 1293 0002 86B0     		sub	sp, sp, #24
+ 1294              		.cfi_def_cfa_offset 32
+ 1295 0004 00AF     		add	r7, sp, #0
+ 1296              		.cfi_def_cfa_register 7
+ 340:main.c        ****   int DC_motor_speed = 400;
+ 1297              		.loc 1 340 0
+ 1298 0006 4FF4C873 		mov	r3, #400
+ 1299 000a 3B61     		str	r3, [r7, #16]
+ 341:main.c        ****   int DC_dir = 1; //1 = Clockwise, 0 = CounterClockwise
+ 1300              		.loc 1 341 0
+ 1301 000c 0123     		movs	r3, #1
+ 1302 000e FB60     		str	r3, [r7, #12]
+ 342:main.c        ****   int TakingSampleAz = 1; //Uses as a delay
+ 1303              		.loc 1 342 0
+ 1304 0010 0123     		movs	r3, #1
+ 1305 0012 7B61     		str	r3, [r7, #20]
+ 343:main.c        ****   float Amp = 0;
+ 1306              		.loc 1 343 0
+ 1307 0014 4FF00003 		mov	r3, #0
+ 1308 0018 BB60     		str	r3, [r7, #8]	@ float
+ 344:main.c        ****   int STEP_dir = 1;
+ 1309              		.loc 1 344 0
+ 1310 001a 0123     		movs	r3, #1
+ 1311 001c 7B60     		str	r3, [r7, #4]
+ 345:main.c        ****   int STEP_speed = 65535;
+ 1312              		.loc 1 345 0
+ 1313 001e 4FF6FF73 		movw	r3, #65535
+ 1314 0022 3B60     		str	r3, [r7]
+ 346:main.c        ****       
+ 347:main.c        ****   DCMotorControl(DC_dir, DC_motor_speed);
+ 1315              		.loc 1 347 0
+ 1316 0024 3969     		ldr	r1, [r7, #16]
+ 1317 0026 F868     		ldr	r0, [r7, #12]
+ 1318 0028 FFF7FEFF 		bl	DCMotorControl
+ 348:main.c        ****  StepperMotorControl(STEP_dir, STEP_speed); 
+ 1319              		.loc 1 348 0
+ 1320 002c 3968     		ldr	r1, [r7]
+ 1321 002e 7868     		ldr	r0, [r7, #4]
+ 1322 0030 FFF7FEFF 		bl	StepperMotorControl
+ 349:main.c        **** 
+ 350:main.c        ****   // Azimuth
+ 351:main.c        ****   AMux_1_FastSelect(0);  //1 = PIN_ADC_IN_AZ
+ 1323              		.loc 1 351 0
+ 1324 0034 0020     		movs	r0, #0
+ 1325 0036 FFF7FEFF 		bl	AMux_1_FastSelect
+ 352:main.c        ****   DMA_getSample();
+ 1326              		.loc 1 352 0
+ 1327 003a FFF7FEFF 		bl	DMA_getSample
+ 353:main.c        ****   while(TakingSampleAz == 1){ //Venter til alt sample er klar fra DMA
+ 1328              		.loc 1 353 0
+ 1329 003e 11E0     		b	.L81
+ 1330              	.L82:
+ 354:main.c        ****       if(DMADone_1_flag && DMADone_2_flag )
+ 1331              		.loc 1 354 0
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 31
+
+
+ 1332 0040 1C4B     		ldr	r3, .L87
+ 1333 0042 1B78     		ldrb	r3, [r3]
+ 1334 0044 DBB2     		uxtb	r3, r3
+ 1335 0046 002B     		cmp	r3, #0
+ 1336 0048 0CD0     		beq	.L81
+ 1337              		.loc 1 354 0 is_stmt 0 discriminator 1
+ 1338 004a 1B4B     		ldr	r3, .L87+4
+ 1339 004c 1B78     		ldrb	r3, [r3]
+ 1340 004e DBB2     		uxtb	r3, r3
+ 1341 0050 002B     		cmp	r3, #0
+ 1342 0052 07D0     		beq	.L81
+ 355:main.c        ****       {	      
+ 356:main.c        ****         TakingSampleAz = 0;
+ 1343              		.loc 1 356 0 is_stmt 1
+ 1344 0054 0023     		movs	r3, #0
+ 1345 0056 7B61     		str	r3, [r7, #20]
+ 357:main.c        ****     	DMADone_1_flag = 0; 
+ 1346              		.loc 1 357 0
+ 1347 0058 164B     		ldr	r3, .L87
+ 1348 005a 0022     		movs	r2, #0
+ 1349 005c 1A70     		strb	r2, [r3]
+ 358:main.c        ****         DMADone_2_flag = 0;	
+ 1350              		.loc 1 358 0
+ 1351 005e 164B     		ldr	r3, .L87+4
+ 1352 0060 0022     		movs	r2, #0
+ 1353 0062 1A70     		strb	r2, [r3]
+ 1354              	.L81:
+ 353:main.c        ****       if(DMADone_1_flag && DMADone_2_flag )
+ 1355              		.loc 1 353 0
+ 1356 0064 7B69     		ldr	r3, [r7, #20]
+ 1357 0066 012B     		cmp	r3, #1
+ 1358 0068 EAD0     		beq	.L82
+ 359:main.c        ****       }
+ 360:main.c        ****   }
+ 361:main.c        **** 
+ 362:main.c        ****   prev_1_AOA_Az = 0;
+ 1359              		.loc 1 362 0
+ 1360 006a 144B     		ldr	r3, .L87+8
+ 1361 006c 4FF00002 		mov	r2, #0
+ 1362 0070 1A60     		str	r2, [r3]	@ float
+ 363:main.c        ****   prev_2_AOA_Az = 0;
+ 1363              		.loc 1 363 0
+ 1364 0072 134B     		ldr	r3, .L87+12
+ 1365 0074 4FF00002 		mov	r2, #0
+ 1366 0078 1A60     		str	r2, [r3]	@ float
+ 364:main.c        ****   prev_1_DC_speed = 0;
+ 1367              		.loc 1 364 0
+ 1368 007a 124B     		ldr	r3, .L87+16
+ 1369 007c 4FF00002 		mov	r2, #0
+ 1370 0080 1A60     		str	r2, [r3]	@ float
+ 365:main.c        ****   prev_2_DC_speed = 0;
+ 1371              		.loc 1 365 0
+ 1372 0082 114B     		ldr	r3, .L87+20
+ 1373 0084 4FF00002 		mov	r2, #0
+ 1374 0088 1A60     		str	r2, [r3]	@ float
+ 366:main.c        **** 
+ 367:main.c        **** 
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 32
+
+
+ 368:main.c        ****   Amp = AmplitudeDFT(adc_sampleArray_1);
+ 1375              		.loc 1 368 0
+ 1376 008a 1048     		ldr	r0, .L87+24
+ 1377 008c FFF7FEFF 		bl	AmplitudeDFT
+ 1378 0090 B860     		str	r0, [r7, #8]	@ float
+ 369:main.c        ****   if (Amp > AmpThreshold){ 
+ 1379              		.loc 1 369 0
+ 1380 0092 0F4B     		ldr	r3, .L87+28
+ 1381 0094 1B68     		ldr	r3, [r3]	@ float
+ 1382 0096 1946     		mov	r1, r3
+ 1383 0098 B868     		ldr	r0, [r7, #8]	@ float
+ 1384 009a FFF7FEFF 		bl	__aeabi_fcmpgt
+ 1385 009e 0346     		mov	r3, r0
+ 1386 00a0 002B     		cmp	r3, #0
+ 1387 00a2 00D1     		bne	.L85
+ 370:main.c        ****     state = 2;
+ 371:main.c        ****   }     
+ 372:main.c        **** }
+ 1388              		.loc 1 372 0
+ 1389 00a4 02E0     		b	.L86
+ 1390              	.L85:
+ 370:main.c        ****     state = 2;
+ 1391              		.loc 1 370 0
+ 1392 00a6 0B4B     		ldr	r3, .L87+32
+ 1393 00a8 0222     		movs	r2, #2
+ 1394 00aa 1A60     		str	r2, [r3]
+ 1395              	.L86:
+ 1396              		.loc 1 372 0
+ 1397 00ac 00BF     		nop
+ 1398 00ae 1837     		adds	r7, r7, #24
+ 1399              		.cfi_def_cfa_offset 8
+ 1400 00b0 BD46     		mov	sp, r7
+ 1401              		.cfi_def_cfa_register 13
+ 1402              		@ sp needed
+ 1403 00b2 80BD     		pop	{r7, pc}
+ 1404              	.L88:
+ 1405              		.align	2
+ 1406              	.L87:
+ 1407 00b4 00000000 		.word	DMADone_1_flag
+ 1408 00b8 00000000 		.word	DMADone_2_flag
+ 1409 00bc 00000000 		.word	prev_1_AOA_Az
+ 1410 00c0 00000000 		.word	prev_2_AOA_Az
+ 1411 00c4 00000000 		.word	prev_1_DC_speed
+ 1412 00c8 00000000 		.word	prev_2_DC_speed
+ 1413 00cc 00000000 		.word	adc_sampleArray_1
+ 1414 00d0 00000000 		.word	AmpThreshold
+ 1415 00d4 00000000 		.word	state
+ 1416              		.cfi_endproc
+ 1417              	.LFE72:
+ 1418              		.size	search, .-search
+ 1419              		.global	__aeabi_dmul
+ 1420              		.global	__aeabi_dadd
+ 1421              		.global	__aeabi_d2iz
+ 1422              		.global	__aeabi_f2iz
+ 1423              		.section	.text.PinPointAoA,"ax",%progbits
+ 1424              		.align	2
+ 1425              		.global	PinPointAoA
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 33
+
+
+ 1426              		.thumb
+ 1427              		.thumb_func
+ 1428              		.type	PinPointAoA, %function
+ 1429              	PinPointAoA:
+ 1430              	.LFB73:
+ 373:main.c        **** 
+ 374:main.c        **** 
+ 375:main.c        **** void PinPointAoA(void)
+ 376:main.c        **** {
+ 1431              		.loc 1 376 0
+ 1432              		.cfi_startproc
+ 1433              		@ args = 0, pretend = 0, frame = 88
+ 1434              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1435 0000 B0B5     		push	{r4, r5, r7, lr}
+ 1436              		.cfi_def_cfa_offset 16
+ 1437              		.cfi_offset 4, -16
+ 1438              		.cfi_offset 5, -12
+ 1439              		.cfi_offset 7, -8
+ 1440              		.cfi_offset 14, -4
+ 1441 0002 96B0     		sub	sp, sp, #88
+ 1442              		.cfi_def_cfa_offset 104
+ 1443 0004 00AF     		add	r7, sp, #0
+ 1444              		.cfi_def_cfa_register 7
+ 377:main.c        ****   int DC_motor_speed = 400;
+ 1445              		.loc 1 377 0
+ 1446 0006 4FF4C873 		mov	r3, #400
+ 1447 000a 7B65     		str	r3, [r7, #84]
+ 378:main.c        ****   int DC_dir = 1; //1 = Clockwise, 0 = CounterClockwise
+ 1448              		.loc 1 378 0
+ 1449 000c 0123     		movs	r3, #1
+ 1450 000e 3B65     		str	r3, [r7, #80]
+ 379:main.c        ****   int TakingSampleAz = 1, TakingSampleEl = 1; //Uses as a delay
+ 1451              		.loc 1 379 0
+ 1452 0010 0123     		movs	r3, #1
+ 1453 0012 FB64     		str	r3, [r7, #76]
+ 1454 0014 0123     		movs	r3, #1
+ 1455 0016 BB64     		str	r3, [r7, #72]
+ 380:main.c        ****   float theta_Az = 0, theta_El = 0;
+ 1456              		.loc 1 380 0
+ 1457 0018 4FF00003 		mov	r3, #0
+ 1458 001c 7B63     		str	r3, [r7, #52]	@ float
+ 1459 001e 4FF00003 		mov	r3, #0
+ 1460 0022 3B63     		str	r3, [r7, #48]	@ float
+ 381:main.c        ****   float AoA_Az = 0, AoA_El = 0;
+ 1461              		.loc 1 381 0
+ 1462 0024 4FF00003 		mov	r3, #0
+ 1463 0028 7B64     		str	r3, [r7, #68]	@ float
+ 1464 002a 4FF00003 		mov	r3, #0
+ 1465 002e 3B64     		str	r3, [r7, #64]	@ float
+ 382:main.c        ****   float AOA_Az_ref = 0;
+ 1466              		.loc 1 382 0
+ 1467 0030 4FF00003 		mov	r3, #0
+ 1468 0034 FB62     		str	r3, [r7, #44]	@ float
+ 383:main.c        ****   float DC_kp = 5.8, DC_Ki = 1.4, DC_Kd = 0.006; //PWM: 0-1000
+ 1469              		.loc 1 383 0
+ 1470 0036 644B     		ldr	r3, .L127
+ 1471 0038 BB62     		str	r3, [r7, #40]	@ float
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 34
+
+
+ 1472 003a 644B     		ldr	r3, .L127+4
+ 1473 003c 7B62     		str	r3, [r7, #36]	@ float
+ 1474 003e 644B     		ldr	r3, .L127+8
+ 1475 0040 3B62     		str	r3, [r7, #32]	@ float
+ 384:main.c        ****   float Amp = 0;
+ 1476              		.loc 1 384 0
+ 1477 0042 4FF00003 		mov	r3, #0
+ 1478 0046 FB61     		str	r3, [r7, #28]	@ float
+ 385:main.c        ****   int NO_OF_MEAN = 1;
+ 1479              		.loc 1 385 0
+ 1480 0048 0123     		movs	r3, #1
+ 1481 004a BB61     		str	r3, [r7, #24]
+ 386:main.c        ****     
+ 387:main.c        ****     
+ 388:main.c        ****     /* Stepper */
+ 389:main.c        ****   int STEP_dir = 1; //1 = op, 0 = ned; 
+ 1482              		.loc 1 389 0
+ 1483 004c 0123     		movs	r3, #1
+ 1484 004e FB63     		str	r3, [r7, #60]
+ 390:main.c        ****   int STEP_speed = 200; 
+ 1485              		.loc 1 390 0
+ 1486 0050 C823     		movs	r3, #200
+ 1487 0052 7B61     		str	r3, [r7, #20]
+ 391:main.c        ****   float STEP_Kp =500, STEP_Ki = 0, STEP_Kd = 0;
+ 1488              		.loc 1 391 0
+ 1489 0054 5F4B     		ldr	r3, .L127+12
+ 1490 0056 3B61     		str	r3, [r7, #16]	@ float
+ 1491 0058 4FF00003 		mov	r3, #0
+ 1492 005c FB60     		str	r3, [r7, #12]	@ float
+ 1493 005e 4FF00003 		mov	r3, #0
+ 1494 0062 BB60     		str	r3, [r7, #8]	@ float
+ 392:main.c        ****   float AoA_EL_REF = 0;
+ 1495              		.loc 1 392 0
+ 1496 0064 4FF00003 		mov	r3, #0
+ 1497 0068 7B60     		str	r3, [r7, #4]	@ float
+ 1498              	.LBB7:
+ 393:main.c        ****   
+ 394:main.c        **** 
+ 395:main.c        ****     
+ 396:main.c        ****     for (int n_mean = 0; n_mean < NO_OF_MEAN; n_mean++)
+ 1499              		.loc 1 396 0
+ 1500 006a 0023     		movs	r3, #0
+ 1501 006c BB63     		str	r3, [r7, #56]
+ 1502 006e 86E0     		b	.L90
+ 1503              	.L95:
+ 397:main.c        ****     {
+ 398:main.c        ****     // Azimuth
+ 399:main.c        ****     AMux_1_FastSelect(0);  //0 = PIN_ADC_IN_AZ
+ 1504              		.loc 1 399 0
+ 1505 0070 0020     		movs	r0, #0
+ 1506 0072 FFF7FEFF 		bl	AMux_1_FastSelect
+ 400:main.c        ****     DMA_getSample();
+ 1507              		.loc 1 400 0
+ 1508 0076 FFF7FEFF 		bl	DMA_getSample
+ 401:main.c        ****     while(TakingSampleAz == 1){ //Venter til alt sample er klar fra DMA
+ 1509              		.loc 1 401 0
+ 1510 007a 11E0     		b	.L91
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 35
+
+
+ 1511              	.L92:
+ 402:main.c        ****         if(DMADone_1_flag && DMADone_2_flag )
+ 1512              		.loc 1 402 0
+ 1513 007c 564B     		ldr	r3, .L127+16
+ 1514 007e 1B78     		ldrb	r3, [r3]
+ 1515 0080 DBB2     		uxtb	r3, r3
+ 1516 0082 002B     		cmp	r3, #0
+ 1517 0084 0CD0     		beq	.L91
+ 1518              		.loc 1 402 0 is_stmt 0 discriminator 1
+ 1519 0086 554B     		ldr	r3, .L127+20
+ 1520 0088 1B78     		ldrb	r3, [r3]
+ 1521 008a DBB2     		uxtb	r3, r3
+ 1522 008c 002B     		cmp	r3, #0
+ 1523 008e 07D0     		beq	.L91
+ 403:main.c        ****         {	      
+ 404:main.c        ****             TakingSampleAz = 0;
+ 1524              		.loc 1 404 0 is_stmt 1
+ 1525 0090 0023     		movs	r3, #0
+ 1526 0092 FB64     		str	r3, [r7, #76]
+ 405:main.c        ****             DMADone_1_flag = 0; 
+ 1527              		.loc 1 405 0
+ 1528 0094 504B     		ldr	r3, .L127+16
+ 1529 0096 0022     		movs	r2, #0
+ 1530 0098 1A70     		strb	r2, [r3]
+ 406:main.c        ****             DMADone_2_flag = 0;	
+ 1531              		.loc 1 406 0
+ 1532 009a 504B     		ldr	r3, .L127+20
+ 1533 009c 0022     		movs	r2, #0
+ 1534 009e 1A70     		strb	r2, [r3]
+ 1535              	.L91:
+ 401:main.c        ****         if(DMADone_1_flag && DMADone_2_flag )
+ 1536              		.loc 1 401 0
+ 1537 00a0 FB6C     		ldr	r3, [r7, #76]
+ 1538 00a2 012B     		cmp	r3, #1
+ 1539 00a4 EAD0     		beq	.L92
+ 407:main.c        ****         }
+ 408:main.c        ****     }
+ 409:main.c        ****     theta_Az = PhaseDifference(adc_sampleArray_1,adc_sampleArray_2);
+ 1540              		.loc 1 409 0
+ 1541 00a6 4E49     		ldr	r1, .L127+24
+ 1542 00a8 4E48     		ldr	r0, .L127+28
+ 1543 00aa FFF7FEFF 		bl	PhaseDifference
+ 1544 00ae 7863     		str	r0, [r7, #52]	@ float
+ 410:main.c        **** 
+ 411:main.c        ****     // Elevation
+ 412:main.c        ****     AMux_1_FastSelect(1);  //1 = PIN_ADC_IN_EL
+ 1545              		.loc 1 412 0
+ 1546 00b0 0120     		movs	r0, #1
+ 1547 00b2 FFF7FEFF 		bl	AMux_1_FastSelect
+ 413:main.c        ****     DMA_getSample();
+ 1548              		.loc 1 413 0
+ 1549 00b6 FFF7FEFF 		bl	DMA_getSample
+ 414:main.c        ****     while(TakingSampleEl == 1){ //Venter til alt sample er klar fra DMA
+ 1550              		.loc 1 414 0
+ 1551 00ba 11E0     		b	.L93
+ 1552              	.L94:
+ 415:main.c        ****         if(DMADone_1_flag && DMADone_2_flag )
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 36
+
+
+ 1553              		.loc 1 415 0
+ 1554 00bc 464B     		ldr	r3, .L127+16
+ 1555 00be 1B78     		ldrb	r3, [r3]
+ 1556 00c0 DBB2     		uxtb	r3, r3
+ 1557 00c2 002B     		cmp	r3, #0
+ 1558 00c4 0CD0     		beq	.L93
+ 1559              		.loc 1 415 0 is_stmt 0 discriminator 1
+ 1560 00c6 454B     		ldr	r3, .L127+20
+ 1561 00c8 1B78     		ldrb	r3, [r3]
+ 1562 00ca DBB2     		uxtb	r3, r3
+ 1563 00cc 002B     		cmp	r3, #0
+ 1564 00ce 07D0     		beq	.L93
+ 416:main.c        ****         {	      
+ 417:main.c        ****             TakingSampleEl = 0;
+ 1565              		.loc 1 417 0 is_stmt 1
+ 1566 00d0 0023     		movs	r3, #0
+ 1567 00d2 BB64     		str	r3, [r7, #72]
+ 418:main.c        ****             DMADone_1_flag = 0; 
+ 1568              		.loc 1 418 0
+ 1569 00d4 404B     		ldr	r3, .L127+16
+ 1570 00d6 0022     		movs	r2, #0
+ 1571 00d8 1A70     		strb	r2, [r3]
+ 419:main.c        ****             DMADone_2_flag = 0;	
+ 1572              		.loc 1 419 0
+ 1573 00da 404B     		ldr	r3, .L127+20
+ 1574 00dc 0022     		movs	r2, #0
+ 1575 00de 1A70     		strb	r2, [r3]
+ 1576              	.L93:
+ 414:main.c        ****         if(DMADone_1_flag && DMADone_2_flag )
+ 1577              		.loc 1 414 0
+ 1578 00e0 BB6C     		ldr	r3, [r7, #72]
+ 1579 00e2 012B     		cmp	r3, #1
+ 1580 00e4 EAD0     		beq	.L94
+ 420:main.c        ****         }
+ 421:main.c        ****     }
+ 422:main.c        ****     theta_El = PhaseDifferenceEL(adc_sampleArray_1,adc_sampleArray_2);
+ 1581              		.loc 1 422 0 discriminator 2
+ 1582 00e6 3E49     		ldr	r1, .L127+24
+ 1583 00e8 3E48     		ldr	r0, .L127+28
+ 1584 00ea FFF7FEFF 		bl	PhaseDifferenceEL
+ 1585 00ee 3863     		str	r0, [r7, #48]	@ float
+ 423:main.c        ****     
+ 424:main.c        ****     //Regner theta'er om til AoA'er
+ 425:main.c        ****     AoA_Az = sinf(theta_Az/pi)*(180/pi)+AoA_Az+26;//Offset som vi har målt os frem til 
+ 1586              		.loc 1 425 0 discriminator 2
+ 1587 00f0 3D4B     		ldr	r3, .L127+32
+ 1588 00f2 1B68     		ldr	r3, [r3]	@ float
+ 1589 00f4 1946     		mov	r1, r3
+ 1590 00f6 786B     		ldr	r0, [r7, #52]	@ float
+ 1591 00f8 FFF7FEFF 		bl	__aeabi_fdiv
+ 1592 00fc 0346     		mov	r3, r0
+ 1593 00fe 1846     		mov	r0, r3
+ 1594 0100 FFF7FEFF 		bl	sinf
+ 1595 0104 0446     		mov	r4, r0
+ 1596 0106 384B     		ldr	r3, .L127+32
+ 1597 0108 1B68     		ldr	r3, [r3]	@ float
+ 1598 010a 1946     		mov	r1, r3
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 37
+
+
+ 1599 010c 3748     		ldr	r0, .L127+36
+ 1600 010e FFF7FEFF 		bl	__aeabi_fdiv
+ 1601 0112 0346     		mov	r3, r0
+ 1602 0114 1946     		mov	r1, r3
+ 1603 0116 2046     		mov	r0, r4
+ 1604 0118 FFF7FEFF 		bl	__aeabi_fmul
+ 1605 011c 0346     		mov	r3, r0
+ 1606 011e 796C     		ldr	r1, [r7, #68]	@ float
+ 1607 0120 1846     		mov	r0, r3
+ 1608 0122 FFF7FEFF 		bl	__aeabi_fadd
+ 1609 0126 0346     		mov	r3, r0
+ 1610 0128 3149     		ldr	r1, .L127+40
+ 1611 012a 1846     		mov	r0, r3
+ 1612 012c FFF7FEFF 		bl	__aeabi_fadd
+ 1613 0130 0346     		mov	r3, r0
+ 1614 0132 7B64     		str	r3, [r7, #68]	@ float
+ 426:main.c        ****     AoA_El = sinf(theta_El/pi)*(180/pi)+AoA_El+7.5; //offset som vi har målt os frem til
+ 1615              		.loc 1 426 0 discriminator 2
+ 1616 0134 2C4B     		ldr	r3, .L127+32
+ 1617 0136 1B68     		ldr	r3, [r3]	@ float
+ 1618 0138 1946     		mov	r1, r3
+ 1619 013a 386B     		ldr	r0, [r7, #48]	@ float
+ 1620 013c FFF7FEFF 		bl	__aeabi_fdiv
+ 1621 0140 0346     		mov	r3, r0
+ 1622 0142 1846     		mov	r0, r3
+ 1623 0144 FFF7FEFF 		bl	sinf
+ 1624 0148 0446     		mov	r4, r0
+ 1625 014a 274B     		ldr	r3, .L127+32
+ 1626 014c 1B68     		ldr	r3, [r3]	@ float
+ 1627 014e 1946     		mov	r1, r3
+ 1628 0150 2648     		ldr	r0, .L127+36
+ 1629 0152 FFF7FEFF 		bl	__aeabi_fdiv
+ 1630 0156 0346     		mov	r3, r0
+ 1631 0158 1946     		mov	r1, r3
+ 1632 015a 2046     		mov	r0, r4
+ 1633 015c FFF7FEFF 		bl	__aeabi_fmul
+ 1634 0160 0346     		mov	r3, r0
+ 1635 0162 396C     		ldr	r1, [r7, #64]	@ float
+ 1636 0164 1846     		mov	r0, r3
+ 1637 0166 FFF7FEFF 		bl	__aeabi_fadd
+ 1638 016a 0346     		mov	r3, r0
+ 1639 016c 2149     		ldr	r1, .L127+44
+ 1640 016e 1846     		mov	r0, r3
+ 1641 0170 FFF7FEFF 		bl	__aeabi_fadd
+ 1642 0174 0346     		mov	r3, r0
+ 1643 0176 3B64     		str	r3, [r7, #64]	@ float
+ 396:main.c        ****     {
+ 1644              		.loc 1 396 0 discriminator 2
+ 1645 0178 BB6B     		ldr	r3, [r7, #56]
+ 1646 017a 0133     		adds	r3, r3, #1
+ 1647 017c BB63     		str	r3, [r7, #56]
+ 1648              	.L90:
+ 396:main.c        ****     {
+ 1649              		.loc 1 396 0 is_stmt 0 discriminator 1
+ 1650 017e BA6B     		ldr	r2, [r7, #56]
+ 1651 0180 BB69     		ldr	r3, [r7, #24]
+ 1652 0182 9A42     		cmp	r2, r3
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 38
+
+
+ 1653 0184 FFF674AF 		blt	.L95
+ 1654              	.LBE7:
+ 427:main.c        ****     
+ 428:main.c        ****     }
+ 429:main.c        ****     AoA_Az = AoA_Az/NO_OF_MEAN;
+ 1655              		.loc 1 429 0 is_stmt 1
+ 1656 0188 B869     		ldr	r0, [r7, #24]
+ 1657 018a FFF7FEFF 		bl	__aeabi_i2f
+ 1658 018e 0346     		mov	r3, r0
+ 1659 0190 1946     		mov	r1, r3
+ 1660 0192 786C     		ldr	r0, [r7, #68]	@ float
+ 1661 0194 FFF7FEFF 		bl	__aeabi_fdiv
+ 1662 0198 0346     		mov	r3, r0
+ 1663 019a 7B64     		str	r3, [r7, #68]	@ float
+ 430:main.c        ****     AoA_El = AoA_El/NO_OF_MEAN;
+ 1664              		.loc 1 430 0
+ 1665 019c B869     		ldr	r0, [r7, #24]
+ 1666 019e FFF7FEFF 		bl	__aeabi_i2f
+ 1667 01a2 0346     		mov	r3, r0
+ 1668 01a4 1946     		mov	r1, r3
+ 1669 01a6 386C     		ldr	r0, [r7, #64]	@ float
+ 1670 01a8 FFF7FEFF 		bl	__aeabi_fdiv
+ 1671 01ac 0346     		mov	r3, r0
+ 1672 01ae 3B64     		str	r3, [r7, #64]	@ float
+ 431:main.c        ****     //Overfør function skal skrives her. 
+ 432:main.c        ****     
+ 433:main.c        ****     
+ 434:main.c        ****         
+ 435:main.c        ****     /*Hvis der skal printes seriel */
+ 436:main.c        **** //    int dumbb = (int)AoA_El;
+ 437:main.c        **** //    char char_print[50] = {1};
+ 438:main.c        **** //    sprintf(char_print, "%d\n", dumbb); //Laver en 'int' om til en string
+ 439:main.c        **** //    UART_1_PutString(char_print);  // printer DeltaTheta værdien 
+ 440:main.c        ****     
+ 441:main.c        ****     
+ 442:main.c        ****     /* DC MOTOR */
+ 443:main.c        ****     
+ 444:main.c        ****     if(AoA_Az < 0) //VI skal lige checke om det passer med clockwise eller CounterClockwise
+ 1673              		.loc 1 444 0
+ 1674 01b0 4FF00001 		mov	r1, #0
+ 1675 01b4 786C     		ldr	r0, [r7, #68]	@ float
+ 1676 01b6 FFF7FEFF 		bl	__aeabi_fcmplt
+ 1677 01ba 0346     		mov	r3, r0
+ 1678 01bc 002B     		cmp	r3, #0
+ 1679 01be 1BD0     		beq	.L124
+ 445:main.c        ****     {
+ 446:main.c        ****        DC_dir = 0; // 1 = Clockwise 
+ 1680              		.loc 1 446 0
+ 1681 01c0 0023     		movs	r3, #0
+ 1682 01c2 3B65     		str	r3, [r7, #80]
+ 1683 01c4 1AE0     		b	.L98
+ 1684              	.L128:
+ 1685 01c6 00BF     		.align	2
+ 1686              	.L127:
+ 1687 01c8 9A99B940 		.word	1085905306
+ 1688 01cc 3333B33F 		.word	1068708659
+ 1689 01d0 A69BC43B 		.word	1002740646
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 39
+
+
+ 1690 01d4 0000FA43 		.word	1140457472
+ 1691 01d8 00000000 		.word	DMADone_1_flag
+ 1692 01dc 00000000 		.word	DMADone_2_flag
+ 1693 01e0 00000000 		.word	adc_sampleArray_2
+ 1694 01e4 00000000 		.word	adc_sampleArray_1
+ 1695 01e8 00000000 		.word	pi
+ 1696 01ec 00003443 		.word	1127481344
+ 1697 01f0 0000D041 		.word	1104150528
+ 1698 01f4 0000F040 		.word	1089470464
+ 1699              	.L124:
+ 447:main.c        ****        
+ 448:main.c        ****     } else {
+ 449:main.c        ****        DC_dir = 1; // 0 = CounterClockwise   
+ 1700              		.loc 1 449 0
+ 1701 01f8 0123     		movs	r3, #1
+ 1702 01fa 3B65     		str	r3, [r7, #80]
+ 1703              	.L98:
+ 450:main.c        ****     }
+ 451:main.c        ****     
+ 452:main.c        ****     /*Hvis der skal printes seriel */
+ 453:main.c        **** //    int dumbb = (int)AoA_Az;
+ 454:main.c        **** //    char char_print[50] = {1};
+ 455:main.c        **** //    sprintf(char_print, "%d\n", dumbb); //Laver en 'int' om til en string
+ 456:main.c        **** //    UART_1_PutString(char_print);  // printer DeltaTheta værdien 
+ 457:main.c        **** //  
+ 458:main.c        ****     //overførfunction AKA controlleren
+ 459:main.c        ****     
+ 460:main.c        **** //    integral = integral + (AoA_Az-AOA_Az_ref);
+ 461:main.c        **** //    derivative = AoA_Az - prev_AoA_Az;
+ 462:main.c        **** //    
+ 463:main.c        ****     if((prev_1_AOA_Az > 0 && AoA_Az < 0) || (prev_1_AOA_Az < 0 && AoA_Az > 0))
+ 1704              		.loc 1 463 0
+ 1705 01fc A44B     		ldr	r3, .L129+24
+ 1706 01fe 1B68     		ldr	r3, [r3]	@ float
+ 1707 0200 4FF00001 		mov	r1, #0
+ 1708 0204 1846     		mov	r0, r3
+ 1709 0206 FFF7FEFF 		bl	__aeabi_fcmpgt
+ 1710 020a 0346     		mov	r3, r0
+ 1711 020c 002B     		cmp	r3, #0
+ 1712 020e 07D0     		beq	.L99
+ 1713              		.loc 1 463 0 is_stmt 0 discriminator 1
+ 1714 0210 4FF00001 		mov	r1, #0
+ 1715 0214 786C     		ldr	r0, [r7, #68]	@ float
+ 1716 0216 FFF7FEFF 		bl	__aeabi_fcmplt
+ 1717 021a 0346     		mov	r3, r0
+ 1718 021c 002B     		cmp	r3, #0
+ 1719 021e 11D1     		bne	.L101
+ 1720              	.L99:
+ 1721              		.loc 1 463 0 discriminator 3
+ 1722 0220 9B4B     		ldr	r3, .L129+24
+ 1723 0222 1B68     		ldr	r3, [r3]	@ float
+ 1724 0224 4FF00001 		mov	r1, #0
+ 1725 0228 1846     		mov	r0, r3
+ 1726 022a FFF7FEFF 		bl	__aeabi_fcmplt
+ 1727 022e 0346     		mov	r3, r0
+ 1728 0230 002B     		cmp	r3, #0
+ 1729 0232 0FD0     		beq	.L102
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 40
+
+
+ 1730              		.loc 1 463 0 discriminator 4
+ 1731 0234 4FF00001 		mov	r1, #0
+ 1732 0238 786C     		ldr	r0, [r7, #68]	@ float
+ 1733 023a FFF7FEFF 		bl	__aeabi_fcmpgt
+ 1734 023e 0346     		mov	r3, r0
+ 1735 0240 002B     		cmp	r3, #0
+ 1736 0242 07D0     		beq	.L102
+ 1737              	.L101:
+ 464:main.c        ****     {
+ 465:main.c        ****         prev_2_DC_speed = 0;
+ 1738              		.loc 1 465 0 is_stmt 1
+ 1739 0244 934B     		ldr	r3, .L129+28
+ 1740 0246 4FF00002 		mov	r2, #0
+ 1741 024a 1A60     		str	r2, [r3]	@ float
+ 466:main.c        ****         prev_1_DC_speed = 0;
+ 1742              		.loc 1 466 0
+ 1743 024c 924B     		ldr	r3, .L129+32
+ 1744 024e 4FF00002 		mov	r2, #0
+ 1745 0252 1A60     		str	r2, [r3]	@ float
+ 1746              	.L102:
+ 467:main.c        ****     }
+ 468:main.c        ****     
+ 469:main.c        ****   
+ 470:main.c        **** //    DC_motor_speed = (int)(DC_kp * (AoA_Az - AOA_Az_ref)+DC_Ki*integral+derivative*DC_Kd); // OBS
+ 471:main.c        ****     
+ 472:main.c        ****     DC_motor_speed = (int)(8.204*(AoA_Az-AOA_Az_ref)-4.793*prev_1_AOA_Az-3.397*prev_2_AOA_Az+prev_2
+ 1747              		.loc 1 472 0
+ 1748 0254 F96A     		ldr	r1, [r7, #44]	@ float
+ 1749 0256 786C     		ldr	r0, [r7, #68]	@ float
+ 1750 0258 FFF7FEFF 		bl	__aeabi_fsub
+ 1751 025c 0346     		mov	r3, r0
+ 1752 025e 1846     		mov	r0, r3
+ 1753 0260 FFF7FEFF 		bl	__aeabi_f2d
+ 1754 0264 84A3     		adr	r3, .L129
+ 1755 0266 D3E90023 		ldrd	r2, [r3]
+ 1756 026a FFF7FEFF 		bl	__aeabi_dmul
+ 1757 026e 0346     		mov	r3, r0
+ 1758 0270 0C46     		mov	r4, r1
+ 1759 0272 2546     		mov	r5, r4
+ 1760 0274 1C46     		mov	r4, r3
+ 1761 0276 864B     		ldr	r3, .L129+24
+ 1762 0278 1B68     		ldr	r3, [r3]	@ float
+ 1763 027a 1846     		mov	r0, r3
+ 1764 027c FFF7FEFF 		bl	__aeabi_f2d
+ 1765 0280 7FA3     		adr	r3, .L129+8
+ 1766 0282 D3E90023 		ldrd	r2, [r3]
+ 1767 0286 FFF7FEFF 		bl	__aeabi_dmul
+ 1768 028a 0246     		mov	r2, r0
+ 1769 028c 0B46     		mov	r3, r1
+ 1770 028e 2046     		mov	r0, r4
+ 1771 0290 2946     		mov	r1, r5
+ 1772 0292 FFF7FEFF 		bl	__aeabi_dsub
+ 1773 0296 0346     		mov	r3, r0
+ 1774 0298 0C46     		mov	r4, r1
+ 1775 029a 2546     		mov	r5, r4
+ 1776 029c 1C46     		mov	r4, r3
+ 1777 029e 7F4B     		ldr	r3, .L129+36
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 41
+
+
+ 1778 02a0 1B68     		ldr	r3, [r3]	@ float
+ 1779 02a2 1846     		mov	r0, r3
+ 1780 02a4 FFF7FEFF 		bl	__aeabi_f2d
+ 1781 02a8 77A3     		adr	r3, .L129+16
+ 1782 02aa D3E90023 		ldrd	r2, [r3]
+ 1783 02ae FFF7FEFF 		bl	__aeabi_dmul
+ 1784 02b2 0246     		mov	r2, r0
+ 1785 02b4 0B46     		mov	r3, r1
+ 1786 02b6 2046     		mov	r0, r4
+ 1787 02b8 2946     		mov	r1, r5
+ 1788 02ba FFF7FEFF 		bl	__aeabi_dsub
+ 1789 02be 0346     		mov	r3, r0
+ 1790 02c0 0C46     		mov	r4, r1
+ 1791 02c2 2546     		mov	r5, r4
+ 1792 02c4 1C46     		mov	r4, r3
+ 1793 02c6 734B     		ldr	r3, .L129+28
+ 1794 02c8 1B68     		ldr	r3, [r3]	@ float
+ 1795 02ca 1846     		mov	r0, r3
+ 1796 02cc FFF7FEFF 		bl	__aeabi_f2d
+ 1797 02d0 0246     		mov	r2, r0
+ 1798 02d2 0B46     		mov	r3, r1
+ 1799 02d4 2046     		mov	r0, r4
+ 1800 02d6 2946     		mov	r1, r5
+ 1801 02d8 FFF7FEFF 		bl	__aeabi_dadd
+ 1802 02dc 0346     		mov	r3, r0
+ 1803 02de 0C46     		mov	r4, r1
+ 1804 02e0 1846     		mov	r0, r3
+ 1805 02e2 2146     		mov	r1, r4
+ 1806 02e4 FFF7FEFF 		bl	__aeabi_d2iz
+ 1807 02e8 0346     		mov	r3, r0
+ 1808 02ea 7B65     		str	r3, [r7, #84]
+ 473:main.c        ****   //    DC_motor_speed = (int)(291.8*(AoA_Az-AOA_Az_ref)-543.7*prev_1_AOA_Az-252.4*prev_2_AOA_Az+pr
+ 474:main.c        ****     
+ 475:main.c        ****     prev_2_AOA_Az = prev_1_AOA_Az;
+ 1809              		.loc 1 475 0
+ 1810 02ec 684B     		ldr	r3, .L129+24
+ 1811 02ee 1B68     		ldr	r3, [r3]	@ float
+ 1812 02f0 6A4A     		ldr	r2, .L129+36
+ 1813 02f2 1360     		str	r3, [r2]	@ float
+ 476:main.c        ****     prev_1_AOA_Az = (AoA_Az-AOA_Az_ref);
+ 1814              		.loc 1 476 0
+ 1815 02f4 F96A     		ldr	r1, [r7, #44]	@ float
+ 1816 02f6 786C     		ldr	r0, [r7, #68]	@ float
+ 1817 02f8 FFF7FEFF 		bl	__aeabi_fsub
+ 1818 02fc 0346     		mov	r3, r0
+ 1819 02fe 1A46     		mov	r2, r3
+ 1820 0300 634B     		ldr	r3, .L129+24
+ 1821 0302 1A60     		str	r2, [r3]	@ float
+ 477:main.c        **** 
+ 478:main.c        ****     prev_2_DC_speed = prev_1_DC_speed;
+ 1822              		.loc 1 478 0
+ 1823 0304 644B     		ldr	r3, .L129+32
+ 1824 0306 1B68     		ldr	r3, [r3]	@ float
+ 1825 0308 624A     		ldr	r2, .L129+28
+ 1826 030a 1360     		str	r3, [r2]	@ float
+ 479:main.c        ****     prev_1_DC_speed = DC_motor_speed;
+ 1827              		.loc 1 479 0
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 42
+
+
+ 1828 030c 786D     		ldr	r0, [r7, #84]
+ 1829 030e FFF7FEFF 		bl	__aeabi_i2f
+ 1830 0312 0246     		mov	r2, r0
+ 1831 0314 604B     		ldr	r3, .L129+32
+ 1832 0316 1A60     		str	r2, [r3]	@ float
+ 480:main.c        **** 
+ 481:main.c        ****     
+ 482:main.c        ****     
+ 483:main.c        ****     
+ 484:main.c        ****     DC_motor_speed = abs(DC_motor_speed)+75; //Skal kun have positive værdier, for dir styre retni
+ 1833              		.loc 1 484 0
+ 1834 0318 7B6D     		ldr	r3, [r7, #84]
+ 1835 031a 002B     		cmp	r3, #0
+ 1836 031c B8BF     		it	lt
+ 1837 031e 5B42     		rsblt	r3, r3, #0
+ 1838 0320 4B33     		adds	r3, r3, #75
+ 1839 0322 7B65     		str	r3, [r7, #84]
+ 485:main.c        ****     //+225
+ 486:main.c        ****     if (DC_motor_speed > 1000) { //PWM går fra 0-1000.
+ 1840              		.loc 1 486 0
+ 1841 0324 7B6D     		ldr	r3, [r7, #84]
+ 1842 0326 B3F57A7F 		cmp	r3, #1000
+ 1843 032a 02DD     		ble	.L105
+ 487:main.c        ****         DC_motor_speed = 1000;
+ 1844              		.loc 1 487 0
+ 1845 032c 4FF47A73 		mov	r3, #1000
+ 1846 0330 7B65     		str	r3, [r7, #84]
+ 1847              	.L105:
+ 488:main.c        ****     }
+ 489:main.c        **** //    } else if (((AoA_Az - AOA_Az_ref) < 2) && ((AoA_Az - AoA_Az) > 0) )
+ 490:main.c        **** //    {
+ 491:main.c        **** //        DC_motor_speed = 0;
+ 492:main.c        **** //    }
+ 493:main.c        ****     
+ 494:main.c        ****     
+ 495:main.c        ****     
+ 496:main.c        ****     DCMotorControl(DC_dir, DC_motor_speed);
+ 1848              		.loc 1 496 0
+ 1849 0332 796D     		ldr	r1, [r7, #84]
+ 1850 0334 386D     		ldr	r0, [r7, #80]
+ 1851 0336 FFF7FEFF 		bl	DCMotorControl
+ 497:main.c        ****     
+ 498:main.c        ****     
+ 499:main.c        ****      /* Stepper MOTOR */
+ 500:main.c        ****     /* op er minus og ned er plus AOA*/
+ 501:main.c        ****     
+ 502:main.c        ****      if(AoA_El < 0) //VI skal lige checke om det passer med clockwise eller CounterClockwise
+ 1852              		.loc 1 502 0
+ 1853 033a 4FF00001 		mov	r1, #0
+ 1854 033e 386C     		ldr	r0, [r7, #64]	@ float
+ 1855 0340 FFF7FEFF 		bl	__aeabi_fcmplt
+ 1856 0344 0346     		mov	r3, r0
+ 1857 0346 002B     		cmp	r3, #0
+ 1858 0348 02D0     		beq	.L125
+ 503:main.c        ****     {
+ 504:main.c        ****        STEP_dir = 0; // 1 = Ned? 
+ 1859              		.loc 1 504 0
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 43
+
+
+ 1860 034a 0023     		movs	r3, #0
+ 1861 034c FB63     		str	r3, [r7, #60]
+ 1862 034e 01E0     		b	.L108
+ 1863              	.L125:
+ 505:main.c        ****        
+ 506:main.c        ****     } else {
+ 507:main.c        ****        STEP_dir = 1; // 0 = Op?   
+ 1864              		.loc 1 507 0
+ 1865 0350 0123     		movs	r3, #1
+ 1866 0352 FB63     		str	r3, [r7, #60]
+ 1867              	.L108:
+ 508:main.c        ****     }
+ 509:main.c        ****     
+ 510:main.c        ****     
+ 511:main.c        ****     Step_integral = Step_integral + (AoA_El-AoA_EL_REF);
+ 1868              		.loc 1 511 0
+ 1869 0354 7968     		ldr	r1, [r7, #4]	@ float
+ 1870 0356 386C     		ldr	r0, [r7, #64]	@ float
+ 1871 0358 FFF7FEFF 		bl	__aeabi_fsub
+ 1872 035c 0346     		mov	r3, r0
+ 1873 035e 1A46     		mov	r2, r3
+ 1874 0360 4F4B     		ldr	r3, .L129+40
+ 1875 0362 1B68     		ldr	r3, [r3]	@ float
+ 1876 0364 1946     		mov	r1, r3
+ 1877 0366 1046     		mov	r0, r2
+ 1878 0368 FFF7FEFF 		bl	__aeabi_fadd
+ 1879 036c 0346     		mov	r3, r0
+ 1880 036e 1A46     		mov	r2, r3
+ 1881 0370 4B4B     		ldr	r3, .L129+40
+ 1882 0372 1A60     		str	r2, [r3]	@ float
+ 512:main.c        ****     Step_derivative = AoA_El - prev_AoA_El;
+ 1883              		.loc 1 512 0
+ 1884 0374 4B4B     		ldr	r3, .L129+44
+ 1885 0376 1B68     		ldr	r3, [r3]	@ float
+ 1886 0378 1946     		mov	r1, r3
+ 1887 037a 386C     		ldr	r0, [r7, #64]	@ float
+ 1888 037c FFF7FEFF 		bl	__aeabi_fsub
+ 1889 0380 0346     		mov	r3, r0
+ 1890 0382 1A46     		mov	r2, r3
+ 1891 0384 484B     		ldr	r3, .L129+48
+ 1892 0386 1A60     		str	r2, [r3]	@ float
+ 513:main.c        ****     
+ 514:main.c        ****     if((prev_AoA_El > 0 && AoA_El < 0) || (prev_AoA_El < 0 && AoA_El > 0))
+ 1893              		.loc 1 514 0
+ 1894 0388 464B     		ldr	r3, .L129+44
+ 1895 038a 1B68     		ldr	r3, [r3]	@ float
+ 1896 038c 4FF00001 		mov	r1, #0
+ 1897 0390 1846     		mov	r0, r3
+ 1898 0392 FFF7FEFF 		bl	__aeabi_fcmpgt
+ 1899 0396 0346     		mov	r3, r0
+ 1900 0398 002B     		cmp	r3, #0
+ 1901 039a 07D0     		beq	.L109
+ 1902              		.loc 1 514 0 is_stmt 0 discriminator 1
+ 1903 039c 4FF00001 		mov	r1, #0
+ 1904 03a0 386C     		ldr	r0, [r7, #64]	@ float
+ 1905 03a2 FFF7FEFF 		bl	__aeabi_fcmplt
+ 1906 03a6 0346     		mov	r3, r0
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 44
+
+
+ 1907 03a8 002B     		cmp	r3, #0
+ 1908 03aa 11D1     		bne	.L111
+ 1909              	.L109:
+ 1910              		.loc 1 514 0 discriminator 3
+ 1911 03ac 3D4B     		ldr	r3, .L129+44
+ 1912 03ae 1B68     		ldr	r3, [r3]	@ float
+ 1913 03b0 4FF00001 		mov	r1, #0
+ 1914 03b4 1846     		mov	r0, r3
+ 1915 03b6 FFF7FEFF 		bl	__aeabi_fcmplt
+ 1916 03ba 0346     		mov	r3, r0
+ 1917 03bc 002B     		cmp	r3, #0
+ 1918 03be 0BD0     		beq	.L112
+ 1919              		.loc 1 514 0 discriminator 4
+ 1920 03c0 4FF00001 		mov	r1, #0
+ 1921 03c4 386C     		ldr	r0, [r7, #64]	@ float
+ 1922 03c6 FFF7FEFF 		bl	__aeabi_fcmpgt
+ 1923 03ca 0346     		mov	r3, r0
+ 1924 03cc 002B     		cmp	r3, #0
+ 1925 03ce 03D0     		beq	.L112
+ 1926              	.L111:
+ 515:main.c        ****     {
+ 516:main.c        ****         Step_integral = 0;
+ 1927              		.loc 1 516 0 is_stmt 1
+ 1928 03d0 334B     		ldr	r3, .L129+40
+ 1929 03d2 4FF00002 		mov	r2, #0
+ 1930 03d6 1A60     		str	r2, [r3]	@ float
+ 1931              	.L112:
+ 517:main.c        ****     }
+ 518:main.c        ****     
+ 519:main.c        ****     
+ 520:main.c        ****     prev_AoA_El = AoA_El;
+ 1932              		.loc 1 520 0
+ 1933 03d8 324A     		ldr	r2, .L129+44
+ 1934 03da 3B6C     		ldr	r3, [r7, #64]	@ float
+ 1935 03dc 1360     		str	r3, [r2]	@ float
+ 521:main.c        ****     
+ 522:main.c        ****     
+ 523:main.c        ****     
+ 524:main.c        ****     STEP_speed = (int)(STEP_Kp*(AoA_El - AoA_EL_REF)+STEP_Ki*Step_integral+Step_derivative*STEP_Kd)
+ 1936              		.loc 1 524 0
+ 1937 03de 7968     		ldr	r1, [r7, #4]	@ float
+ 1938 03e0 386C     		ldr	r0, [r7, #64]	@ float
+ 1939 03e2 FFF7FEFF 		bl	__aeabi_fsub
+ 1940 03e6 0346     		mov	r3, r0
+ 1941 03e8 3969     		ldr	r1, [r7, #16]	@ float
+ 1942 03ea 1846     		mov	r0, r3
+ 1943 03ec FFF7FEFF 		bl	__aeabi_fmul
+ 1944 03f0 0346     		mov	r3, r0
+ 1945 03f2 1C46     		mov	r4, r3
+ 1946 03f4 2A4B     		ldr	r3, .L129+40
+ 1947 03f6 1B68     		ldr	r3, [r3]	@ float
+ 1948 03f8 F968     		ldr	r1, [r7, #12]	@ float
+ 1949 03fa 1846     		mov	r0, r3
+ 1950 03fc FFF7FEFF 		bl	__aeabi_fmul
+ 1951 0400 0346     		mov	r3, r0
+ 1952 0402 1946     		mov	r1, r3
+ 1953 0404 2046     		mov	r0, r4
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 45
+
+
+ 1954 0406 FFF7FEFF 		bl	__aeabi_fadd
+ 1955 040a 0346     		mov	r3, r0
+ 1956 040c 1C46     		mov	r4, r3
+ 1957 040e 264B     		ldr	r3, .L129+48
+ 1958 0410 1B68     		ldr	r3, [r3]	@ float
+ 1959 0412 B968     		ldr	r1, [r7, #8]	@ float
+ 1960 0414 1846     		mov	r0, r3
+ 1961 0416 FFF7FEFF 		bl	__aeabi_fmul
+ 1962 041a 0346     		mov	r3, r0
+ 1963 041c 1946     		mov	r1, r3
+ 1964 041e 2046     		mov	r0, r4
+ 1965 0420 FFF7FEFF 		bl	__aeabi_fadd
+ 1966 0424 0346     		mov	r3, r0
+ 1967 0426 1846     		mov	r0, r3
+ 1968 0428 FFF7FEFF 		bl	__aeabi_f2iz
+ 1969 042c 0346     		mov	r3, r0
+ 1970 042e 7B61     		str	r3, [r7, #20]
+ 525:main.c        ****       
+ 526:main.c        ****     STEP_speed = 65535-abs(STEP_speed); //Skal kun have positive værdier, for dir styre retningen
+ 1971              		.loc 1 526 0
+ 1972 0430 7B69     		ldr	r3, [r7, #20]
+ 1973 0432 002B     		cmp	r3, #0
+ 1974 0434 B8BF     		it	lt
+ 1975 0436 5B42     		rsblt	r3, r3, #0
+ 1976 0438 C3F57F43 		rsb	r3, r3, #65280
+ 1977 043c FF33     		adds	r3, r3, #255
+ 1978 043e 7B61     		str	r3, [r7, #20]
+ 527:main.c        ****         
+ 528:main.c        ****     StepperMotorControl(STEP_dir, STEP_speed);
+ 1979              		.loc 1 528 0
+ 1980 0440 7969     		ldr	r1, [r7, #20]
+ 1981 0442 F86B     		ldr	r0, [r7, #60]
+ 1982 0444 FFF7FEFF 		bl	StepperMotorControl
+ 529:main.c        ****     
+ 530:main.c        ****     
+ 531:main.c        ****     
+ 532:main.c        ****     /* Ser om signalet er "væk" aka for lille */
+ 533:main.c        ****     Amp = AmplitudeDFT(adc_sampleArray_1);
+ 1983              		.loc 1 533 0
+ 1984 0448 1848     		ldr	r0, .L129+52
+ 1985 044a FFF7FEFF 		bl	AmplitudeDFT
+ 1986 044e F861     		str	r0, [r7, #28]	@ float
+ 534:main.c        ****     if (Amp < AmpThreshold){ 
+ 1987              		.loc 1 534 0
+ 1988 0450 174B     		ldr	r3, .L129+56
+ 1989 0452 1B68     		ldr	r3, [r3]	@ float
+ 1990 0454 1946     		mov	r1, r3
+ 1991 0456 F869     		ldr	r0, [r7, #28]	@ float
+ 1992 0458 FFF7FEFF 		bl	__aeabi_fcmplt
+ 1993 045c 0346     		mov	r3, r0
+ 1994 045e 002B     		cmp	r3, #0
+ 1995 0460 00D1     		bne	.L123
+ 535:main.c        ****         state = 1;
+ 536:main.c        ****     }   
+ 537:main.c        **** 
+ 538:main.c        **** }
+ 1996              		.loc 1 538 0
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 46
+
+
+ 1997 0462 02E0     		b	.L126
+ 1998              	.L123:
+ 535:main.c        ****         state = 1;
+ 1999              		.loc 1 535 0
+ 2000 0464 134B     		ldr	r3, .L129+60
+ 2001 0466 0122     		movs	r2, #1
+ 2002 0468 1A60     		str	r2, [r3]
+ 2003              	.L126:
+ 2004              		.loc 1 538 0
+ 2005 046a 00BF     		nop
+ 2006 046c 5837     		adds	r7, r7, #88
+ 2007              		.cfi_def_cfa_offset 16
+ 2008 046e BD46     		mov	sp, r7
+ 2009              		.cfi_def_cfa_register 13
+ 2010              		@ sp needed
+ 2011 0470 B0BD     		pop	{r4, r5, r7, pc}
+ 2012              	.L130:
+ 2013 0472 00BFAFF3 		.align	3
+ 2013      0080
+ 2014              	.L129:
+ 2015 0478 9CC420B0 		.word	-1340029796
+ 2016 047c 72682040 		.word	1075865714
+ 2017 0480 79E92631 		.word	824633721
+ 2018 0484 082C1340 		.word	1074998280
+ 2019 0488 93180456 		.word	1443109011
+ 2020 048c 0E2D0B40 		.word	1074474254
+ 2021 0490 00000000 		.word	prev_1_AOA_Az
+ 2022 0494 00000000 		.word	prev_2_DC_speed
+ 2023 0498 00000000 		.word	prev_1_DC_speed
+ 2024 049c 00000000 		.word	prev_2_AOA_Az
+ 2025 04a0 00000000 		.word	Step_integral
+ 2026 04a4 00000000 		.word	prev_AoA_El
+ 2027 04a8 00000000 		.word	Step_derivative
+ 2028 04ac 00000000 		.word	adc_sampleArray_1
+ 2029 04b0 00000000 		.word	AmpThreshold
+ 2030 04b4 00000000 		.word	state
+ 2031              		.cfi_endproc
+ 2032              	.LFE73:
+ 2033              		.size	PinPointAoA, .-PinPointAoA
+ 2034              		.section	.text.main,"ax",%progbits
+ 2035              		.align	2
+ 2036              		.global	main
+ 2037              		.thumb
+ 2038              		.thumb_func
+ 2039              		.type	main, %function
+ 2040              	main:
+ 2041              	.LFB74:
+ 539:main.c        **** 
+ 540:main.c        **** 
+ 541:main.c        **** int main()
+ 542:main.c        **** {
+ 2042              		.loc 1 542 0
+ 2043              		.cfi_startproc
+ 2044              		@ args = 0, pretend = 0, frame = 8
+ 2045              		@ frame_needed = 1, uses_anonymous_args = 0
+ 2046 0000 90B5     		push	{r4, r7, lr}
+ 2047              		.cfi_def_cfa_offset 12
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 47
+
+
+ 2048              		.cfi_offset 4, -12
+ 2049              		.cfi_offset 7, -8
+ 2050              		.cfi_offset 14, -4
+ 2051 0002 83B0     		sub	sp, sp, #12
+ 2052              		.cfi_def_cfa_offset 24
+ 2053 0004 00AF     		add	r7, sp, #0
+ 2054              		.cfi_def_cfa_register 7
+ 543:main.c        **** 
+ 544:main.c        ****     /* Channel configuration parameters for DMA */
+ 545:main.c        ****     #define DMA_1_BYTES_PER_BURST 2
+ 546:main.c        ****     #define DMA_1_REQUEST_PER_BURST 1
+ 547:main.c        ****     #define DMA_1_SRC_BASE (CYDEV_PERIPH_BASE)
+ 548:main.c        ****     #define DMA_1_DST_BASE (CYDEV_SRAM_BASE)
+ 549:main.c        ****     
+ 550:main.c        ****     #define DMA_2_BYTES_PER_BURST 2
+ 551:main.c        ****     #define DMA_2_REQUEST_PER_BURST 1
+ 552:main.c        ****     #define DMA_2_SRC_BASE (CYDEV_PERIPH_BASE)
+ 553:main.c        ****     #define DMA_2_DST_BASE (CYDEV_SRAM_BASE)
+ 554:main.c        **** 
+ 555:main.c        **** 	/* Enable global interrupt */
+ 556:main.c        **** 	CYGlobalIntEnable; 
+ 2055              		.loc 1 556 0
+ 2056              		.syntax unified
+ 2057              	@ 556 "main.c" 1
+ 2058 0006 62B6     		CPSIE   i
+ 2059              	@ 0 "" 2
+ 557:main.c        **** 	
+ 558:main.c        **** 	/* Start isr connected to collect samples pin */
+ 559:main.c        **** 	ISR_Sw_Start();
+ 2060              		.loc 1 559 0
+ 2061              		.thumb
+ 2062              		.syntax unified
+ 2063 0008 FFF7FEFF 		bl	ISR_Sw_Start
+ 560:main.c        **** 	
+ 561:main.c        **** 	/* Start isr connected to DMA nrq signal */
+ 562:main.c        **** 	ISR_DMA_1_Start();
+ 2064              		.loc 1 562 0
+ 2065 000c FFF7FEFF 		bl	ISR_DMA_1_Start
+ 563:main.c        ****     ISR_DMA_2_Start();
+ 2066              		.loc 1 563 0
+ 2067 0010 FFF7FEFF 		bl	ISR_DMA_2_Start
+ 564:main.c        ****     
+ 565:main.c        ****     
+ 566:main.c        **** 
+ 567:main.c        ****     /* Step 1: DmaInitialize - Initialize the DMA channel
+ 568:main.c        **** 	 * Burst count (Bytes per burst) = 2 bytes. Transfer 2-bytes from ADC to memory on each trigger.
+ 569:main.c        **** 	 * Request per burst = 1. Every burst transfer requires a separate request. 
+ 570:main.c        **** 	 * Upper source address = HI16(CYDEV_PERIPH_BASE)
+ 571:main.c        **** 	 * Upper destination address = HI16(CYDEV_SRAM_BASE)
+ 572:main.c        ****      * DMA_Chan holds the channel handle returned by the ‘DmaInitialize’ function. This is 
+ 573:main.c        **** 	 * used for all further references of the channel 
+ 574:main.c        **** 	 */	
+ 575:main.c        ****     DMA_1_Chan = DMA_1_DmaInitialize(DMA_1_BYTES_PER_BURST, DMA_1_REQUEST_PER_BURST, 
+ 2068              		.loc 1 575 0
+ 2069 0014 41F6FF73 		movw	r3, #8191
+ 2070 0018 4FF48042 		mov	r2, #16384
+ 2071 001c 0121     		movs	r1, #1
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 48
+
+
+ 2072 001e 0220     		movs	r0, #2
+ 2073 0020 FFF7FEFF 		bl	DMA_1_DmaInitialize
+ 2074 0024 0346     		mov	r3, r0
+ 2075 0026 1A46     		mov	r2, r3
+ 2076 0028 6E4B     		ldr	r3, .L139
+ 2077 002a 1A70     		strb	r2, [r3]
+ 576:main.c        ****                                  HI16(DMA_1_SRC_BASE), HI16(DMA_1_DST_BASE));
+ 577:main.c        ****     DMA_2_Chan = DMA_2_DmaInitialize(DMA_2_BYTES_PER_BURST, DMA_2_REQUEST_PER_BURST, 
+ 2078              		.loc 1 577 0
+ 2079 002c 41F6FF73 		movw	r3, #8191
+ 2080 0030 4FF48042 		mov	r2, #16384
+ 2081 0034 0121     		movs	r1, #1
+ 2082 0036 0220     		movs	r0, #2
+ 2083 0038 FFF7FEFF 		bl	DMA_2_DmaInitialize
+ 2084 003c 0346     		mov	r3, r0
+ 2085 003e 1A46     		mov	r2, r3
+ 2086 0040 694B     		ldr	r3, .L139+4
+ 2087 0042 1A70     		strb	r2, [r3]
+ 578:main.c        ****                                  HI16(DMA_2_SRC_BASE), HI16(DMA_2_DST_BASE));
+ 579:main.c        **** 
+ 580:main.c        ****     /* Step 2: CyDmaTdAllocate - Allocate TD */
+ 581:main.c        ****     DMA_1_TD[0] = CyDmaTdAllocate();
+ 2088              		.loc 1 581 0
+ 2089 0044 FFF7FEFF 		bl	CyDmaTdAllocate
+ 2090 0048 0346     		mov	r3, r0
+ 2091 004a 1A46     		mov	r2, r3
+ 2092 004c 674B     		ldr	r3, .L139+8
+ 2093 004e 1A70     		strb	r2, [r3]
+ 582:main.c        ****     DMA_2_TD[0] = CyDmaTdAllocate();
+ 2094              		.loc 1 582 0
+ 2095 0050 FFF7FEFF 		bl	CyDmaTdAllocate
+ 2096 0054 0346     		mov	r3, r0
+ 2097 0056 1A46     		mov	r2, r3
+ 2098 0058 654B     		ldr	r3, .L139+12
+ 2099 005a 1A70     		strb	r2, [r3]
+ 583:main.c        **** 
+ 584:main.c        ****     /* Step 3: CyDmaTdSetConfiguration - Configures the TD:
+ 585:main.c        **** 	 * tdHandle = DMA_TD[0] - TD handle previously returned by CyDmaTdAlloc()
+ 586:main.c        **** 	 * transferCount = (2 * NO_OF_SAMPLES)
+ 587:main.c        **** 	 * nextTd = DMA_DISABLE_TD, Disable the DMA channel after the transfer is complete
+ 588:main.c        **** 	 * configuration = Increment Destination address after each burst transfer
+ 589:main.c        **** 	 *				   Generate termout when the transfer is finished.
+ 590:main.c        **** 	 *				   In PSoC 3, byte swap is enabled for endian swapping. This is not required for PSoC 5LP 
+ 591:main.c        **** 	 */
+ 592:main.c        **** 
+ 593:main.c        ****     CyDmaTdSetConfiguration(DMA_1_TD[0], (2 * NO_OF_SAMPLES), DMA_DISABLE_TD, 
+ 2100              		.loc 1 593 0
+ 2101 005c 634B     		ldr	r3, .L139+8
+ 2102 005e 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 2103 0060 0623     		movs	r3, #6
+ 2104 0062 FE22     		movs	r2, #254
+ 2105 0064 4FF48071 		mov	r1, #256
+ 2106 0068 FFF7FEFF 		bl	CyDmaTdSetConfiguration
+ 594:main.c        **** 				                            DMA_1__TD_TERMOUT_EN | TD_INC_DST_ADR);     
+ 595:main.c        ****     CyDmaTdSetConfiguration(DMA_2_TD[0], (2 * NO_OF_SAMPLES), DMA_DISABLE_TD, 
+ 2107              		.loc 1 595 0
+ 2108 006c 604B     		ldr	r3, .L139+12
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 49
+
+
+ 2109 006e 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 2110 0070 0623     		movs	r3, #6
+ 2111 0072 FE22     		movs	r2, #254
+ 2112 0074 4FF48071 		mov	r1, #256
+ 2113 0078 FFF7FEFF 		bl	CyDmaTdSetConfiguration
+ 596:main.c        **** 				                            DMA_2__TD_TERMOUT_EN | TD_INC_DST_ADR);     
+ 597:main.c        ****     
+ 598:main.c        ****     /* Step 4: CyDmaTdSetAddress - Configure the lower 16 bit source and destination addresses 
+ 599:main.c        **** 	 * Source address = Lower 16 bits of ADC data register
+ 600:main.c        **** 	 * Destination address = Lower 16 bits of 'ADC_sample' array */
+ 601:main.c        **** 	CyDmaTdSetAddress(DMA_1_TD[0], LO16((uint32)ADC_SAR_1_SAR_WRK0_PTR), LO16((uint32)adc_sampleArray_
+ 2114              		.loc 1 601 0
+ 2115 007c 5B4B     		ldr	r3, .L139+8
+ 2116 007e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 2117 0080 5C4A     		ldr	r2, .L139+16
+ 2118 0082 92B2     		uxth	r2, r2
+ 2119 0084 45F6A031 		movw	r1, #23456
+ 2120 0088 1846     		mov	r0, r3
+ 2121 008a FFF7FEFF 		bl	CyDmaTdSetAddress
+ 602:main.c        ****     CyDmaTdSetAddress(DMA_2_TD[0], LO16((uint32)ADC_SAR_2_SAR_WRK0_PTR), LO16((uint32)adc_sampleArr
+ 2122              		.loc 1 602 0
+ 2123 008e 584B     		ldr	r3, .L139+12
+ 2124 0090 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 2125 0092 594A     		ldr	r2, .L139+20
+ 2126 0094 92B2     		uxth	r2, r2
+ 2127 0096 45F6A231 		movw	r1, #23458
+ 2128 009a 1846     		mov	r0, r3
+ 2129 009c FFF7FEFF 		bl	CyDmaTdSetAddress
+ 603:main.c        ****                            
+ 604:main.c        ****     /* Step 5: Map the TD to the DMA Channel */
+ 605:main.c        **** 	CyDmaChSetInitialTd(DMA_1_Chan, DMA_1_TD[0]);
+ 2130              		.loc 1 605 0
+ 2131 00a0 504B     		ldr	r3, .L139
+ 2132 00a2 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 2133 00a4 514B     		ldr	r3, .L139+8
+ 2134 00a6 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 2135 00a8 1946     		mov	r1, r3
+ 2136 00aa 1046     		mov	r0, r2
+ 2137 00ac FFF7FEFF 		bl	CyDmaChSetInitialTd
+ 606:main.c        ****     CyDmaChSetInitialTd(DMA_2_Chan, DMA_2_TD[0]);
+ 2138              		.loc 1 606 0
+ 2139 00b0 4D4B     		ldr	r3, .L139+4
+ 2140 00b2 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 2141 00b4 4E4B     		ldr	r3, .L139+12
+ 2142 00b6 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 2143 00b8 1946     		mov	r1, r3
+ 2144 00ba 1046     		mov	r0, r2
+ 2145 00bc FFF7FEFF 		bl	CyDmaChSetInitialTd
+ 607:main.c        **** 
+ 608:main.c        **** 	/* Start ADC */
+ 609:main.c        **** 	ADC_SAR_1_Start();
+ 2146              		.loc 1 609 0
+ 2147 00c0 FFF7FEFF 		bl	ADC_SAR_1_Start
+ 610:main.c        ****     ADC_SAR_2_Start();
+ 2148              		.loc 1 610 0
+ 2149 00c4 FFF7FEFF 		bl	ADC_SAR_2_Start
+ 611:main.c        ****     
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 50
+
+
+ 612:main.c        ****     /* Disable the ADC ISR as it is not required */
+ 613:main.c        ****     ADC_SAR_1_IRQ_Disable();
+ 2150              		.loc 1 613 0
+ 2151 00c8 FFF7FEFF 		bl	ADC_SAR_1_IRQ_Disable
+ 614:main.c        ****     ADC_SAR_2_IRQ_Disable();
+ 2152              		.loc 1 614 0
+ 2153 00cc FFF7FEFF 		bl	ADC_SAR_2_IRQ_Disable
+ 615:main.c        **** 
+ 616:main.c        **** 	/* Start ADC conversion */
+ 617:main.c        **** 	//ADC_SAR_1_StartConvert();
+ 618:main.c        ****     //ADC_SAR_2_StartConvert();
+ 619:main.c        ****     
+ 620:main.c        ****     /*Start UART */
+ 621:main.c        ****     UART_1_Start();
+ 2154              		.loc 1 621 0
+ 2155 00d0 FFF7FEFF 		bl	UART_1_Start
+ 622:main.c        ****     
+ 623:main.c        ****     // MUX Start
+ 624:main.c        ****     AMux_1_Start(); 
+ 2156              		.loc 1 624 0
+ 2157 00d4 FFF7FEFF 		bl	AMux_1_Start
+ 625:main.c        ****     
+ 626:main.c        ****     // Brug AMUX_1_Fastselec(xxx); til at skifte mux 
+ 627:main.c        ****     
+ 628:main.c        ****     // motor setep
+ 629:main.c        ****     MotorSetup();
+ 2158              		.loc 1 629 0
+ 2159 00d8 FFF7FEFF 		bl	MotorSetup
+ 2160              	.LBB8:
+ 630:main.c        ****     
+ 631:main.c        ****     /* Pre calculate different values */ 
+ 632:main.c        ****     for (int n = 0; n < NO_OF_SAMPLES; n++)
+ 2161              		.loc 1 632 0
+ 2162 00dc 0023     		movs	r3, #0
+ 2163 00de 7B60     		str	r3, [r7, #4]
+ 2164 00e0 5AE0     		b	.L132
+ 2165              	.L133:
+ 2166              	.LBB9:
+ 633:main.c        ****     {
+ 634:main.c        ****         int N = NO_OF_SAMPLES;
+ 2167              		.loc 1 634 0 discriminator 3
+ 2168 00e2 8023     		movs	r3, #128
+ 2169 00e4 3B60     		str	r3, [r7]
+ 635:main.c        ****         Cos_sampleArray[n] = cosf(n*2*pi*k/N);
+ 2170              		.loc 1 635 0 discriminator 3
+ 2171 00e6 7B68     		ldr	r3, [r7, #4]
+ 2172 00e8 5B00     		lsls	r3, r3, #1
+ 2173 00ea 1846     		mov	r0, r3
+ 2174 00ec FFF7FEFF 		bl	__aeabi_i2f
+ 2175 00f0 0246     		mov	r2, r0
+ 2176 00f2 424B     		ldr	r3, .L139+24
+ 2177 00f4 1B68     		ldr	r3, [r3]	@ float
+ 2178 00f6 1946     		mov	r1, r3
+ 2179 00f8 1046     		mov	r0, r2
+ 2180 00fa FFF7FEFF 		bl	__aeabi_fmul
+ 2181 00fe 0346     		mov	r3, r0
+ 2182 0100 1C46     		mov	r4, r3
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 51
+
+
+ 2183 0102 3F4B     		ldr	r3, .L139+28
+ 2184 0104 1B68     		ldr	r3, [r3]
+ 2185 0106 1846     		mov	r0, r3
+ 2186 0108 FFF7FEFF 		bl	__aeabi_i2f
+ 2187 010c 0346     		mov	r3, r0
+ 2188 010e 1946     		mov	r1, r3
+ 2189 0110 2046     		mov	r0, r4
+ 2190 0112 FFF7FEFF 		bl	__aeabi_fmul
+ 2191 0116 0346     		mov	r3, r0
+ 2192 0118 1C46     		mov	r4, r3
+ 2193 011a 3868     		ldr	r0, [r7]
+ 2194 011c FFF7FEFF 		bl	__aeabi_i2f
+ 2195 0120 0346     		mov	r3, r0
+ 2196 0122 1946     		mov	r1, r3
+ 2197 0124 2046     		mov	r0, r4
+ 2198 0126 FFF7FEFF 		bl	__aeabi_fdiv
+ 2199 012a 0346     		mov	r3, r0
+ 2200 012c 1846     		mov	r0, r3
+ 2201 012e FFF7FEFF 		bl	cosf
+ 2202 0132 0146     		mov	r1, r0
+ 2203 0134 334A     		ldr	r2, .L139+32
+ 2204 0136 7B68     		ldr	r3, [r7, #4]
+ 2205 0138 42F82310 		str	r1, [r2, r3, lsl #2]	@ float
+ 636:main.c        ****         Sin_sampleArray[n] = sinf(n*2*pi*k/N);      
+ 2206              		.loc 1 636 0 discriminator 3
+ 2207 013c 7B68     		ldr	r3, [r7, #4]
+ 2208 013e 5B00     		lsls	r3, r3, #1
+ 2209 0140 1846     		mov	r0, r3
+ 2210 0142 FFF7FEFF 		bl	__aeabi_i2f
+ 2211 0146 0246     		mov	r2, r0
+ 2212 0148 2C4B     		ldr	r3, .L139+24
+ 2213 014a 1B68     		ldr	r3, [r3]	@ float
+ 2214 014c 1946     		mov	r1, r3
+ 2215 014e 1046     		mov	r0, r2
+ 2216 0150 FFF7FEFF 		bl	__aeabi_fmul
+ 2217 0154 0346     		mov	r3, r0
+ 2218 0156 1C46     		mov	r4, r3
+ 2219 0158 294B     		ldr	r3, .L139+28
+ 2220 015a 1B68     		ldr	r3, [r3]
+ 2221 015c 1846     		mov	r0, r3
+ 2222 015e FFF7FEFF 		bl	__aeabi_i2f
+ 2223 0162 0346     		mov	r3, r0
+ 2224 0164 1946     		mov	r1, r3
+ 2225 0166 2046     		mov	r0, r4
+ 2226 0168 FFF7FEFF 		bl	__aeabi_fmul
+ 2227 016c 0346     		mov	r3, r0
+ 2228 016e 1C46     		mov	r4, r3
+ 2229 0170 3868     		ldr	r0, [r7]
+ 2230 0172 FFF7FEFF 		bl	__aeabi_i2f
+ 2231 0176 0346     		mov	r3, r0
+ 2232 0178 1946     		mov	r1, r3
+ 2233 017a 2046     		mov	r0, r4
+ 2234 017c FFF7FEFF 		bl	__aeabi_fdiv
+ 2235 0180 0346     		mov	r3, r0
+ 2236 0182 1846     		mov	r0, r3
+ 2237 0184 FFF7FEFF 		bl	sinf
+ 2238 0188 0146     		mov	r1, r0
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 52
+
+
+ 2239 018a 1F4A     		ldr	r2, .L139+36
+ 2240 018c 7B68     		ldr	r3, [r7, #4]
+ 2241 018e 42F82310 		str	r1, [r2, r3, lsl #2]	@ float
+ 2242              	.LBE9:
+ 632:main.c        ****     {
+ 2243              		.loc 1 632 0 discriminator 3
+ 2244 0192 7B68     		ldr	r3, [r7, #4]
+ 2245 0194 0133     		adds	r3, r3, #1
+ 2246 0196 7B60     		str	r3, [r7, #4]
+ 2247              	.L132:
+ 632:main.c        ****     {
+ 2248              		.loc 1 632 0 is_stmt 0 discriminator 1
+ 2249 0198 7B68     		ldr	r3, [r7, #4]
+ 2250 019a 7F2B     		cmp	r3, #127
+ 2251 019c A1DD     		ble	.L133
+ 2252              	.L138:
+ 2253              	.LBE8:
+ 637:main.c        ****     }
+ 638:main.c        ****     
+ 639:main.c        ****     for(;;)
+ 640:main.c        ****     {
+ 641:main.c        ****       
+ 642:main.c        **** 	     /* DMADone_flag is set inside ISR_DMA_Done after the required number
+ 643:main.c        **** 		 * of ADC samples are buffered */
+ 644:main.c        ****         
+ 645:main.c        ****         if(state == 0)  //Setup
+ 2254              		.loc 1 645 0 is_stmt 1
+ 2255 019e 1B4B     		ldr	r3, .L139+40
+ 2256 01a0 1B68     		ldr	r3, [r3]
+ 2257 01a2 002B     		cmp	r3, #0
+ 2258 01a4 05D1     		bne	.L134
+ 646:main.c        ****         {
+ 647:main.c        ****             Setup();
+ 2259              		.loc 1 647 0
+ 2260 01a6 FFF7FEFF 		bl	Setup
+ 648:main.c        ****             state = 1; 
+ 2261              		.loc 1 648 0
+ 2262 01aa 184B     		ldr	r3, .L139+40
+ 2263 01ac 0122     		movs	r2, #1
+ 2264 01ae 1A60     		str	r2, [r3]
+ 2265 01b0 0CE0     		b	.L135
+ 2266              	.L134:
+ 649:main.c        ****         } else if(state == 1) { //Search
+ 2267              		.loc 1 649 0
+ 2268 01b2 164B     		ldr	r3, .L139+40
+ 2269 01b4 1B68     		ldr	r3, [r3]
+ 2270 01b6 012B     		cmp	r3, #1
+ 2271 01b8 02D1     		bne	.L136
+ 650:main.c        ****             search();
+ 2272              		.loc 1 650 0
+ 2273 01ba FFF7FEFF 		bl	search
+ 2274 01be 05E0     		b	.L135
+ 2275              	.L136:
+ 651:main.c        ****             
+ 652:main.c        ****         } else if(state == 2) { //Point
+ 2276              		.loc 1 652 0
+ 2277 01c0 124B     		ldr	r3, .L139+40
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 53
+
+
+ 2278 01c2 1B68     		ldr	r3, [r3]
+ 2279 01c4 022B     		cmp	r3, #2
+ 2280 01c6 01D1     		bne	.L135
+ 653:main.c        ****            PinPointAoA(); 
+ 2281              		.loc 1 653 0
+ 2282 01c8 FFF7FEFF 		bl	PinPointAoA
+ 2283              	.L135:
+ 654:main.c        ****         }
+ 655:main.c        ****         
+ 656:main.c        ****         if(switch_flag) //Reset
+ 2284              		.loc 1 656 0
+ 2285 01cc 104B     		ldr	r3, .L139+44
+ 2286 01ce 1B78     		ldrb	r3, [r3]
+ 2287 01d0 DBB2     		uxtb	r3, r3
+ 2288 01d2 002B     		cmp	r3, #0
+ 2289 01d4 E3D0     		beq	.L138
+ 657:main.c        **** 		{
+ 658:main.c        ****             state = 0;
+ 2290              		.loc 1 658 0
+ 2291 01d6 0D4B     		ldr	r3, .L139+40
+ 2292 01d8 0022     		movs	r2, #0
+ 2293 01da 1A60     		str	r2, [r3]
+ 659:main.c        **** 			/* Clear the Flag */
+ 660:main.c        **** 			switch_flag = 0;
+ 2294              		.loc 1 660 0
+ 2295 01dc 0C4B     		ldr	r3, .L139+44
+ 2296 01de 0022     		movs	r2, #0
+ 2297 01e0 1A70     		strb	r2, [r3]
+ 661:main.c        **** 			
+ 662:main.c        **** 		}/* If statement ends here */
+ 663:main.c        ****         
+ 664:main.c        **** 		
+ 665:main.c        ****     }/* for loop ends here */
+ 2298              		.loc 1 665 0
+ 2299 01e2 DCE7     		b	.L138
+ 2300              	.L140:
+ 2301              		.align	2
+ 2302              	.L139:
+ 2303 01e4 00000000 		.word	DMA_1_Chan
+ 2304 01e8 00000000 		.word	DMA_2_Chan
+ 2305 01ec 00000000 		.word	DMA_1_TD
+ 2306 01f0 00000000 		.word	DMA_2_TD
+ 2307 01f4 00000000 		.word	adc_sampleArray_1
+ 2308 01f8 00000000 		.word	adc_sampleArray_2
+ 2309 01fc 00000000 		.word	pi
+ 2310 0200 00000000 		.word	k
+ 2311 0204 00000000 		.word	Cos_sampleArray
+ 2312 0208 00000000 		.word	Sin_sampleArray
+ 2313 020c 00000000 		.word	state
+ 2314 0210 00000000 		.word	switch_flag
+ 2315              		.cfi_endproc
+ 2316              	.LFE74:
+ 2317              		.size	main, .-main
+ 2318              		.text
+ 2319              	.Letext0:
+ 2320              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 2321              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 54
+
+
+ 2322              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 2323              		.file 5 "Generated_Source\\PSoC5/core_cm3.h"
+ 2324              		.section	.debug_info,"",%progbits
+ 2325              	.Ldebug_info0:
+ 2326 0000 81070000 		.4byte	0x781
+ 2327 0004 0400     		.2byte	0x4
+ 2328 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 2329 000a 04       		.byte	0x4
+ 2330 000b 01       		.uleb128 0x1
+ 2331 000c BC000000 		.4byte	.LASF81
+ 2332 0010 0C       		.byte	0xc
+ 2333 0011 EF030000 		.4byte	.LASF82
+ 2334 0015 2D020000 		.4byte	.LASF83
+ 2335 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 2336 001d 00000000 		.4byte	0
+ 2337 0021 00000000 		.4byte	.Ldebug_line0
+ 2338 0025 02       		.uleb128 0x2
+ 2339 0026 01       		.byte	0x1
+ 2340 0027 06       		.byte	0x6
+ 2341 0028 16030000 		.4byte	.LASF0
+ 2342 002c 02       		.uleb128 0x2
+ 2343 002d 01       		.byte	0x1
+ 2344 002e 08       		.byte	0x8
+ 2345 002f EF020000 		.4byte	.LASF1
+ 2346 0033 02       		.uleb128 0x2
+ 2347 0034 02       		.byte	0x2
+ 2348 0035 05       		.byte	0x5
+ 2349 0036 63000000 		.4byte	.LASF2
+ 2350 003a 02       		.uleb128 0x2
+ 2351 003b 02       		.byte	0x2
+ 2352 003c 07       		.byte	0x7
+ 2353 003d 71030000 		.4byte	.LASF3
+ 2354 0041 03       		.uleb128 0x3
+ 2355 0042 1A040000 		.4byte	.LASF9
+ 2356 0046 02       		.byte	0x2
+ 2357 0047 3F       		.byte	0x3f
+ 2358 0048 4C000000 		.4byte	0x4c
+ 2359 004c 02       		.uleb128 0x2
+ 2360 004d 04       		.byte	0x4
+ 2361 004e 05       		.byte	0x5
+ 2362 004f AD030000 		.4byte	.LASF4
+ 2363 0053 02       		.uleb128 0x2
+ 2364 0054 04       		.byte	0x4
+ 2365 0055 07       		.byte	0x7
+ 2366 0056 FB030000 		.4byte	.LASF5
+ 2367 005a 02       		.uleb128 0x2
+ 2368 005b 08       		.byte	0x8
+ 2369 005c 05       		.byte	0x5
+ 2370 005d EB010000 		.4byte	.LASF6
+ 2371 0061 02       		.uleb128 0x2
+ 2372 0062 08       		.byte	0x8
+ 2373 0063 07       		.byte	0x7
+ 2374 0064 2E030000 		.4byte	.LASF7
+ 2375 0068 04       		.uleb128 0x4
+ 2376 0069 04       		.byte	0x4
+ 2377 006a 05       		.byte	0x5
+ 2378 006b 696E7400 		.ascii	"int\000"
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 55
+
+
+ 2379 006f 02       		.uleb128 0x2
+ 2380 0070 04       		.byte	0x4
+ 2381 0071 07       		.byte	0x7
+ 2382 0072 51030000 		.4byte	.LASF8
+ 2383 0076 03       		.uleb128 0x3
+ 2384 0077 BB030000 		.4byte	.LASF10
+ 2385 007b 03       		.byte	0x3
+ 2386 007c 2C       		.byte	0x2c
+ 2387 007d 41000000 		.4byte	0x41
+ 2388 0081 05       		.uleb128 0x5
+ 2389 0082 9D010000 		.4byte	.LASF11
+ 2390 0086 04       		.byte	0x4
+ 2391 0087 E401     		.2byte	0x1e4
+ 2392 0089 2C000000 		.4byte	0x2c
+ 2393 008d 05       		.uleb128 0x5
+ 2394 008e 61010000 		.4byte	.LASF12
+ 2395 0092 04       		.byte	0x4
+ 2396 0093 E501     		.2byte	0x1e5
+ 2397 0095 3A000000 		.4byte	0x3a
+ 2398 0099 05       		.uleb128 0x5
+ 2399 009a E8030000 		.4byte	.LASF13
+ 2400 009e 04       		.byte	0x4
+ 2401 009f E601     		.2byte	0x1e6
+ 2402 00a1 53000000 		.4byte	0x53
+ 2403 00a5 02       		.uleb128 0x2
+ 2404 00a6 04       		.byte	0x4
+ 2405 00a7 04       		.byte	0x4
+ 2406 00a8 CD010000 		.4byte	.LASF14
+ 2407 00ac 02       		.uleb128 0x2
+ 2408 00ad 08       		.byte	0x8
+ 2409 00ae 04       		.byte	0x4
+ 2410 00af 0D040000 		.4byte	.LASF15
+ 2411 00b3 02       		.uleb128 0x2
+ 2412 00b4 01       		.byte	0x1
+ 2413 00b5 08       		.byte	0x8
+ 2414 00b6 0C020000 		.4byte	.LASF16
+ 2415 00ba 05       		.uleb128 0x5
+ 2416 00bb F6030000 		.4byte	.LASF17
+ 2417 00bf 04       		.byte	0x4
+ 2418 00c0 8E02     		.2byte	0x28e
+ 2419 00c2 C6000000 		.4byte	0xc6
+ 2420 00c6 06       		.uleb128 0x6
+ 2421 00c7 81000000 		.4byte	0x81
+ 2422 00cb 02       		.uleb128 0x2
+ 2423 00cc 08       		.byte	0x8
+ 2424 00cd 04       		.byte	0x4
+ 2425 00ce 4A010000 		.4byte	.LASF18
+ 2426 00d2 02       		.uleb128 0x2
+ 2427 00d3 04       		.byte	0x4
+ 2428 00d4 07       		.byte	0x7
+ 2429 00d5 84000000 		.4byte	.LASF19
+ 2430 00d9 07       		.uleb128 0x7
+ 2431 00da 84030000 		.4byte	.LASF23
+ 2432 00de 01       		.byte	0x1
+ 2433 00df 4D       		.byte	0x4d
+ 2434 00e0 A5000000 		.4byte	0xa5
+ 2435 00e4 00000000 		.4byte	.LFB64
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 56
+
+
+ 2436 00e8 50020000 		.4byte	.LFE64-.LFB64
+ 2437 00ec 01       		.uleb128 0x1
+ 2438 00ed 9C       		.byte	0x9c
+ 2439 00ee 8F010000 		.4byte	0x18f
+ 2440 00f2 08       		.uleb128 0x8
+ 2441 00f3 6100     		.ascii	"a\000"
+ 2442 00f5 01       		.byte	0x1
+ 2443 00f6 4D       		.byte	0x4d
+ 2444 00f7 8F010000 		.4byte	0x18f
+ 2445 00fb 02       		.uleb128 0x2
+ 2446 00fc 91       		.byte	0x91
+ 2447 00fd 4C       		.sleb128 -52
+ 2448 00fe 08       		.uleb128 0x8
+ 2449 00ff 6200     		.ascii	"b\000"
+ 2450 0101 01       		.byte	0x1
+ 2451 0102 4D       		.byte	0x4d
+ 2452 0103 8F010000 		.4byte	0x18f
+ 2453 0107 02       		.uleb128 0x2
+ 2454 0108 91       		.byte	0x91
+ 2455 0109 48       		.sleb128 -56
+ 2456 010a 09       		.uleb128 0x9
+ 2457 010b 6300     		.ascii	"c\000"
+ 2458 010d 01       		.byte	0x1
+ 2459 010e 50       		.byte	0x50
+ 2460 010f A5000000 		.4byte	0xa5
+ 2461 0113 02       		.uleb128 0x2
+ 2462 0114 91       		.byte	0x91
+ 2463 0115 74       		.sleb128 -12
+ 2464 0116 0A       		.uleb128 0xa
+ 2465 0117 67040000 		.4byte	.LASF20
+ 2466 011b 01       		.byte	0x1
+ 2467 011c 53       		.byte	0x53
+ 2468 011d A5000000 		.4byte	0xa5
+ 2469 0121 02       		.uleb128 0x2
+ 2470 0122 91       		.byte	0x91
+ 2471 0123 70       		.sleb128 -16
+ 2472 0124 0A       		.uleb128 0xa
+ 2473 0125 8C010000 		.4byte	.LASF21
+ 2474 0129 01       		.byte	0x1
+ 2475 012a 53       		.byte	0x53
+ 2476 012b A5000000 		.4byte	0xa5
+ 2477 012f 02       		.uleb128 0x2
+ 2478 0130 91       		.byte	0x91
+ 2479 0131 6C       		.sleb128 -20
+ 2480 0132 0A       		.uleb128 0xa
+ 2481 0133 98000000 		.4byte	.LASF22
+ 2482 0137 01       		.byte	0x1
+ 2483 0138 57       		.byte	0x57
+ 2484 0139 A5000000 		.4byte	0xa5
+ 2485 013d 02       		.uleb128 0x2
+ 2486 013e 91       		.byte	0x91
+ 2487 013f 54       		.sleb128 -44
+ 2488 0140 09       		.uleb128 0x9
+ 2489 0141 41726500 		.ascii	"Are\000"
+ 2490 0145 01       		.byte	0x1
+ 2491 0146 5A       		.byte	0x5a
+ 2492 0147 A5000000 		.4byte	0xa5
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 57
+
+
+ 2493 014b 02       		.uleb128 0x2
+ 2494 014c 91       		.byte	0x91
+ 2495 014d 68       		.sleb128 -24
+ 2496 014e 09       		.uleb128 0x9
+ 2497 014f 41696D00 		.ascii	"Aim\000"
+ 2498 0153 01       		.byte	0x1
+ 2499 0154 5B       		.byte	0x5b
+ 2500 0155 A5000000 		.4byte	0xa5
+ 2501 0159 02       		.uleb128 0x2
+ 2502 015a 91       		.byte	0x91
+ 2503 015b 64       		.sleb128 -28
+ 2504 015c 09       		.uleb128 0x9
+ 2505 015d 42726500 		.ascii	"Bre\000"
+ 2506 0161 01       		.byte	0x1
+ 2507 0162 5C       		.byte	0x5c
+ 2508 0163 A5000000 		.4byte	0xa5
+ 2509 0167 02       		.uleb128 0x2
+ 2510 0168 91       		.byte	0x91
+ 2511 0169 60       		.sleb128 -32
+ 2512 016a 09       		.uleb128 0x9
+ 2513 016b 42696D00 		.ascii	"Bim\000"
+ 2514 016f 01       		.byte	0x1
+ 2515 0170 5D       		.byte	0x5d
+ 2516 0171 A5000000 		.4byte	0xa5
+ 2517 0175 02       		.uleb128 0x2
+ 2518 0176 91       		.byte	0x91
+ 2519 0177 5C       		.sleb128 -36
+ 2520 0178 0B       		.uleb128 0xb
+ 2521 0179 34000000 		.4byte	.LBB2
+ 2522 017d C2000000 		.4byte	.LBE2-.LBB2
+ 2523 0181 09       		.uleb128 0x9
+ 2524 0182 6E00     		.ascii	"n\000"
+ 2525 0184 01       		.byte	0x1
+ 2526 0185 64       		.byte	0x64
+ 2527 0186 68000000 		.4byte	0x68
+ 2528 018a 02       		.uleb128 0x2
+ 2529 018b 91       		.byte	0x91
+ 2530 018c 58       		.sleb128 -40
+ 2531 018d 00       		.byte	0
+ 2532 018e 00       		.byte	0
+ 2533 018f 0C       		.uleb128 0xc
+ 2534 0190 04       		.byte	0x4
+ 2535 0191 8D000000 		.4byte	0x8d
+ 2536 0195 07       		.uleb128 0x7
+ 2537 0196 55040000 		.4byte	.LASF24
+ 2538 019a 01       		.byte	0x1
+ 2539 019b 94       		.byte	0x94
+ 2540 019c A5000000 		.4byte	0xa5
+ 2541 01a0 00000000 		.4byte	.LFB65
+ 2542 01a4 9C020000 		.4byte	.LFE65-.LFB65
+ 2543 01a8 01       		.uleb128 0x1
+ 2544 01a9 9C       		.byte	0x9c
+ 2545 01aa 4B020000 		.4byte	0x24b
+ 2546 01ae 08       		.uleb128 0x8
+ 2547 01af 6100     		.ascii	"a\000"
+ 2548 01b1 01       		.byte	0x1
+ 2549 01b2 94       		.byte	0x94
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 58
+
+
+ 2550 01b3 8F010000 		.4byte	0x18f
+ 2551 01b7 02       		.uleb128 0x2
+ 2552 01b8 91       		.byte	0x91
+ 2553 01b9 44       		.sleb128 -60
+ 2554 01ba 08       		.uleb128 0x8
+ 2555 01bb 6200     		.ascii	"b\000"
+ 2556 01bd 01       		.byte	0x1
+ 2557 01be 94       		.byte	0x94
+ 2558 01bf 8F010000 		.4byte	0x18f
+ 2559 01c3 02       		.uleb128 0x2
+ 2560 01c4 91       		.byte	0x91
+ 2561 01c5 40       		.sleb128 -64
+ 2562 01c6 09       		.uleb128 0x9
+ 2563 01c7 6300     		.ascii	"c\000"
+ 2564 01c9 01       		.byte	0x1
+ 2565 01ca 97       		.byte	0x97
+ 2566 01cb A5000000 		.4byte	0xa5
+ 2567 01cf 02       		.uleb128 0x2
+ 2568 01d0 91       		.byte	0x91
+ 2569 01d1 6C       		.sleb128 -20
+ 2570 01d2 0A       		.uleb128 0xa
+ 2571 01d3 67040000 		.4byte	.LASF20
+ 2572 01d7 01       		.byte	0x1
+ 2573 01d8 9A       		.byte	0x9a
+ 2574 01d9 A5000000 		.4byte	0xa5
+ 2575 01dd 02       		.uleb128 0x2
+ 2576 01de 91       		.byte	0x91
+ 2577 01df 68       		.sleb128 -24
+ 2578 01e0 0A       		.uleb128 0xa
+ 2579 01e1 8C010000 		.4byte	.LASF21
+ 2580 01e5 01       		.byte	0x1
+ 2581 01e6 9A       		.byte	0x9a
+ 2582 01e7 A5000000 		.4byte	0xa5
+ 2583 01eb 02       		.uleb128 0x2
+ 2584 01ec 91       		.byte	0x91
+ 2585 01ed 64       		.sleb128 -28
+ 2586 01ee 0A       		.uleb128 0xa
+ 2587 01ef 98000000 		.4byte	.LASF22
+ 2588 01f3 01       		.byte	0x1
+ 2589 01f4 9E       		.byte	0x9e
+ 2590 01f5 A5000000 		.4byte	0xa5
+ 2591 01f9 02       		.uleb128 0x2
+ 2592 01fa 91       		.byte	0x91
+ 2593 01fb 4C       		.sleb128 -52
+ 2594 01fc 09       		.uleb128 0x9
+ 2595 01fd 41726500 		.ascii	"Are\000"
+ 2596 0201 01       		.byte	0x1
+ 2597 0202 A1       		.byte	0xa1
+ 2598 0203 A5000000 		.4byte	0xa5
+ 2599 0207 02       		.uleb128 0x2
+ 2600 0208 91       		.byte	0x91
+ 2601 0209 60       		.sleb128 -32
+ 2602 020a 09       		.uleb128 0x9
+ 2603 020b 41696D00 		.ascii	"Aim\000"
+ 2604 020f 01       		.byte	0x1
+ 2605 0210 A2       		.byte	0xa2
+ 2606 0211 A5000000 		.4byte	0xa5
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 59
+
+
+ 2607 0215 02       		.uleb128 0x2
+ 2608 0216 91       		.byte	0x91
+ 2609 0217 5C       		.sleb128 -36
+ 2610 0218 09       		.uleb128 0x9
+ 2611 0219 42726500 		.ascii	"Bre\000"
+ 2612 021d 01       		.byte	0x1
+ 2613 021e A3       		.byte	0xa3
+ 2614 021f A5000000 		.4byte	0xa5
+ 2615 0223 02       		.uleb128 0x2
+ 2616 0224 91       		.byte	0x91
+ 2617 0225 58       		.sleb128 -40
+ 2618 0226 09       		.uleb128 0x9
+ 2619 0227 42696D00 		.ascii	"Bim\000"
+ 2620 022b 01       		.byte	0x1
+ 2621 022c A4       		.byte	0xa4
+ 2622 022d A5000000 		.4byte	0xa5
+ 2623 0231 02       		.uleb128 0x2
+ 2624 0232 91       		.byte	0x91
+ 2625 0233 54       		.sleb128 -44
+ 2626 0234 0B       		.uleb128 0xb
+ 2627 0235 34000000 		.4byte	.LBB3
+ 2628 0239 C2000000 		.4byte	.LBE3-.LBB3
+ 2629 023d 09       		.uleb128 0x9
+ 2630 023e 6E00     		.ascii	"n\000"
+ 2631 0240 01       		.byte	0x1
+ 2632 0241 AA       		.byte	0xaa
+ 2633 0242 68000000 		.4byte	0x68
+ 2634 0246 02       		.uleb128 0x2
+ 2635 0247 91       		.byte	0x91
+ 2636 0248 50       		.sleb128 -48
+ 2637 0249 00       		.byte	0
+ 2638 024a 00       		.byte	0
+ 2639 024b 07       		.uleb128 0x7
+ 2640 024c E2020000 		.4byte	.LASF25
+ 2641 0250 01       		.byte	0x1
+ 2642 0251 D9       		.byte	0xd9
+ 2643 0252 A5000000 		.4byte	0xa5
+ 2644 0256 00000000 		.4byte	.LFB66
+ 2645 025a D4000000 		.4byte	.LFE66-.LFB66
+ 2646 025e 01       		.uleb128 0x1
+ 2647 025f 9C       		.byte	0x9c
+ 2648 0260 B1020000 		.4byte	0x2b1
+ 2649 0264 08       		.uleb128 0x8
+ 2650 0265 6100     		.ascii	"a\000"
+ 2651 0267 01       		.byte	0x1
+ 2652 0268 D9       		.byte	0xd9
+ 2653 0269 8F010000 		.4byte	0x18f
+ 2654 026d 02       		.uleb128 0x2
+ 2655 026e 91       		.byte	0x91
+ 2656 026f 5C       		.sleb128 -36
+ 2657 0270 09       		.uleb128 0x9
+ 2658 0271 616D7000 		.ascii	"amp\000"
+ 2659 0275 01       		.byte	0x1
+ 2660 0276 DC       		.byte	0xdc
+ 2661 0277 A5000000 		.4byte	0xa5
+ 2662 027b 02       		.uleb128 0x2
+ 2663 027c 91       		.byte	0x91
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 60
+
+
+ 2664 027d 60       		.sleb128 -32
+ 2665 027e 09       		.uleb128 0x9
+ 2666 027f 41726500 		.ascii	"Are\000"
+ 2667 0283 01       		.byte	0x1
+ 2668 0284 E0       		.byte	0xe0
+ 2669 0285 A5000000 		.4byte	0xa5
+ 2670 0289 02       		.uleb128 0x2
+ 2671 028a 91       		.byte	0x91
+ 2672 028b 6C       		.sleb128 -20
+ 2673 028c 09       		.uleb128 0x9
+ 2674 028d 41696D00 		.ascii	"Aim\000"
+ 2675 0291 01       		.byte	0x1
+ 2676 0292 E1       		.byte	0xe1
+ 2677 0293 A5000000 		.4byte	0xa5
+ 2678 0297 02       		.uleb128 0x2
+ 2679 0298 91       		.byte	0x91
+ 2680 0299 68       		.sleb128 -24
+ 2681 029a 0B       		.uleb128 0xb
+ 2682 029b 14000000 		.4byte	.LBB4
+ 2683 029f 6A000000 		.4byte	.LBE4-.LBB4
+ 2684 02a3 09       		.uleb128 0x9
+ 2685 02a4 6E00     		.ascii	"n\000"
+ 2686 02a6 01       		.byte	0x1
+ 2687 02a7 E6       		.byte	0xe6
+ 2688 02a8 68000000 		.4byte	0x68
+ 2689 02ac 02       		.uleb128 0x2
+ 2690 02ad 91       		.byte	0x91
+ 2691 02ae 64       		.sleb128 -28
+ 2692 02af 00       		.byte	0
+ 2693 02b0 00       		.byte	0
+ 2694 02b1 0D       		.uleb128 0xd
+ 2695 02b2 9F000000 		.4byte	.LASF26
+ 2696 02b6 01       		.byte	0x1
+ 2697 02b7 F2       		.byte	0xf2
+ 2698 02b8 00000000 		.4byte	.LFB67
+ 2699 02bc 28000000 		.4byte	.LFE67-.LFB67
+ 2700 02c0 01       		.uleb128 0x1
+ 2701 02c1 9C       		.byte	0x9c
+ 2702 02c2 0D       		.uleb128 0xd
+ 2703 02c3 04030000 		.4byte	.LASF27
+ 2704 02c7 01       		.byte	0x1
+ 2705 02c8 FA       		.byte	0xfa
+ 2706 02c9 00000000 		.4byte	.LFB68
+ 2707 02cd 34000000 		.4byte	.LFE68-.LFB68
+ 2708 02d1 01       		.uleb128 0x1
+ 2709 02d2 9C       		.byte	0x9c
+ 2710 02d3 0E       		.uleb128 0xe
+ 2711 02d4 BE010000 		.4byte	.LASF30
+ 2712 02d8 01       		.byte	0x1
+ 2713 02d9 0901     		.2byte	0x109
+ 2714 02db 00000000 		.4byte	.LFB69
+ 2715 02df 4C000000 		.4byte	.LFE69-.LFB69
+ 2716 02e3 01       		.uleb128 0x1
+ 2717 02e4 9C       		.byte	0x9c
+ 2718 02e5 08030000 		.4byte	0x308
+ 2719 02e9 0F       		.uleb128 0xf
+ 2720 02ea 34040000 		.4byte	.LASF28
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 61
+
+
+ 2721 02ee 01       		.byte	0x1
+ 2722 02ef 0901     		.2byte	0x109
+ 2723 02f1 68000000 		.4byte	0x68
+ 2724 02f5 02       		.uleb128 0x2
+ 2725 02f6 91       		.byte	0x91
+ 2726 02f7 74       		.sleb128 -12
+ 2727 02f8 0F       		.uleb128 0xf
+ 2728 02f9 40000000 		.4byte	.LASF29
+ 2729 02fd 01       		.byte	0x1
+ 2730 02fe 0901     		.2byte	0x109
+ 2731 0300 68000000 		.4byte	0x68
+ 2732 0304 02       		.uleb128 0x2
+ 2733 0305 91       		.byte	0x91
+ 2734 0306 70       		.sleb128 -16
+ 2735 0307 00       		.byte	0
+ 2736 0308 0E       		.uleb128 0xe
+ 2737 0309 68010000 		.4byte	.LASF31
+ 2738 030d 01       		.byte	0x1
+ 2739 030e 1701     		.2byte	0x117
+ 2740 0310 00000000 		.4byte	.LFB70
+ 2741 0314 50000000 		.4byte	.LFE70-.LFB70
+ 2742 0318 01       		.uleb128 0x1
+ 2743 0319 9C       		.byte	0x9c
+ 2744 031a 5B030000 		.4byte	0x35b
+ 2745 031e 0F       		.uleb128 0xf
+ 2746 031f 94010000 		.4byte	.LASF32
+ 2747 0323 01       		.byte	0x1
+ 2748 0324 1701     		.2byte	0x117
+ 2749 0326 68000000 		.4byte	0x68
+ 2750 032a 02       		.uleb128 0x2
+ 2751 032b 91       		.byte	0x91
+ 2752 032c 6C       		.sleb128 -20
+ 2753 032d 0F       		.uleb128 0xf
+ 2754 032e 1A020000 		.4byte	.LASF33
+ 2755 0332 01       		.byte	0x1
+ 2756 0333 1701     		.2byte	0x117
+ 2757 0335 68000000 		.4byte	0x68
+ 2758 0339 02       		.uleb128 0x2
+ 2759 033a 91       		.byte	0x91
+ 2760 033b 68       		.sleb128 -24
+ 2761 033c 10       		.uleb128 0x10
+ 2762 033d A4030000 		.4byte	.LASF34
+ 2763 0341 01       		.byte	0x1
+ 2764 0342 1B01     		.2byte	0x11b
+ 2765 0344 68000000 		.4byte	0x68
+ 2766 0348 02       		.uleb128 0x2
+ 2767 0349 91       		.byte	0x91
+ 2768 034a 74       		.sleb128 -12
+ 2769 034b 10       		.uleb128 0x10
+ 2770 034c 2B040000 		.4byte	.LASF35
+ 2771 0350 01       		.byte	0x1
+ 2772 0351 1C01     		.2byte	0x11c
+ 2773 0353 68000000 		.4byte	0x68
+ 2774 0357 02       		.uleb128 0x2
+ 2775 0358 91       		.byte	0x91
+ 2776 0359 70       		.sleb128 -16
+ 2777 035a 00       		.byte	0
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 62
+
+
+ 2778 035b 0E       		.uleb128 0xe
+ 2779 035c 6B030000 		.4byte	.LASF36
+ 2780 0360 01       		.byte	0x1
+ 2781 0361 3101     		.2byte	0x131
+ 2782 0363 00000000 		.4byte	.LFB71
+ 2783 0367 FC000000 		.4byte	.LFE71-.LFB71
+ 2784 036b 01       		.uleb128 0x1
+ 2785 036c 9C       		.byte	0x9c
+ 2786 036d A0030000 		.4byte	0x3a0
+ 2787 0371 0B       		.uleb128 0xb
+ 2788 0372 22000000 		.4byte	.LBB5
+ 2789 0376 C2000000 		.4byte	.LBE5-.LBB5
+ 2790 037a 11       		.uleb128 0x11
+ 2791 037b 6E00     		.ascii	"n\000"
+ 2792 037d 01       		.byte	0x1
+ 2793 037e 4901     		.2byte	0x149
+ 2794 0380 68000000 		.4byte	0x68
+ 2795 0384 02       		.uleb128 0x2
+ 2796 0385 91       		.byte	0x91
+ 2797 0386 6C       		.sleb128 -20
+ 2798 0387 0B       		.uleb128 0xb
+ 2799 0388 28000000 		.4byte	.LBB6
+ 2800 038c B0000000 		.4byte	.LBE6-.LBB6
+ 2801 0390 11       		.uleb128 0x11
+ 2802 0391 4E00     		.ascii	"N\000"
+ 2803 0393 01       		.byte	0x1
+ 2804 0394 4B01     		.2byte	0x14b
+ 2805 0396 68000000 		.4byte	0x68
+ 2806 039a 02       		.uleb128 0x2
+ 2807 039b 91       		.byte	0x91
+ 2808 039c 68       		.sleb128 -24
+ 2809 039d 00       		.byte	0
+ 2810 039e 00       		.byte	0
+ 2811 039f 00       		.byte	0
+ 2812 03a0 0E       		.uleb128 0xe
+ 2813 03a1 24040000 		.4byte	.LASF37
+ 2814 03a5 01       		.byte	0x1
+ 2815 03a6 5201     		.2byte	0x152
+ 2816 03a8 00000000 		.4byte	.LFB72
+ 2817 03ac D8000000 		.4byte	.LFE72-.LFB72
+ 2818 03b0 01       		.uleb128 0x1
+ 2819 03b1 9C       		.byte	0x9c
+ 2820 03b2 11040000 		.4byte	0x411
+ 2821 03b6 10       		.uleb128 0x10
+ 2822 03b7 C1020000 		.4byte	.LASF38
+ 2823 03bb 01       		.byte	0x1
+ 2824 03bc 5401     		.2byte	0x154
+ 2825 03be 68000000 		.4byte	0x68
+ 2826 03c2 02       		.uleb128 0x2
+ 2827 03c3 91       		.byte	0x91
+ 2828 03c4 70       		.sleb128 -16
+ 2829 03c5 10       		.uleb128 0x10
+ 2830 03c6 34040000 		.4byte	.LASF28
+ 2831 03ca 01       		.byte	0x1
+ 2832 03cb 5501     		.2byte	0x155
+ 2833 03cd 68000000 		.4byte	0x68
+ 2834 03d1 02       		.uleb128 0x2
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 63
+
+
+ 2835 03d2 91       		.byte	0x91
+ 2836 03d3 6C       		.sleb128 -20
+ 2837 03d4 10       		.uleb128 0x10
+ 2838 03d5 54000000 		.4byte	.LASF39
+ 2839 03d9 01       		.byte	0x1
+ 2840 03da 5601     		.2byte	0x156
+ 2841 03dc 68000000 		.4byte	0x68
+ 2842 03e0 02       		.uleb128 0x2
+ 2843 03e1 91       		.byte	0x91
+ 2844 03e2 74       		.sleb128 -12
+ 2845 03e3 11       		.uleb128 0x11
+ 2846 03e4 416D7000 		.ascii	"Amp\000"
+ 2847 03e8 01       		.byte	0x1
+ 2848 03e9 5701     		.2byte	0x157
+ 2849 03eb A5000000 		.4byte	0xa5
+ 2850 03ef 02       		.uleb128 0x2
+ 2851 03f0 91       		.byte	0x91
+ 2852 03f1 68       		.sleb128 -24
+ 2853 03f2 10       		.uleb128 0x10
+ 2854 03f3 A1020000 		.4byte	.LASF40
+ 2855 03f7 01       		.byte	0x1
+ 2856 03f8 5801     		.2byte	0x158
+ 2857 03fa 68000000 		.4byte	0x68
+ 2858 03fe 02       		.uleb128 0x2
+ 2859 03ff 91       		.byte	0x91
+ 2860 0400 64       		.sleb128 -28
+ 2861 0401 10       		.uleb128 0x10
+ 2862 0402 49000000 		.4byte	.LASF41
+ 2863 0406 01       		.byte	0x1
+ 2864 0407 5901     		.2byte	0x159
+ 2865 0409 68000000 		.4byte	0x68
+ 2866 040d 02       		.uleb128 0x2
+ 2867 040e 91       		.byte	0x91
+ 2868 040f 60       		.sleb128 -32
+ 2869 0410 00       		.byte	0
+ 2870 0411 0E       		.uleb128 0xe
+ 2871 0412 22030000 		.4byte	.LASF42
+ 2872 0416 01       		.byte	0x1
+ 2873 0417 7701     		.2byte	0x177
+ 2874 0419 00000000 		.4byte	.LFB73
+ 2875 041d B8040000 		.4byte	.LFE73-.LFB73
+ 2876 0421 01       		.uleb128 0x1
+ 2877 0422 9C       		.byte	0x9c
+ 2878 0423 76050000 		.4byte	0x576
+ 2879 0427 10       		.uleb128 0x10
+ 2880 0428 C1020000 		.4byte	.LASF38
+ 2881 042c 01       		.byte	0x1
+ 2882 042d 7901     		.2byte	0x179
+ 2883 042f 68000000 		.4byte	0x68
+ 2884 0433 02       		.uleb128 0x2
+ 2885 0434 91       		.byte	0x91
+ 2886 0435 6C       		.sleb128 -20
+ 2887 0436 10       		.uleb128 0x10
+ 2888 0437 34040000 		.4byte	.LASF28
+ 2889 043b 01       		.byte	0x1
+ 2890 043c 7A01     		.2byte	0x17a
+ 2891 043e 68000000 		.4byte	0x68
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 64
+
+
+ 2892 0442 02       		.uleb128 0x2
+ 2893 0443 91       		.byte	0x91
+ 2894 0444 68       		.sleb128 -24
+ 2895 0445 10       		.uleb128 0x10
+ 2896 0446 54000000 		.4byte	.LASF39
+ 2897 044a 01       		.byte	0x1
+ 2898 044b 7B01     		.2byte	0x17b
+ 2899 044d 68000000 		.4byte	0x68
+ 2900 0451 02       		.uleb128 0x2
+ 2901 0452 91       		.byte	0x91
+ 2902 0453 64       		.sleb128 -28
+ 2903 0454 10       		.uleb128 0x10
+ 2904 0455 AD000000 		.4byte	.LASF43
+ 2905 0459 01       		.byte	0x1
+ 2906 045a 7B01     		.2byte	0x17b
+ 2907 045c 68000000 		.4byte	0x68
+ 2908 0460 02       		.uleb128 0x2
+ 2909 0461 91       		.byte	0x91
+ 2910 0462 60       		.sleb128 -32
+ 2911 0463 10       		.uleb128 0x10
+ 2912 0464 D0020000 		.4byte	.LASF44
+ 2913 0468 01       		.byte	0x1
+ 2914 0469 7C01     		.2byte	0x17c
+ 2915 046b A5000000 		.4byte	0xa5
+ 2916 046f 02       		.uleb128 0x2
+ 2917 0470 91       		.byte	0x91
+ 2918 0471 4C       		.sleb128 -52
+ 2919 0472 10       		.uleb128 0x10
+ 2920 0473 D9020000 		.4byte	.LASF45
+ 2921 0477 01       		.byte	0x1
+ 2922 0478 7C01     		.2byte	0x17c
+ 2923 047a A5000000 		.4byte	0xa5
+ 2924 047e 02       		.uleb128 0x2
+ 2925 047f 91       		.byte	0x91
+ 2926 0480 48       		.sleb128 -56
+ 2927 0481 10       		.uleb128 0x10
+ 2928 0482 FD020000 		.4byte	.LASF46
+ 2929 0486 01       		.byte	0x1
+ 2930 0487 7D01     		.2byte	0x17d
+ 2931 0489 A5000000 		.4byte	0xa5
+ 2932 048d 02       		.uleb128 0x2
+ 2933 048e 91       		.byte	0x91
+ 2934 048f 5C       		.sleb128 -36
+ 2935 0490 10       		.uleb128 0x10
+ 2936 0491 0F030000 		.4byte	.LASF47
+ 2937 0495 01       		.byte	0x1
+ 2938 0496 7D01     		.2byte	0x17d
+ 2939 0498 A5000000 		.4byte	0xa5
+ 2940 049c 02       		.uleb128 0x2
+ 2941 049d 91       		.byte	0x91
+ 2942 049e 58       		.sleb128 -40
+ 2943 049f 10       		.uleb128 0x10
+ 2944 04a0 D7030000 		.4byte	.LASF48
+ 2945 04a4 01       		.byte	0x1
+ 2946 04a5 7E01     		.2byte	0x17e
+ 2947 04a7 A5000000 		.4byte	0xa5
+ 2948 04ab 02       		.uleb128 0x2
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 65
+
+
+ 2949 04ac 91       		.byte	0x91
+ 2950 04ad 44       		.sleb128 -60
+ 2951 04ae 10       		.uleb128 0x10
+ 2952 04af AA010000 		.4byte	.LASF49
+ 2953 04b3 01       		.byte	0x1
+ 2954 04b4 7F01     		.2byte	0x17f
+ 2955 04b6 A5000000 		.4byte	0xa5
+ 2956 04ba 02       		.uleb128 0x2
+ 2957 04bb 91       		.byte	0x91
+ 2958 04bc 40       		.sleb128 -64
+ 2959 04bd 10       		.uleb128 0x10
+ 2960 04be E2030000 		.4byte	.LASF50
+ 2961 04c2 01       		.byte	0x1
+ 2962 04c3 7F01     		.2byte	0x17f
+ 2963 04c5 A5000000 		.4byte	0xa5
+ 2964 04c9 03       		.uleb128 0x3
+ 2965 04ca 91       		.byte	0x91
+ 2966 04cb BC7F     		.sleb128 -68
+ 2967 04cd 10       		.uleb128 0x10
+ 2968 04ce C3030000 		.4byte	.LASF51
+ 2969 04d2 01       		.byte	0x1
+ 2970 04d3 7F01     		.2byte	0x17f
+ 2971 04d5 A5000000 		.4byte	0xa5
+ 2972 04d9 03       		.uleb128 0x3
+ 2973 04da 91       		.byte	0x91
+ 2974 04db B87F     		.sleb128 -72
+ 2975 04dd 11       		.uleb128 0x11
+ 2976 04de 416D7000 		.ascii	"Amp\000"
+ 2977 04e2 01       		.byte	0x1
+ 2978 04e3 8001     		.2byte	0x180
+ 2979 04e5 A5000000 		.4byte	0xa5
+ 2980 04e9 03       		.uleb128 0x3
+ 2981 04ea 91       		.byte	0x91
+ 2982 04eb B47F     		.sleb128 -76
+ 2983 04ed 10       		.uleb128 0x10
+ 2984 04ee 3B040000 		.4byte	.LASF52
+ 2985 04f2 01       		.byte	0x1
+ 2986 04f3 8101     		.2byte	0x181
+ 2987 04f5 68000000 		.4byte	0x68
+ 2988 04f9 03       		.uleb128 0x3
+ 2989 04fa 91       		.byte	0x91
+ 2990 04fb B07F     		.sleb128 -80
+ 2991 04fd 10       		.uleb128 0x10
+ 2992 04fe A1020000 		.4byte	.LASF40
+ 2993 0502 01       		.byte	0x1
+ 2994 0503 8501     		.2byte	0x185
+ 2995 0505 68000000 		.4byte	0x68
+ 2996 0509 02       		.uleb128 0x2
+ 2997 050a 91       		.byte	0x91
+ 2998 050b 54       		.sleb128 -44
+ 2999 050c 10       		.uleb128 0x10
+ 3000 050d 49000000 		.4byte	.LASF41
+ 3001 0511 01       		.byte	0x1
+ 3002 0512 8601     		.2byte	0x186
+ 3003 0514 68000000 		.4byte	0x68
+ 3004 0518 03       		.uleb128 0x3
+ 3005 0519 91       		.byte	0x91
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 66
+
+
+ 3006 051a AC7F     		.sleb128 -84
+ 3007 051c 10       		.uleb128 0x10
+ 3008 051d 25020000 		.4byte	.LASF53
+ 3009 0521 01       		.byte	0x1
+ 3010 0522 8701     		.2byte	0x187
+ 3011 0524 A5000000 		.4byte	0xa5
+ 3012 0528 03       		.uleb128 0x3
+ 3013 0529 91       		.byte	0x91
+ 3014 052a A87F     		.sleb128 -88
+ 3015 052c 10       		.uleb128 0x10
+ 3016 052d 04020000 		.4byte	.LASF54
+ 3017 0531 01       		.byte	0x1
+ 3018 0532 8701     		.2byte	0x187
+ 3019 0534 A5000000 		.4byte	0xa5
+ 3020 0538 03       		.uleb128 0x3
+ 3021 0539 91       		.byte	0x91
+ 3022 053a A47F     		.sleb128 -92
+ 3023 053c 10       		.uleb128 0x10
+ 3024 053d E3010000 		.4byte	.LASF55
+ 3025 0541 01       		.byte	0x1
+ 3026 0542 8701     		.2byte	0x187
+ 3027 0544 A5000000 		.4byte	0xa5
+ 3028 0548 03       		.uleb128 0x3
+ 3029 0549 91       		.byte	0x91
+ 3030 054a A07F     		.sleb128 -96
+ 3031 054c 10       		.uleb128 0x10
+ 3032 054d 56010000 		.4byte	.LASF56
+ 3033 0551 01       		.byte	0x1
+ 3034 0552 8801     		.2byte	0x188
+ 3035 0554 A5000000 		.4byte	0xa5
+ 3036 0558 03       		.uleb128 0x3
+ 3037 0559 91       		.byte	0x91
+ 3038 055a 9C7F     		.sleb128 -100
+ 3039 055c 0B       		.uleb128 0xb
+ 3040 055d 6A000000 		.4byte	.LBB7
+ 3041 0561 1E010000 		.4byte	.LBE7-.LBB7
+ 3042 0565 10       		.uleb128 0x10
+ 3043 0566 A3010000 		.4byte	.LASF57
+ 3044 056a 01       		.byte	0x1
+ 3045 056b 8C01     		.2byte	0x18c
+ 3046 056d 68000000 		.4byte	0x68
+ 3047 0571 02       		.uleb128 0x2
+ 3048 0572 91       		.byte	0x91
+ 3049 0573 50       		.sleb128 -48
+ 3050 0574 00       		.byte	0
+ 3051 0575 00       		.byte	0
+ 3052 0576 12       		.uleb128 0x12
+ 3053 0577 B6030000 		.4byte	.LASF58
+ 3054 057b 01       		.byte	0x1
+ 3055 057c 1D02     		.2byte	0x21d
+ 3056 057e 68000000 		.4byte	0x68
+ 3057 0582 00000000 		.4byte	.LFB74
+ 3058 0586 14020000 		.4byte	.LFE74-.LFB74
+ 3059 058a 01       		.uleb128 0x1
+ 3060 058b 9C       		.byte	0x9c
+ 3061 058c BF050000 		.4byte	0x5bf
+ 3062 0590 0B       		.uleb128 0xb
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 67
+
+
+ 3063 0591 DC000000 		.4byte	.LBB8
+ 3064 0595 C2000000 		.4byte	.LBE8-.LBB8
+ 3065 0599 11       		.uleb128 0x11
+ 3066 059a 6E00     		.ascii	"n\000"
+ 3067 059c 01       		.byte	0x1
+ 3068 059d 7802     		.2byte	0x278
+ 3069 059f 68000000 		.4byte	0x68
+ 3070 05a3 02       		.uleb128 0x2
+ 3071 05a4 91       		.byte	0x91
+ 3072 05a5 6C       		.sleb128 -20
+ 3073 05a6 0B       		.uleb128 0xb
+ 3074 05a7 E2000000 		.4byte	.LBB9
+ 3075 05ab B0000000 		.4byte	.LBE9-.LBB9
+ 3076 05af 11       		.uleb128 0x11
+ 3077 05b0 4E00     		.ascii	"N\000"
+ 3078 05b2 01       		.byte	0x1
+ 3079 05b3 7A02     		.2byte	0x27a
+ 3080 05b5 68000000 		.4byte	0x68
+ 3081 05b9 02       		.uleb128 0x2
+ 3082 05ba 91       		.byte	0x91
+ 3083 05bb 68       		.sleb128 -24
+ 3084 05bc 00       		.byte	0
+ 3085 05bd 00       		.byte	0
+ 3086 05be 00       		.byte	0
+ 3087 05bf 13       		.uleb128 0x13
+ 3088 05c0 6F040000 		.4byte	.LASF59
+ 3089 05c4 05       		.byte	0x5
+ 3090 05c5 1207     		.2byte	0x712
+ 3091 05c7 CB050000 		.4byte	0x5cb
+ 3092 05cb 06       		.uleb128 0x6
+ 3093 05cc 76000000 		.4byte	0x76
+ 3094 05d0 14       		.uleb128 0x14
+ 3095 05d1 6B00     		.ascii	"k\000"
+ 3096 05d3 01       		.byte	0x1
+ 3097 05d4 0D       		.byte	0xd
+ 3098 05d5 68000000 		.4byte	0x68
+ 3099 05d9 05       		.uleb128 0x5
+ 3100 05da 03       		.byte	0x3
+ 3101 05db 00000000 		.4byte	k
+ 3102 05df 14       		.uleb128 0x14
+ 3103 05e0 706900   		.ascii	"pi\000"
+ 3104 05e3 01       		.byte	0x1
+ 3105 05e4 10       		.byte	0x10
+ 3106 05e5 A5000000 		.4byte	0xa5
+ 3107 05e9 05       		.uleb128 0x5
+ 3108 05ea 03       		.byte	0x3
+ 3109 05eb 00000000 		.4byte	pi
+ 3110 05ef 15       		.uleb128 0x15
+ 3111 05f0 B9020000 		.4byte	.LASF60
+ 3112 05f4 01       		.byte	0x1
+ 3113 05f5 11       		.byte	0x11
+ 3114 05f6 A5000000 		.4byte	0xa5
+ 3115 05fa 05       		.uleb128 0x5
+ 3116 05fb 03       		.byte	0x3
+ 3117 05fc 00000000 		.4byte	half_pi
+ 3118 0600 15       		.uleb128 0x15
+ 3119 0601 B0010000 		.4byte	.LASF61
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 68
+
+
+ 3120 0605 01       		.byte	0x1
+ 3121 0606 18       		.byte	0x18
+ 3122 0607 A5000000 		.4byte	0xa5
+ 3123 060b 05       		.uleb128 0x5
+ 3124 060c 03       		.byte	0x3
+ 3125 060d 00000000 		.4byte	prev_1_AOA_Az
+ 3126 0611 15       		.uleb128 0x15
+ 3127 0612 C9030000 		.4byte	.LASF62
+ 3128 0616 01       		.byte	0x1
+ 3129 0617 19       		.byte	0x19
+ 3130 0618 A5000000 		.4byte	0xa5
+ 3131 061c 05       		.uleb128 0x5
+ 3132 061d 03       		.byte	0x3
+ 3133 061e 00000000 		.4byte	prev_2_AOA_Az
+ 3134 0622 15       		.uleb128 0x15
+ 3135 0623 7C010000 		.4byte	.LASF63
+ 3136 0627 01       		.byte	0x1
+ 3137 0628 1A       		.byte	0x1a
+ 3138 0629 A5000000 		.4byte	0xa5
+ 3139 062d 05       		.uleb128 0x5
+ 3140 062e 03       		.byte	0x3
+ 3141 062f 00000000 		.4byte	prev_1_DC_speed
+ 3142 0633 15       		.uleb128 0x15
+ 3143 0634 94030000 		.4byte	.LASF64
+ 3144 0638 01       		.byte	0x1
+ 3145 0639 1B       		.byte	0x1b
+ 3146 063a A5000000 		.4byte	0xa5
+ 3147 063e 05       		.uleb128 0x5
+ 3148 063f 03       		.byte	0x3
+ 3149 0640 00000000 		.4byte	prev_2_DC_speed
+ 3150 0644 15       		.uleb128 0x15
+ 3151 0645 76000000 		.4byte	.LASF65
+ 3152 0649 01       		.byte	0x1
+ 3153 064a 1E       		.byte	0x1e
+ 3154 064b A5000000 		.4byte	0xa5
+ 3155 064f 05       		.uleb128 0x5
+ 3156 0650 03       		.byte	0x3
+ 3157 0651 00000000 		.4byte	Step_integral
+ 3158 0655 15       		.uleb128 0x15
+ 3159 0656 30000000 		.4byte	.LASF66
+ 3160 065a 01       		.byte	0x1
+ 3161 065b 1F       		.byte	0x1f
+ 3162 065c A5000000 		.4byte	0xa5
+ 3163 0660 05       		.uleb128 0x5
+ 3164 0661 03       		.byte	0x3
+ 3165 0662 00000000 		.4byte	Step_derivative
+ 3166 0666 15       		.uleb128 0x15
+ 3167 0667 45030000 		.4byte	.LASF67
+ 3168 066b 01       		.byte	0x1
+ 3169 066c 20       		.byte	0x20
+ 3170 066d A5000000 		.4byte	0xa5
+ 3171 0671 05       		.uleb128 0x5
+ 3172 0672 03       		.byte	0x3
+ 3173 0673 00000000 		.4byte	prev_AoA_El
+ 3174 0677 16       		.uleb128 0x16
+ 3175 0678 8D000000 		.4byte	0x8d
+ 3176 067c 87060000 		.4byte	0x687
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 69
+
+
+ 3177 0680 17       		.uleb128 0x17
+ 3178 0681 D2000000 		.4byte	0xd2
+ 3179 0685 7F       		.byte	0x7f
+ 3180 0686 00       		.byte	0
+ 3181 0687 15       		.uleb128 0x15
+ 3182 0688 00000000 		.4byte	.LASF68
+ 3183 068c 01       		.byte	0x1
+ 3184 068d 23       		.byte	0x23
+ 3185 068e 77060000 		.4byte	0x677
+ 3186 0692 05       		.uleb128 0x5
+ 3187 0693 03       		.byte	0x3
+ 3188 0694 00000000 		.4byte	adc_sampleArray_1
+ 3189 0698 15       		.uleb128 0x15
+ 3190 0699 12000000 		.4byte	.LASF69
+ 3191 069d 01       		.byte	0x1
+ 3192 069e 24       		.byte	0x24
+ 3193 069f 77060000 		.4byte	0x677
+ 3194 06a3 05       		.uleb128 0x5
+ 3195 06a4 03       		.byte	0x3
+ 3196 06a5 00000000 		.4byte	adc_sampleArray_2
+ 3197 06a9 16       		.uleb128 0x16
+ 3198 06aa A5000000 		.4byte	0xa5
+ 3199 06ae B9060000 		.4byte	0x6b9
+ 3200 06b2 17       		.uleb128 0x17
+ 3201 06b3 D2000000 		.4byte	0xd2
+ 3202 06b7 7F       		.byte	0x7f
+ 3203 06b8 00       		.byte	0
+ 3204 06b9 15       		.uleb128 0x15
+ 3205 06ba D3010000 		.4byte	.LASF70
+ 3206 06be 01       		.byte	0x1
+ 3207 06bf 27       		.byte	0x27
+ 3208 06c0 A9060000 		.4byte	0x6a9
+ 3209 06c4 05       		.uleb128 0x5
+ 3210 06c5 03       		.byte	0x3
+ 3211 06c6 00000000 		.4byte	Cos_sampleArray
+ 3212 06ca 15       		.uleb128 0x15
+ 3213 06cb 7C040000 		.4byte	.LASF71
+ 3214 06cf 01       		.byte	0x1
+ 3215 06d0 28       		.byte	0x28
+ 3216 06d1 A9060000 		.4byte	0x6a9
+ 3217 06d5 05       		.uleb128 0x5
+ 3218 06d6 03       		.byte	0x3
+ 3219 06d7 00000000 		.4byte	Sin_sampleArray
+ 3220 06db 15       		.uleb128 0x15
+ 3221 06dc 24000000 		.4byte	.LASF72
+ 3222 06e0 01       		.byte	0x1
+ 3223 06e1 2B       		.byte	0x2b
+ 3224 06e2 C6000000 		.4byte	0xc6
+ 3225 06e6 05       		.uleb128 0x5
+ 3226 06e7 03       		.byte	0x3
+ 3227 06e8 00000000 		.4byte	switch_flag
+ 3228 06ec 15       		.uleb128 0x15
+ 3229 06ed 46040000 		.4byte	.LASF73
+ 3230 06f1 01       		.byte	0x1
+ 3231 06f2 2C       		.byte	0x2c
+ 3232 06f3 C6000000 		.4byte	0xc6
+ 3233 06f7 05       		.uleb128 0x5
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 70
+
+
+ 3234 06f8 03       		.byte	0x3
+ 3235 06f9 00000000 		.4byte	DMADone_1_flag
+ 3236 06fd 15       		.uleb128 0x15
+ 3237 06fe AA020000 		.4byte	.LASF74
+ 3238 0702 01       		.byte	0x1
+ 3239 0703 2D       		.byte	0x2d
+ 3240 0704 C6000000 		.4byte	0xc6
+ 3241 0708 05       		.uleb128 0x5
+ 3242 0709 03       		.byte	0x3
+ 3243 070a 00000000 		.4byte	DMADone_2_flag
+ 3244 070e 15       		.uleb128 0x15
+ 3245 070f 14040000 		.4byte	.LASF75
+ 3246 0713 01       		.byte	0x1
+ 3247 0714 30       		.byte	0x30
+ 3248 0715 68000000 		.4byte	0x68
+ 3249 0719 05       		.uleb128 0x5
+ 3250 071a 03       		.byte	0x3
+ 3251 071b 00000000 		.4byte	state
+ 3252 071f 15       		.uleb128 0x15
+ 3253 0720 5E030000 		.4byte	.LASF76
+ 3254 0724 01       		.byte	0x1
+ 3255 0725 33       		.byte	0x33
+ 3256 0726 A5000000 		.4byte	0xa5
+ 3257 072a 05       		.uleb128 0x5
+ 3258 072b 03       		.byte	0x3
+ 3259 072c 00000000 		.4byte	AmpThreshold
+ 3260 0730 15       		.uleb128 0x15
+ 3261 0731 F9010000 		.4byte	.LASF77
+ 3262 0735 01       		.byte	0x1
+ 3263 0736 3A       		.byte	0x3a
+ 3264 0737 81000000 		.4byte	0x81
+ 3265 073b 05       		.uleb128 0x5
+ 3266 073c 03       		.byte	0x3
+ 3267 073d 00000000 		.4byte	DMA_1_Chan
+ 3268 0741 15       		.uleb128 0x15
+ 3269 0742 8D000000 		.4byte	.LASF78
+ 3270 0746 01       		.byte	0x1
+ 3271 0747 3B       		.byte	0x3b
+ 3272 0748 81000000 		.4byte	0x81
+ 3273 074c 05       		.uleb128 0x5
+ 3274 074d 03       		.byte	0x3
+ 3275 074e 00000000 		.4byte	DMA_2_Chan
+ 3276 0752 16       		.uleb128 0x16
+ 3277 0753 81000000 		.4byte	0x81
+ 3278 0757 62070000 		.4byte	0x762
+ 3279 075b 17       		.uleb128 0x17
+ 3280 075c D2000000 		.4byte	0xd2
+ 3281 0760 00       		.byte	0
+ 3282 0761 00       		.byte	0
+ 3283 0762 15       		.uleb128 0x15
+ 3284 0763 6D000000 		.4byte	.LASF79
+ 3285 0767 01       		.byte	0x1
+ 3286 0768 3F       		.byte	0x3f
+ 3287 0769 52070000 		.4byte	0x752
+ 3288 076d 05       		.uleb128 0x5
+ 3289 076e 03       		.byte	0x3
+ 3290 076f 00000000 		.4byte	DMA_1_TD
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 71
+
+
+ 3291 0773 15       		.uleb128 0x15
+ 3292 0774 11020000 		.4byte	.LASF80
+ 3293 0778 01       		.byte	0x1
+ 3294 0779 40       		.byte	0x40
+ 3295 077a 52070000 		.4byte	0x752
+ 3296 077e 05       		.uleb128 0x5
+ 3297 077f 03       		.byte	0x3
+ 3298 0780 00000000 		.4byte	DMA_2_TD
+ 3299 0784 00       		.byte	0
+ 3300              		.section	.debug_abbrev,"",%progbits
+ 3301              	.Ldebug_abbrev0:
+ 3302 0000 01       		.uleb128 0x1
+ 3303 0001 11       		.uleb128 0x11
+ 3304 0002 01       		.byte	0x1
+ 3305 0003 25       		.uleb128 0x25
+ 3306 0004 0E       		.uleb128 0xe
+ 3307 0005 13       		.uleb128 0x13
+ 3308 0006 0B       		.uleb128 0xb
+ 3309 0007 03       		.uleb128 0x3
+ 3310 0008 0E       		.uleb128 0xe
+ 3311 0009 1B       		.uleb128 0x1b
+ 3312 000a 0E       		.uleb128 0xe
+ 3313 000b 55       		.uleb128 0x55
+ 3314 000c 17       		.uleb128 0x17
+ 3315 000d 11       		.uleb128 0x11
+ 3316 000e 01       		.uleb128 0x1
+ 3317 000f 10       		.uleb128 0x10
+ 3318 0010 17       		.uleb128 0x17
+ 3319 0011 00       		.byte	0
+ 3320 0012 00       		.byte	0
+ 3321 0013 02       		.uleb128 0x2
+ 3322 0014 24       		.uleb128 0x24
+ 3323 0015 00       		.byte	0
+ 3324 0016 0B       		.uleb128 0xb
+ 3325 0017 0B       		.uleb128 0xb
+ 3326 0018 3E       		.uleb128 0x3e
+ 3327 0019 0B       		.uleb128 0xb
+ 3328 001a 03       		.uleb128 0x3
+ 3329 001b 0E       		.uleb128 0xe
+ 3330 001c 00       		.byte	0
+ 3331 001d 00       		.byte	0
+ 3332 001e 03       		.uleb128 0x3
+ 3333 001f 16       		.uleb128 0x16
+ 3334 0020 00       		.byte	0
+ 3335 0021 03       		.uleb128 0x3
+ 3336 0022 0E       		.uleb128 0xe
+ 3337 0023 3A       		.uleb128 0x3a
+ 3338 0024 0B       		.uleb128 0xb
+ 3339 0025 3B       		.uleb128 0x3b
+ 3340 0026 0B       		.uleb128 0xb
+ 3341 0027 49       		.uleb128 0x49
+ 3342 0028 13       		.uleb128 0x13
+ 3343 0029 00       		.byte	0
+ 3344 002a 00       		.byte	0
+ 3345 002b 04       		.uleb128 0x4
+ 3346 002c 24       		.uleb128 0x24
+ 3347 002d 00       		.byte	0
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 72
+
+
+ 3348 002e 0B       		.uleb128 0xb
+ 3349 002f 0B       		.uleb128 0xb
+ 3350 0030 3E       		.uleb128 0x3e
+ 3351 0031 0B       		.uleb128 0xb
+ 3352 0032 03       		.uleb128 0x3
+ 3353 0033 08       		.uleb128 0x8
+ 3354 0034 00       		.byte	0
+ 3355 0035 00       		.byte	0
+ 3356 0036 05       		.uleb128 0x5
+ 3357 0037 16       		.uleb128 0x16
+ 3358 0038 00       		.byte	0
+ 3359 0039 03       		.uleb128 0x3
+ 3360 003a 0E       		.uleb128 0xe
+ 3361 003b 3A       		.uleb128 0x3a
+ 3362 003c 0B       		.uleb128 0xb
+ 3363 003d 3B       		.uleb128 0x3b
+ 3364 003e 05       		.uleb128 0x5
+ 3365 003f 49       		.uleb128 0x49
+ 3366 0040 13       		.uleb128 0x13
+ 3367 0041 00       		.byte	0
+ 3368 0042 00       		.byte	0
+ 3369 0043 06       		.uleb128 0x6
+ 3370 0044 35       		.uleb128 0x35
+ 3371 0045 00       		.byte	0
+ 3372 0046 49       		.uleb128 0x49
+ 3373 0047 13       		.uleb128 0x13
+ 3374 0048 00       		.byte	0
+ 3375 0049 00       		.byte	0
+ 3376 004a 07       		.uleb128 0x7
+ 3377 004b 2E       		.uleb128 0x2e
+ 3378 004c 01       		.byte	0x1
+ 3379 004d 3F       		.uleb128 0x3f
+ 3380 004e 19       		.uleb128 0x19
+ 3381 004f 03       		.uleb128 0x3
+ 3382 0050 0E       		.uleb128 0xe
+ 3383 0051 3A       		.uleb128 0x3a
+ 3384 0052 0B       		.uleb128 0xb
+ 3385 0053 3B       		.uleb128 0x3b
+ 3386 0054 0B       		.uleb128 0xb
+ 3387 0055 27       		.uleb128 0x27
+ 3388 0056 19       		.uleb128 0x19
+ 3389 0057 49       		.uleb128 0x49
+ 3390 0058 13       		.uleb128 0x13
+ 3391 0059 11       		.uleb128 0x11
+ 3392 005a 01       		.uleb128 0x1
+ 3393 005b 12       		.uleb128 0x12
+ 3394 005c 06       		.uleb128 0x6
+ 3395 005d 40       		.uleb128 0x40
+ 3396 005e 18       		.uleb128 0x18
+ 3397 005f 9642     		.uleb128 0x2116
+ 3398 0061 19       		.uleb128 0x19
+ 3399 0062 01       		.uleb128 0x1
+ 3400 0063 13       		.uleb128 0x13
+ 3401 0064 00       		.byte	0
+ 3402 0065 00       		.byte	0
+ 3403 0066 08       		.uleb128 0x8
+ 3404 0067 05       		.uleb128 0x5
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 73
+
+
+ 3405 0068 00       		.byte	0
+ 3406 0069 03       		.uleb128 0x3
+ 3407 006a 08       		.uleb128 0x8
+ 3408 006b 3A       		.uleb128 0x3a
+ 3409 006c 0B       		.uleb128 0xb
+ 3410 006d 3B       		.uleb128 0x3b
+ 3411 006e 0B       		.uleb128 0xb
+ 3412 006f 49       		.uleb128 0x49
+ 3413 0070 13       		.uleb128 0x13
+ 3414 0071 02       		.uleb128 0x2
+ 3415 0072 18       		.uleb128 0x18
+ 3416 0073 00       		.byte	0
+ 3417 0074 00       		.byte	0
+ 3418 0075 09       		.uleb128 0x9
+ 3419 0076 34       		.uleb128 0x34
+ 3420 0077 00       		.byte	0
+ 3421 0078 03       		.uleb128 0x3
+ 3422 0079 08       		.uleb128 0x8
+ 3423 007a 3A       		.uleb128 0x3a
+ 3424 007b 0B       		.uleb128 0xb
+ 3425 007c 3B       		.uleb128 0x3b
+ 3426 007d 0B       		.uleb128 0xb
+ 3427 007e 49       		.uleb128 0x49
+ 3428 007f 13       		.uleb128 0x13
+ 3429 0080 02       		.uleb128 0x2
+ 3430 0081 18       		.uleb128 0x18
+ 3431 0082 00       		.byte	0
+ 3432 0083 00       		.byte	0
+ 3433 0084 0A       		.uleb128 0xa
+ 3434 0085 34       		.uleb128 0x34
+ 3435 0086 00       		.byte	0
+ 3436 0087 03       		.uleb128 0x3
+ 3437 0088 0E       		.uleb128 0xe
+ 3438 0089 3A       		.uleb128 0x3a
+ 3439 008a 0B       		.uleb128 0xb
+ 3440 008b 3B       		.uleb128 0x3b
+ 3441 008c 0B       		.uleb128 0xb
+ 3442 008d 49       		.uleb128 0x49
+ 3443 008e 13       		.uleb128 0x13
+ 3444 008f 02       		.uleb128 0x2
+ 3445 0090 18       		.uleb128 0x18
+ 3446 0091 00       		.byte	0
+ 3447 0092 00       		.byte	0
+ 3448 0093 0B       		.uleb128 0xb
+ 3449 0094 0B       		.uleb128 0xb
+ 3450 0095 01       		.byte	0x1
+ 3451 0096 11       		.uleb128 0x11
+ 3452 0097 01       		.uleb128 0x1
+ 3453 0098 12       		.uleb128 0x12
+ 3454 0099 06       		.uleb128 0x6
+ 3455 009a 00       		.byte	0
+ 3456 009b 00       		.byte	0
+ 3457 009c 0C       		.uleb128 0xc
+ 3458 009d 0F       		.uleb128 0xf
+ 3459 009e 00       		.byte	0
+ 3460 009f 0B       		.uleb128 0xb
+ 3461 00a0 0B       		.uleb128 0xb
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 74
+
+
+ 3462 00a1 49       		.uleb128 0x49
+ 3463 00a2 13       		.uleb128 0x13
+ 3464 00a3 00       		.byte	0
+ 3465 00a4 00       		.byte	0
+ 3466 00a5 0D       		.uleb128 0xd
+ 3467 00a6 2E       		.uleb128 0x2e
+ 3468 00a7 00       		.byte	0
+ 3469 00a8 3F       		.uleb128 0x3f
+ 3470 00a9 19       		.uleb128 0x19
+ 3471 00aa 03       		.uleb128 0x3
+ 3472 00ab 0E       		.uleb128 0xe
+ 3473 00ac 3A       		.uleb128 0x3a
+ 3474 00ad 0B       		.uleb128 0xb
+ 3475 00ae 3B       		.uleb128 0x3b
+ 3476 00af 0B       		.uleb128 0xb
+ 3477 00b0 27       		.uleb128 0x27
+ 3478 00b1 19       		.uleb128 0x19
+ 3479 00b2 11       		.uleb128 0x11
+ 3480 00b3 01       		.uleb128 0x1
+ 3481 00b4 12       		.uleb128 0x12
+ 3482 00b5 06       		.uleb128 0x6
+ 3483 00b6 40       		.uleb128 0x40
+ 3484 00b7 18       		.uleb128 0x18
+ 3485 00b8 9642     		.uleb128 0x2116
+ 3486 00ba 19       		.uleb128 0x19
+ 3487 00bb 00       		.byte	0
+ 3488 00bc 00       		.byte	0
+ 3489 00bd 0E       		.uleb128 0xe
+ 3490 00be 2E       		.uleb128 0x2e
+ 3491 00bf 01       		.byte	0x1
+ 3492 00c0 3F       		.uleb128 0x3f
+ 3493 00c1 19       		.uleb128 0x19
+ 3494 00c2 03       		.uleb128 0x3
+ 3495 00c3 0E       		.uleb128 0xe
+ 3496 00c4 3A       		.uleb128 0x3a
+ 3497 00c5 0B       		.uleb128 0xb
+ 3498 00c6 3B       		.uleb128 0x3b
+ 3499 00c7 05       		.uleb128 0x5
+ 3500 00c8 27       		.uleb128 0x27
+ 3501 00c9 19       		.uleb128 0x19
+ 3502 00ca 11       		.uleb128 0x11
+ 3503 00cb 01       		.uleb128 0x1
+ 3504 00cc 12       		.uleb128 0x12
+ 3505 00cd 06       		.uleb128 0x6
+ 3506 00ce 40       		.uleb128 0x40
+ 3507 00cf 18       		.uleb128 0x18
+ 3508 00d0 9642     		.uleb128 0x2116
+ 3509 00d2 19       		.uleb128 0x19
+ 3510 00d3 01       		.uleb128 0x1
+ 3511 00d4 13       		.uleb128 0x13
+ 3512 00d5 00       		.byte	0
+ 3513 00d6 00       		.byte	0
+ 3514 00d7 0F       		.uleb128 0xf
+ 3515 00d8 05       		.uleb128 0x5
+ 3516 00d9 00       		.byte	0
+ 3517 00da 03       		.uleb128 0x3
+ 3518 00db 0E       		.uleb128 0xe
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 75
+
+
+ 3519 00dc 3A       		.uleb128 0x3a
+ 3520 00dd 0B       		.uleb128 0xb
+ 3521 00de 3B       		.uleb128 0x3b
+ 3522 00df 05       		.uleb128 0x5
+ 3523 00e0 49       		.uleb128 0x49
+ 3524 00e1 13       		.uleb128 0x13
+ 3525 00e2 02       		.uleb128 0x2
+ 3526 00e3 18       		.uleb128 0x18
+ 3527 00e4 00       		.byte	0
+ 3528 00e5 00       		.byte	0
+ 3529 00e6 10       		.uleb128 0x10
+ 3530 00e7 34       		.uleb128 0x34
+ 3531 00e8 00       		.byte	0
+ 3532 00e9 03       		.uleb128 0x3
+ 3533 00ea 0E       		.uleb128 0xe
+ 3534 00eb 3A       		.uleb128 0x3a
+ 3535 00ec 0B       		.uleb128 0xb
+ 3536 00ed 3B       		.uleb128 0x3b
+ 3537 00ee 05       		.uleb128 0x5
+ 3538 00ef 49       		.uleb128 0x49
+ 3539 00f0 13       		.uleb128 0x13
+ 3540 00f1 02       		.uleb128 0x2
+ 3541 00f2 18       		.uleb128 0x18
+ 3542 00f3 00       		.byte	0
+ 3543 00f4 00       		.byte	0
+ 3544 00f5 11       		.uleb128 0x11
+ 3545 00f6 34       		.uleb128 0x34
+ 3546 00f7 00       		.byte	0
+ 3547 00f8 03       		.uleb128 0x3
+ 3548 00f9 08       		.uleb128 0x8
+ 3549 00fa 3A       		.uleb128 0x3a
+ 3550 00fb 0B       		.uleb128 0xb
+ 3551 00fc 3B       		.uleb128 0x3b
+ 3552 00fd 05       		.uleb128 0x5
+ 3553 00fe 49       		.uleb128 0x49
+ 3554 00ff 13       		.uleb128 0x13
+ 3555 0100 02       		.uleb128 0x2
+ 3556 0101 18       		.uleb128 0x18
+ 3557 0102 00       		.byte	0
+ 3558 0103 00       		.byte	0
+ 3559 0104 12       		.uleb128 0x12
+ 3560 0105 2E       		.uleb128 0x2e
+ 3561 0106 01       		.byte	0x1
+ 3562 0107 3F       		.uleb128 0x3f
+ 3563 0108 19       		.uleb128 0x19
+ 3564 0109 03       		.uleb128 0x3
+ 3565 010a 0E       		.uleb128 0xe
+ 3566 010b 3A       		.uleb128 0x3a
+ 3567 010c 0B       		.uleb128 0xb
+ 3568 010d 3B       		.uleb128 0x3b
+ 3569 010e 05       		.uleb128 0x5
+ 3570 010f 49       		.uleb128 0x49
+ 3571 0110 13       		.uleb128 0x13
+ 3572 0111 11       		.uleb128 0x11
+ 3573 0112 01       		.uleb128 0x1
+ 3574 0113 12       		.uleb128 0x12
+ 3575 0114 06       		.uleb128 0x6
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 76
+
+
+ 3576 0115 40       		.uleb128 0x40
+ 3577 0116 18       		.uleb128 0x18
+ 3578 0117 9642     		.uleb128 0x2116
+ 3579 0119 19       		.uleb128 0x19
+ 3580 011a 01       		.uleb128 0x1
+ 3581 011b 13       		.uleb128 0x13
+ 3582 011c 00       		.byte	0
+ 3583 011d 00       		.byte	0
+ 3584 011e 13       		.uleb128 0x13
+ 3585 011f 34       		.uleb128 0x34
+ 3586 0120 00       		.byte	0
+ 3587 0121 03       		.uleb128 0x3
+ 3588 0122 0E       		.uleb128 0xe
+ 3589 0123 3A       		.uleb128 0x3a
+ 3590 0124 0B       		.uleb128 0xb
+ 3591 0125 3B       		.uleb128 0x3b
+ 3592 0126 05       		.uleb128 0x5
+ 3593 0127 49       		.uleb128 0x49
+ 3594 0128 13       		.uleb128 0x13
+ 3595 0129 3F       		.uleb128 0x3f
+ 3596 012a 19       		.uleb128 0x19
+ 3597 012b 3C       		.uleb128 0x3c
+ 3598 012c 19       		.uleb128 0x19
+ 3599 012d 00       		.byte	0
+ 3600 012e 00       		.byte	0
+ 3601 012f 14       		.uleb128 0x14
+ 3602 0130 34       		.uleb128 0x34
+ 3603 0131 00       		.byte	0
+ 3604 0132 03       		.uleb128 0x3
+ 3605 0133 08       		.uleb128 0x8
+ 3606 0134 3A       		.uleb128 0x3a
+ 3607 0135 0B       		.uleb128 0xb
+ 3608 0136 3B       		.uleb128 0x3b
+ 3609 0137 0B       		.uleb128 0xb
+ 3610 0138 49       		.uleb128 0x49
+ 3611 0139 13       		.uleb128 0x13
+ 3612 013a 3F       		.uleb128 0x3f
+ 3613 013b 19       		.uleb128 0x19
+ 3614 013c 02       		.uleb128 0x2
+ 3615 013d 18       		.uleb128 0x18
+ 3616 013e 00       		.byte	0
+ 3617 013f 00       		.byte	0
+ 3618 0140 15       		.uleb128 0x15
+ 3619 0141 34       		.uleb128 0x34
+ 3620 0142 00       		.byte	0
+ 3621 0143 03       		.uleb128 0x3
+ 3622 0144 0E       		.uleb128 0xe
+ 3623 0145 3A       		.uleb128 0x3a
+ 3624 0146 0B       		.uleb128 0xb
+ 3625 0147 3B       		.uleb128 0x3b
+ 3626 0148 0B       		.uleb128 0xb
+ 3627 0149 49       		.uleb128 0x49
+ 3628 014a 13       		.uleb128 0x13
+ 3629 014b 3F       		.uleb128 0x3f
+ 3630 014c 19       		.uleb128 0x19
+ 3631 014d 02       		.uleb128 0x2
+ 3632 014e 18       		.uleb128 0x18
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 77
+
+
+ 3633 014f 00       		.byte	0
+ 3634 0150 00       		.byte	0
+ 3635 0151 16       		.uleb128 0x16
+ 3636 0152 01       		.uleb128 0x1
+ 3637 0153 01       		.byte	0x1
+ 3638 0154 49       		.uleb128 0x49
+ 3639 0155 13       		.uleb128 0x13
+ 3640 0156 01       		.uleb128 0x1
+ 3641 0157 13       		.uleb128 0x13
+ 3642 0158 00       		.byte	0
+ 3643 0159 00       		.byte	0
+ 3644 015a 17       		.uleb128 0x17
+ 3645 015b 21       		.uleb128 0x21
+ 3646 015c 00       		.byte	0
+ 3647 015d 49       		.uleb128 0x49
+ 3648 015e 13       		.uleb128 0x13
+ 3649 015f 2F       		.uleb128 0x2f
+ 3650 0160 0B       		.uleb128 0xb
+ 3651 0161 00       		.byte	0
+ 3652 0162 00       		.byte	0
+ 3653 0163 00       		.byte	0
+ 3654              		.section	.debug_aranges,"",%progbits
+ 3655 0000 6C000000 		.4byte	0x6c
+ 3656 0004 0200     		.2byte	0x2
+ 3657 0006 00000000 		.4byte	.Ldebug_info0
+ 3658 000a 04       		.byte	0x4
+ 3659 000b 00       		.byte	0
+ 3660 000c 0000     		.2byte	0
+ 3661 000e 0000     		.2byte	0
+ 3662 0010 00000000 		.4byte	.LFB64
+ 3663 0014 50020000 		.4byte	.LFE64-.LFB64
+ 3664 0018 00000000 		.4byte	.LFB65
+ 3665 001c 9C020000 		.4byte	.LFE65-.LFB65
+ 3666 0020 00000000 		.4byte	.LFB66
+ 3667 0024 D4000000 		.4byte	.LFE66-.LFB66
+ 3668 0028 00000000 		.4byte	.LFB67
+ 3669 002c 28000000 		.4byte	.LFE67-.LFB67
+ 3670 0030 00000000 		.4byte	.LFB68
+ 3671 0034 34000000 		.4byte	.LFE68-.LFB68
+ 3672 0038 00000000 		.4byte	.LFB69
+ 3673 003c 4C000000 		.4byte	.LFE69-.LFB69
+ 3674 0040 00000000 		.4byte	.LFB70
+ 3675 0044 50000000 		.4byte	.LFE70-.LFB70
+ 3676 0048 00000000 		.4byte	.LFB71
+ 3677 004c FC000000 		.4byte	.LFE71-.LFB71
+ 3678 0050 00000000 		.4byte	.LFB72
+ 3679 0054 D8000000 		.4byte	.LFE72-.LFB72
+ 3680 0058 00000000 		.4byte	.LFB73
+ 3681 005c B8040000 		.4byte	.LFE73-.LFB73
+ 3682 0060 00000000 		.4byte	.LFB74
+ 3683 0064 14020000 		.4byte	.LFE74-.LFB74
+ 3684 0068 00000000 		.4byte	0
+ 3685 006c 00000000 		.4byte	0
+ 3686              		.section	.debug_ranges,"",%progbits
+ 3687              	.Ldebug_ranges0:
+ 3688 0000 00000000 		.4byte	.LFB64
+ 3689 0004 50020000 		.4byte	.LFE64
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 78
+
+
+ 3690 0008 00000000 		.4byte	.LFB65
+ 3691 000c 9C020000 		.4byte	.LFE65
+ 3692 0010 00000000 		.4byte	.LFB66
+ 3693 0014 D4000000 		.4byte	.LFE66
+ 3694 0018 00000000 		.4byte	.LFB67
+ 3695 001c 28000000 		.4byte	.LFE67
+ 3696 0020 00000000 		.4byte	.LFB68
+ 3697 0024 34000000 		.4byte	.LFE68
+ 3698 0028 00000000 		.4byte	.LFB69
+ 3699 002c 4C000000 		.4byte	.LFE69
+ 3700 0030 00000000 		.4byte	.LFB70
+ 3701 0034 50000000 		.4byte	.LFE70
+ 3702 0038 00000000 		.4byte	.LFB71
+ 3703 003c FC000000 		.4byte	.LFE71
+ 3704 0040 00000000 		.4byte	.LFB72
+ 3705 0044 D8000000 		.4byte	.LFE72
+ 3706 0048 00000000 		.4byte	.LFB73
+ 3707 004c B8040000 		.4byte	.LFE73
+ 3708 0050 00000000 		.4byte	.LFB74
+ 3709 0054 14020000 		.4byte	.LFE74
+ 3710 0058 00000000 		.4byte	0
+ 3711 005c 00000000 		.4byte	0
+ 3712              		.section	.debug_line,"",%progbits
+ 3713              	.Ldebug_line0:
+ 3714 0000 08040000 		.section	.debug_str,"MS",%progbits,1
+ 3714      02004C01 
+ 3714      00000201 
+ 3714      FB0E0D00 
+ 3714      01010101 
+ 3715              	.LASF68:
+ 3716 0000 6164635F 		.ascii	"adc_sampleArray_1\000"
+ 3716      73616D70 
+ 3716      6C654172 
+ 3716      7261795F 
+ 3716      3100
+ 3717              	.LASF69:
+ 3718 0012 6164635F 		.ascii	"adc_sampleArray_2\000"
+ 3718      73616D70 
+ 3718      6C654172 
+ 3718      7261795F 
+ 3718      3200
+ 3719              	.LASF72:
+ 3720 0024 73776974 		.ascii	"switch_flag\000"
+ 3720      63685F66 
+ 3720      6C616700 
+ 3721              	.LASF66:
+ 3722 0030 53746570 		.ascii	"Step_derivative\000"
+ 3722      5F646572 
+ 3722      69766174 
+ 3722      69766500 
+ 3723              	.LASF29:
+ 3724 0040 44435F53 		.ascii	"DC_Speed\000"
+ 3724      70656564 
+ 3724      00
+ 3725              	.LASF41:
+ 3726 0049 53544550 		.ascii	"STEP_speed\000"
+ 3726      5F737065 
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 79
+
+
+ 3726      656400
+ 3727              	.LASF39:
+ 3728 0054 54616B69 		.ascii	"TakingSampleAz\000"
+ 3728      6E675361 
+ 3728      6D706C65 
+ 3728      417A00
+ 3729              	.LASF2:
+ 3730 0063 73686F72 		.ascii	"short int\000"
+ 3730      7420696E 
+ 3730      7400
+ 3731              	.LASF79:
+ 3732 006d 444D415F 		.ascii	"DMA_1_TD\000"
+ 3732      315F5444 
+ 3732      00
+ 3733              	.LASF65:
+ 3734 0076 53746570 		.ascii	"Step_integral\000"
+ 3734      5F696E74 
+ 3734      65677261 
+ 3734      6C00
+ 3735              	.LASF19:
+ 3736 0084 73697A65 		.ascii	"sizetype\000"
+ 3736      74797065 
+ 3736      00
+ 3737              	.LASF78:
+ 3738 008d 444D415F 		.ascii	"DMA_2_Chan\000"
+ 3738      325F4368 
+ 3738      616E00
+ 3739              	.LASF22:
+ 3740 0098 4F464653 		.ascii	"OFFSET\000"
+ 3740      455400
+ 3741              	.LASF26:
+ 3742 009f 444D415F 		.ascii	"DMA_getSample\000"
+ 3742      67657453 
+ 3742      616D706C 
+ 3742      6500
+ 3743              	.LASF43:
+ 3744 00ad 54616B69 		.ascii	"TakingSampleEl\000"
+ 3744      6E675361 
+ 3744      6D706C65 
+ 3744      456C00
+ 3745              	.LASF81:
+ 3746 00bc 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 3746      43313120 
+ 3746      352E342E 
+ 3746      31203230 
+ 3746      31363036 
+ 3747 00ef 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 3747      20726576 
+ 3747      6973696F 
+ 3747      6E203233 
+ 3747      37373135 
+ 3748 0122 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 3748      66756E63 
+ 3748      74696F6E 
+ 3748      2D736563 
+ 3748      74696F6E 
+ 3749              	.LASF18:
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 80
+
+
+ 3750 014a 6C6F6E67 		.ascii	"long double\000"
+ 3750      20646F75 
+ 3750      626C6500 
+ 3751              	.LASF56:
+ 3752 0156 416F415F 		.ascii	"AoA_EL_REF\000"
+ 3752      454C5F52 
+ 3752      454600
+ 3753              	.LASF12:
+ 3754 0161 75696E74 		.ascii	"uint16\000"
+ 3754      313600
+ 3755              	.LASF31:
+ 3756 0168 53746570 		.ascii	"StepperMotorControl\000"
+ 3756      7065724D 
+ 3756      6F746F72 
+ 3756      436F6E74 
+ 3756      726F6C00 
+ 3757              	.LASF63:
+ 3758 017c 70726576 		.ascii	"prev_1_DC_speed\000"
+ 3758      5F315F44 
+ 3758      435F7370 
+ 3758      65656400 
+ 3759              	.LASF21:
+ 3760 018c 74686574 		.ascii	"theta_b\000"
+ 3760      615F6200 
+ 3761              	.LASF32:
+ 3762 0194 53746570 		.ascii	"Step_dir\000"
+ 3762      5F646972 
+ 3762      00
+ 3763              	.LASF11:
+ 3764 019d 75696E74 		.ascii	"uint8\000"
+ 3764      3800
+ 3765              	.LASF57:
+ 3766 01a3 6E5F6D65 		.ascii	"n_mean\000"
+ 3766      616E00
+ 3767              	.LASF49:
+ 3768 01aa 44435F6B 		.ascii	"DC_kp\000"
+ 3768      7000
+ 3769              	.LASF61:
+ 3770 01b0 70726576 		.ascii	"prev_1_AOA_Az\000"
+ 3770      5F315F41 
+ 3770      4F415F41 
+ 3770      7A00
+ 3771              	.LASF30:
+ 3772 01be 44434D6F 		.ascii	"DCMotorControl\000"
+ 3772      746F7243 
+ 3772      6F6E7472 
+ 3772      6F6C00
+ 3773              	.LASF14:
+ 3774 01cd 666C6F61 		.ascii	"float\000"
+ 3774      7400
+ 3775              	.LASF70:
+ 3776 01d3 436F735F 		.ascii	"Cos_sampleArray\000"
+ 3776      73616D70 
+ 3776      6C654172 
+ 3776      72617900 
+ 3777              	.LASF55:
+ 3778 01e3 53544550 		.ascii	"STEP_Kd\000"
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 81
+
+
+ 3778      5F4B6400 
+ 3779              	.LASF6:
+ 3780 01eb 6C6F6E67 		.ascii	"long long int\000"
+ 3780      206C6F6E 
+ 3780      6720696E 
+ 3780      7400
+ 3781              	.LASF77:
+ 3782 01f9 444D415F 		.ascii	"DMA_1_Chan\000"
+ 3782      315F4368 
+ 3782      616E00
+ 3783              	.LASF54:
+ 3784 0204 53544550 		.ascii	"STEP_Ki\000"
+ 3784      5F4B6900 
+ 3785              	.LASF16:
+ 3786 020c 63686172 		.ascii	"char\000"
+ 3786      00
+ 3787              	.LASF80:
+ 3788 0211 444D415F 		.ascii	"DMA_2_TD\000"
+ 3788      325F5444 
+ 3788      00
+ 3789              	.LASF33:
+ 3790 021a 53746570 		.ascii	"Step_Speed\000"
+ 3790      5F537065 
+ 3790      656400
+ 3791              	.LASF53:
+ 3792 0225 53544550 		.ascii	"STEP_Kp\000"
+ 3792      5F4B7000 
+ 3793              	.LASF83:
+ 3794 022d 433A5C55 		.ascii	"C:\\Users\\almsk\\Dropbox\\P5 - B2-203\\Projekt\\PS"
+ 3794      73657273 
+ 3794      5C616C6D 
+ 3794      736B5C44 
+ 3794      726F7062 
+ 3795 025a 6F435C53 		.ascii	"oC\\SampleOgMotor\\Project_Done_V0.4DisCon\\Project"
+ 3795      616D706C 
+ 3795      654F674D 
+ 3795      6F746F72 
+ 3795      5C50726F 
+ 3796 028a 5F446F6E 		.ascii	"_Done_V0.4DisCon.cydsn\000"
+ 3796      655F5630 
+ 3796      2E344469 
+ 3796      73436F6E 
+ 3796      2E637964 
+ 3797              	.LASF40:
+ 3798 02a1 53544550 		.ascii	"STEP_dir\000"
+ 3798      5F646972 
+ 3798      00
+ 3799              	.LASF74:
+ 3800 02aa 444D4144 		.ascii	"DMADone_2_flag\000"
+ 3800      6F6E655F 
+ 3800      325F666C 
+ 3800      616700
+ 3801              	.LASF60:
+ 3802 02b9 68616C66 		.ascii	"half_pi\000"
+ 3802      5F706900 
+ 3803              	.LASF38:
+ 3804 02c1 44435F6D 		.ascii	"DC_motor_speed\000"
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 82
+
+
+ 3804      6F746F72 
+ 3804      5F737065 
+ 3804      656400
+ 3805              	.LASF44:
+ 3806 02d0 74686574 		.ascii	"theta_Az\000"
+ 3806      615F417A 
+ 3806      00
+ 3807              	.LASF45:
+ 3808 02d9 74686574 		.ascii	"theta_El\000"
+ 3808      615F456C 
+ 3808      00
+ 3809              	.LASF25:
+ 3810 02e2 416D706C 		.ascii	"AmplitudeDFT\000"
+ 3810      69747564 
+ 3810      65444654 
+ 3810      00
+ 3811              	.LASF1:
+ 3812 02ef 756E7369 		.ascii	"unsigned char\000"
+ 3812      676E6564 
+ 3812      20636861 
+ 3812      7200
+ 3813              	.LASF46:
+ 3814 02fd 416F415F 		.ascii	"AoA_Az\000"
+ 3814      417A00
+ 3815              	.LASF27:
+ 3816 0304 4D6F746F 		.ascii	"MotorSetup\000"
+ 3816      72536574 
+ 3816      757000
+ 3817              	.LASF47:
+ 3818 030f 416F415F 		.ascii	"AoA_El\000"
+ 3818      456C00
+ 3819              	.LASF0:
+ 3820 0316 7369676E 		.ascii	"signed char\000"
+ 3820      65642063 
+ 3820      68617200 
+ 3821              	.LASF42:
+ 3822 0322 50696E50 		.ascii	"PinPointAoA\000"
+ 3822      6F696E74 
+ 3822      416F4100 
+ 3823              	.LASF7:
+ 3824 032e 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 3824      206C6F6E 
+ 3824      6720756E 
+ 3824      7369676E 
+ 3824      65642069 
+ 3825              	.LASF67:
+ 3826 0345 70726576 		.ascii	"prev_AoA_El\000"
+ 3826      5F416F41 
+ 3826      5F456C00 
+ 3827              	.LASF8:
+ 3828 0351 756E7369 		.ascii	"unsigned int\000"
+ 3828      676E6564 
+ 3828      20696E74 
+ 3828      00
+ 3829              	.LASF76:
+ 3830 035e 416D7054 		.ascii	"AmpThreshold\000"
+ 3830      68726573 
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 83
+
+
+ 3830      686F6C64 
+ 3830      00
+ 3831              	.LASF36:
+ 3832 036b 53657475 		.ascii	"Setup\000"
+ 3832      7000
+ 3833              	.LASF3:
+ 3834 0371 73686F72 		.ascii	"short unsigned int\000"
+ 3834      7420756E 
+ 3834      7369676E 
+ 3834      65642069 
+ 3834      6E7400
+ 3835              	.LASF23:
+ 3836 0384 50686173 		.ascii	"PhaseDifference\000"
+ 3836      65446966 
+ 3836      66657265 
+ 3836      6E636500 
+ 3837              	.LASF64:
+ 3838 0394 70726576 		.ascii	"prev_2_DC_speed\000"
+ 3838      5F325F44 
+ 3838      435F7370 
+ 3838      65656400 
+ 3839              	.LASF34:
+ 3840 03a4 64697374 		.ascii	"distance\000"
+ 3840      616E6365 
+ 3840      00
+ 3841              	.LASF4:
+ 3842 03ad 6C6F6E67 		.ascii	"long int\000"
+ 3842      20696E74 
+ 3842      00
+ 3843              	.LASF58:
+ 3844 03b6 6D61696E 		.ascii	"main\000"
+ 3844      00
+ 3845              	.LASF10:
+ 3846 03bb 696E7433 		.ascii	"int32_t\000"
+ 3846      325F7400 
+ 3847              	.LASF51:
+ 3848 03c3 44435F4B 		.ascii	"DC_Kd\000"
+ 3848      6400
+ 3849              	.LASF62:
+ 3850 03c9 70726576 		.ascii	"prev_2_AOA_Az\000"
+ 3850      5F325F41 
+ 3850      4F415F41 
+ 3850      7A00
+ 3851              	.LASF48:
+ 3852 03d7 414F415F 		.ascii	"AOA_Az_ref\000"
+ 3852      417A5F72 
+ 3852      656600
+ 3853              	.LASF50:
+ 3854 03e2 44435F4B 		.ascii	"DC_Ki\000"
+ 3854      6900
+ 3855              	.LASF13:
+ 3856 03e8 75696E74 		.ascii	"uint32\000"
+ 3856      333200
+ 3857              	.LASF82:
+ 3858 03ef 6D61696E 		.ascii	"main.c\000"
+ 3858      2E6300
+ 3859              	.LASF17:
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 84
+
+
+ 3860 03f6 72656738 		.ascii	"reg8\000"
+ 3860      00
+ 3861              	.LASF5:
+ 3862 03fb 6C6F6E67 		.ascii	"long unsigned int\000"
+ 3862      20756E73 
+ 3862      69676E65 
+ 3862      6420696E 
+ 3862      7400
+ 3863              	.LASF15:
+ 3864 040d 646F7562 		.ascii	"double\000"
+ 3864      6C6500
+ 3865              	.LASF75:
+ 3866 0414 73746174 		.ascii	"state\000"
+ 3866      6500
+ 3867              	.LASF9:
+ 3868 041a 5F5F696E 		.ascii	"__int32_t\000"
+ 3868      7433325F 
+ 3868      7400
+ 3869              	.LASF37:
+ 3870 0424 73656172 		.ascii	"search\000"
+ 3870      636800
+ 3871              	.LASF35:
+ 3872 042b 73746570 		.ascii	"stepping\000"
+ 3872      70696E67 
+ 3872      00
+ 3873              	.LASF28:
+ 3874 0434 44435F64 		.ascii	"DC_dir\000"
+ 3874      697200
+ 3875              	.LASF52:
+ 3876 043b 4E4F5F4F 		.ascii	"NO_OF_MEAN\000"
+ 3876      465F4D45 
+ 3876      414E00
+ 3877              	.LASF73:
+ 3878 0446 444D4144 		.ascii	"DMADone_1_flag\000"
+ 3878      6F6E655F 
+ 3878      315F666C 
+ 3878      616700
+ 3879              	.LASF24:
+ 3880 0455 50686173 		.ascii	"PhaseDifferenceEL\000"
+ 3880      65446966 
+ 3880      66657265 
+ 3880      6E636545 
+ 3880      4C00
+ 3881              	.LASF20:
+ 3882 0467 74686574 		.ascii	"theta_a\000"
+ 3882      615F6100 
+ 3883              	.LASF59:
+ 3884 046f 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 3884      52784275 
+ 3884      66666572 
+ 3884      00
+ 3885              	.LASF71:
+ 3886 047c 53696E5F 		.ascii	"Sin_sampleArray\000"
+ 3886      73616D70 
+ 3886      6C654172 
+ 3886      72617900 
+ 3887              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\cc1tS1o5.s 			page 85
+
+

@@ -1,0 +1,31 @@
+--------------- Build Started: 12/16/2019 13:01:39 Project: Project_Done_V0.4DisCon, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+The code generation step is up to date.
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/main.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -O0 -c main.c -o .\CortexM3\ARM_GCC_541\Debug\main.o
+main.c: In function 'StepperMotorControl':
+main.c:284:9: warning: unused variable 'stepping' [-Wunused-variable]
+     int stepping = 0;  
+         ^
+main.c:283:9: warning: unused variable 'distance' [-Wunused-variable]
+     int distance = 0;  //Skal bruges til at holde styr pÃ¥ at den ikke hakker ind i standen.
+         ^
+main.c: In function 'PinPointAoA':
+main.c:383:35: warning: unused variable 'DC_Kd' [-Wunused-variable]
+   float DC_kp = 5.8, DC_Ki = 1.4, DC_Kd = 0.006; //PWM: 0-1000
+                                   ^
+main.c:383:22: warning: unused variable 'DC_Ki' [-Wunused-variable]
+   float DC_kp = 5.8, DC_Ki = 1.4, DC_Kd = 0.006; //PWM: 0-1000
+                      ^
+main.c:383:9: warning: unused variable 'DC_kp' [-Wunused-variable]
+   float DC_kp = 5.8, DC_Ki = 1.4, DC_Kd = 0.006; //PWM: 0-1000
+         ^
+arm-none-eabi-ar.exe -rs .\CortexM3\ARM_GCC_541\Debug\Project_Done_V0.4DisCon.a .\CortexM3\ARM_GCC_541\Debug\PIN_SWITCH.o .\CortexM3\ARM_GCC_541\Debug\cy_em_eeprom.o .\CortexM3\ARM_GCC_541\Debug\CyDmac.o .\CortexM3\ARM_GCC_541\Debug\CyFlash.o .\CortexM3\ARM_GCC_541\Debug\CyLib.o .\CortexM3\ARM_GCC_541\Debug\cyPm.o .\CortexM3\ARM_GCC_541\Debug\CySpc.o .\CortexM3\ARM_GCC_541\Debug\cyutils.o .\CortexM3\ARM_GCC_541\Debug\ISR_Sw.o .\CortexM3\ARM_GCC_541\Debug\UART_1.o .\CortexM3\ARM_GCC_541\Debug\UART_1_PM.o .\CortexM3\ARM_GCC_541\Debug\UART_1_INT.o .\CortexM3\ARM_GCC_541\Debug\UART_1_BOOT.o .\CortexM3\ARM_GCC_541\Debug\UART_1_IntClock.o .\CortexM3\ARM_GCC_541\Debug\ADC_SAR_1.o .\CortexM3\ARM_GCC_541\Debug\ADC_SAR_1_INT.o .\CortexM3\ARM_GCC_541\Debug\ADC_SAR_1_PM.o .\CortexM3\ARM_GCC_541\Debug\DMA_1_dma.o .\CortexM3\ARM_GCC_541\Debug\PIN_ADC_IN_1.o .\CortexM3\ARM_GCC_541\Debug\ISR_DMA_1.o .\CortexM3\ARM_GCC_541\Debug\ADC_SAR_1_IRQ.o .\CortexM3\ARM_GCC_541\Debug\ADC_SAR_1_Bypass.o .\CortexM3\ARM_GCC_541\Debug\ISR_DMA_2.o .\CortexM3\ARM_GCC_541\Debug\DMA_2_dma.o .\CortexM3\ARM_GCC_541\Debug\ADC_SAR_2.o .\CortexM3\ARM_GCC_541\Debug\ADC_SAR_2_INT.o .\CortexM3\ARM_GCC_541\Debug\ADC_SAR_2_PM.o .\CortexM3\ARM_GCC_541\Debug\ADC_SAR_2_IRQ.o .\CortexM3\ARM_GCC_541\Debug\ADC_SAR_2_Bypass.o .\CortexM3\ARM_GCC_541\Debug\Clock_aclk.o .\CortexM3\ARM_GCC_541\Debug\Clock_soc.o .\CortexM3\ARM_GCC_541\Debug\PWM.o .\CortexM3\ARM_GCC_541\Debug\PWM_PM.o .\CortexM3\ARM_GCC_541\Debug\Clock_PWM.o .\CortexM3\ARM_GCC_541\Debug\H_ENA.o .\CortexM3\ARM_GCC_541\Debug\H_ENB.o .\CortexM3\ARM_GCC_541\Debug\H_INA.o .\CortexM3\ARM_GCC_541\Debug\H_INB.o .\CortexM3\ARM_GCC_541\Debug\PWMout.o .\CortexM3\ARM_GCC_541\Debug\S_EN.o .\CortexM3\ARM_GCC_541\Debug\S_STEP.o .\CortexM3\ARM_GCC_541\Debug\S_DIR.o .\CortexM3\ARM_GCC_541\Debug\PIN_ADC_IN_AZ.o .\CortexM3\ARM_GCC_541\Debug\PIN_ADC_IN_EL.o .\CortexM3\ARM_GCC_541\Debug\AMux_1.o .\CortexM3\ARM_GCC_541\Debug\PWM_step.o .\CortexM3\ARM_GCC_541\Debug\PWM_step_PM.o .\CortexM3\ARM_GCC_541\Debug\Clock_PWM_step.o .\CortexM3\ARM_GCC_541\Debug\CyBootAsmGnu.o
+arm-none-eabi-ar.exe: creating .\CortexM3\ARM_GCC_541\Debug\Project_Done_V0.4DisCon.a
+arm-none-eabi-gcc.exe -Wl,--start-group -o "C:\Users\almsk\Dropbox\P5 - B2-203\Projekt\PSoC\SampleOgMotor\Project_Done_V0.4DisCon\Project_Done_V0.4DisCon.cydsn\CortexM3\ARM_GCC_541\Debug\Project_Done_V0.4DisCon.elf" .\CortexM3\ARM_GCC_541\Debug\main.o .\CortexM3\ARM_GCC_541\Debug\cyfitter_cfg.o .\CortexM3\ARM_GCC_541\Debug\cymetadata.o .\CortexM3\ARM_GCC_541\Debug\Cm3Start.o .\CortexM3\ARM_GCC_541\Debug\Project_Done_V0.4DisCon.a "C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CortexM3\ARM_GCC_541\Debug\CyComponentLibrary.a" -mcpu=cortex-m3 -mthumb -l m -L Generated_Source\PSoC5 -Wl,-Map,.\CortexM3\ARM_GCC_541\Debug/Project_Done_V0.4DisCon.map -T Generated_Source\PSoC5\cm3gcc.ld -nodefaultlibs -u _printf_float -Wl,--gc-sections -u_printf_float -g -ffunction-sections -O0 -ffat-lto-objects -Wl,--end-group
+cyelftool.exe -C "C:\Users\almsk\Dropbox\P5 - B2-203\Projekt\PSoC\SampleOgMotor\Project_Done_V0.4DisCon\Project_Done_V0.4DisCon.cydsn\CortexM3\ARM_GCC_541\Debug\Project_Done_V0.4DisCon.elf" --flash_row_size 256 --flash_size 262144 --flash_offset 0x00000000
+No ELF section .cychecksum found, creating one
+Application checksum calculated and stored in ELF section .cychecksum
+Checksum calculated and stored in ELF section .cymeta
+cyelftool.exe -S "C:\Users\almsk\Dropbox\P5 - B2-203\Projekt\PSoC\SampleOgMotor\Project_Done_V0.4DisCon\Project_Done_V0.4DisCon.cydsn\CortexM3\ARM_GCC_541\Debug\Project_Done_V0.4DisCon.elf"
+Flash used: 22336 of 262144 bytes (8,5 %).
+SRAM used: 5397 of 65536 bytes (8,2 %). Stack: 2048 bytes. Heap: 128 bytes.
+--------------- Build Succeeded: 12/16/2019 13:01:41 ---------------

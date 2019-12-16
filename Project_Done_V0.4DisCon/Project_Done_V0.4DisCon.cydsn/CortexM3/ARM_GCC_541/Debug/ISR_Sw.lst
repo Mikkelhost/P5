@@ -1,0 +1,1974 @@
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"ISR_Sw.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.ISR_Sw_Start,"ax",%progbits
+  20              		.align	2
+  21              		.global	ISR_Sw_Start
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	ISR_Sw_Start, %function
+  25              	ISR_Sw_Start:
+  26              	.LFB0:
+  27              		.file 1 "Generated_Source\\PSoC5\\ISR_Sw.c"
+   1:Generated_Source\PSoC5/ISR_Sw.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/ISR_Sw.c **** * File Name: ISR_Sw.c  
+   3:Generated_Source\PSoC5/ISR_Sw.c **** * Version 1.70
+   4:Generated_Source\PSoC5/ISR_Sw.c **** *
+   5:Generated_Source\PSoC5/ISR_Sw.c **** *  Description:
+   6:Generated_Source\PSoC5/ISR_Sw.c **** *   API for controlling the state of an interrupt.
+   7:Generated_Source\PSoC5/ISR_Sw.c **** *
+   8:Generated_Source\PSoC5/ISR_Sw.c **** *
+   9:Generated_Source\PSoC5/ISR_Sw.c **** *  Note:
+  10:Generated_Source\PSoC5/ISR_Sw.c **** *
+  11:Generated_Source\PSoC5/ISR_Sw.c **** ********************************************************************************
+  12:Generated_Source\PSoC5/ISR_Sw.c **** * Copyright 2008-2015, Cypress Semiconductor Corporation.  All rights reserved.
+  13:Generated_Source\PSoC5/ISR_Sw.c **** * You may use this file only in accordance with the license, terms, conditions, 
+  14:Generated_Source\PSoC5/ISR_Sw.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+  15:Generated_Source\PSoC5/ISR_Sw.c **** * the software package with which this file was provided.
+  16:Generated_Source\PSoC5/ISR_Sw.c **** *******************************************************************************/
+  17:Generated_Source\PSoC5/ISR_Sw.c **** 
+  18:Generated_Source\PSoC5/ISR_Sw.c **** 
+  19:Generated_Source\PSoC5/ISR_Sw.c **** #include <cydevice_trm.h>
+  20:Generated_Source\PSoC5/ISR_Sw.c **** #include <CyLib.h>
+  21:Generated_Source\PSoC5/ISR_Sw.c **** #include <ISR_Sw.h>
+  22:Generated_Source\PSoC5/ISR_Sw.c **** #include "cyapicallbacks.h"
+  23:Generated_Source\PSoC5/ISR_Sw.c **** 
+  24:Generated_Source\PSoC5/ISR_Sw.c **** #if !defined(ISR_Sw__REMOVED) /* Check for removal by optimization */
+  25:Generated_Source\PSoC5/ISR_Sw.c **** 
+  26:Generated_Source\PSoC5/ISR_Sw.c **** /*******************************************************************************
+  27:Generated_Source\PSoC5/ISR_Sw.c **** *  Place your includes, defines and code here 
+  28:Generated_Source\PSoC5/ISR_Sw.c **** ********************************************************************************/
+  29:Generated_Source\PSoC5/ISR_Sw.c **** /* `#START ISR_Sw_intc` */
+  30:Generated_Source\PSoC5/ISR_Sw.c ****     #include "PIN_SWITCH.h"
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 2
+
+
+  31:Generated_Source\PSoC5/ISR_Sw.c ****     extern volatile uint8 switch_flag;
+  32:Generated_Source\PSoC5/ISR_Sw.c **** /* `#END` */
+  33:Generated_Source\PSoC5/ISR_Sw.c **** 
+  34:Generated_Source\PSoC5/ISR_Sw.c **** #ifndef CYINT_IRQ_BASE
+  35:Generated_Source\PSoC5/ISR_Sw.c **** #define CYINT_IRQ_BASE      16
+  36:Generated_Source\PSoC5/ISR_Sw.c **** #endif /* CYINT_IRQ_BASE */
+  37:Generated_Source\PSoC5/ISR_Sw.c **** #ifndef CYINT_VECT_TABLE
+  38:Generated_Source\PSoC5/ISR_Sw.c **** #define CYINT_VECT_TABLE    ((cyisraddress **) CYREG_NVIC_VECT_OFFSET)
+  39:Generated_Source\PSoC5/ISR_Sw.c **** #endif /* CYINT_VECT_TABLE */
+  40:Generated_Source\PSoC5/ISR_Sw.c **** 
+  41:Generated_Source\PSoC5/ISR_Sw.c **** /* Declared in startup, used to set unused interrupts to. */
+  42:Generated_Source\PSoC5/ISR_Sw.c **** CY_ISR_PROTO(IntDefaultHandler);
+  43:Generated_Source\PSoC5/ISR_Sw.c **** 
+  44:Generated_Source\PSoC5/ISR_Sw.c **** 
+  45:Generated_Source\PSoC5/ISR_Sw.c **** /*******************************************************************************
+  46:Generated_Source\PSoC5/ISR_Sw.c **** * Function Name: ISR_Sw_Start
+  47:Generated_Source\PSoC5/ISR_Sw.c **** ********************************************************************************
+  48:Generated_Source\PSoC5/ISR_Sw.c **** *
+  49:Generated_Source\PSoC5/ISR_Sw.c **** * Summary:
+  50:Generated_Source\PSoC5/ISR_Sw.c **** *  Set up the interrupt and enable it. This function disables the interrupt, 
+  51:Generated_Source\PSoC5/ISR_Sw.c **** *  sets the default interrupt vector, sets the priority from the value in the
+  52:Generated_Source\PSoC5/ISR_Sw.c **** *  Design Wide Resources Interrupt Editor, then enables the interrupt to the 
+  53:Generated_Source\PSoC5/ISR_Sw.c **** *  interrupt controller.
+  54:Generated_Source\PSoC5/ISR_Sw.c **** *
+  55:Generated_Source\PSoC5/ISR_Sw.c **** * Parameters:  
+  56:Generated_Source\PSoC5/ISR_Sw.c **** *   None
+  57:Generated_Source\PSoC5/ISR_Sw.c **** *
+  58:Generated_Source\PSoC5/ISR_Sw.c **** * Return:
+  59:Generated_Source\PSoC5/ISR_Sw.c **** *   None
+  60:Generated_Source\PSoC5/ISR_Sw.c **** *
+  61:Generated_Source\PSoC5/ISR_Sw.c **** *******************************************************************************/
+  62:Generated_Source\PSoC5/ISR_Sw.c **** void ISR_Sw_Start(void)
+  63:Generated_Source\PSoC5/ISR_Sw.c **** {
+  28              		.loc 1 63 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 1, uses_anonymous_args = 0
+  32 0000 80B5     		push	{r7, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 7, -8
+  35              		.cfi_offset 14, -4
+  36 0002 00AF     		add	r7, sp, #0
+  37              		.cfi_def_cfa_register 7
+  64:Generated_Source\PSoC5/ISR_Sw.c ****     /* For all we know the interrupt is active. */
+  65:Generated_Source\PSoC5/ISR_Sw.c ****     ISR_Sw_Disable();
+  38              		.loc 1 65 0
+  39 0004 FFF7FEFF 		bl	ISR_Sw_Disable
+  66:Generated_Source\PSoC5/ISR_Sw.c **** 
+  67:Generated_Source\PSoC5/ISR_Sw.c ****     /* Set the ISR to point to the ISR_Sw Interrupt. */
+  68:Generated_Source\PSoC5/ISR_Sw.c ****     ISR_Sw_SetVector(&ISR_Sw_Interrupt);
+  40              		.loc 1 68 0
+  41 0008 0448     		ldr	r0, .L2
+  42 000a FFF7FEFF 		bl	ISR_Sw_SetVector
+  69:Generated_Source\PSoC5/ISR_Sw.c **** 
+  70:Generated_Source\PSoC5/ISR_Sw.c ****     /* Set the priority. */
+  71:Generated_Source\PSoC5/ISR_Sw.c ****     ISR_Sw_SetPriority((uint8)ISR_Sw_INTC_PRIOR_NUMBER);
+  43              		.loc 1 71 0
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 3
+
+
+  44 000e 0720     		movs	r0, #7
+  45 0010 FFF7FEFF 		bl	ISR_Sw_SetPriority
+  72:Generated_Source\PSoC5/ISR_Sw.c **** 
+  73:Generated_Source\PSoC5/ISR_Sw.c ****     /* Enable it. */
+  74:Generated_Source\PSoC5/ISR_Sw.c ****     ISR_Sw_Enable();
+  46              		.loc 1 74 0
+  47 0014 FFF7FEFF 		bl	ISR_Sw_Enable
+  75:Generated_Source\PSoC5/ISR_Sw.c **** }
+  48              		.loc 1 75 0
+  49 0018 00BF     		nop
+  50 001a 80BD     		pop	{r7, pc}
+  51              	.L3:
+  52              		.align	2
+  53              	.L2:
+  54 001c 00000000 		.word	ISR_Sw_Interrupt
+  55              		.cfi_endproc
+  56              	.LFE0:
+  57              		.size	ISR_Sw_Start, .-ISR_Sw_Start
+  58              		.section	.text.ISR_Sw_StartEx,"ax",%progbits
+  59              		.align	2
+  60              		.global	ISR_Sw_StartEx
+  61              		.thumb
+  62              		.thumb_func
+  63              		.type	ISR_Sw_StartEx, %function
+  64              	ISR_Sw_StartEx:
+  65              	.LFB1:
+  76:Generated_Source\PSoC5/ISR_Sw.c **** 
+  77:Generated_Source\PSoC5/ISR_Sw.c **** 
+  78:Generated_Source\PSoC5/ISR_Sw.c **** /*******************************************************************************
+  79:Generated_Source\PSoC5/ISR_Sw.c **** * Function Name: ISR_Sw_StartEx
+  80:Generated_Source\PSoC5/ISR_Sw.c **** ********************************************************************************
+  81:Generated_Source\PSoC5/ISR_Sw.c **** *
+  82:Generated_Source\PSoC5/ISR_Sw.c **** * Summary:
+  83:Generated_Source\PSoC5/ISR_Sw.c **** *  Sets up the interrupt and enables it. This function disables the interrupt,
+  84:Generated_Source\PSoC5/ISR_Sw.c **** *  sets the interrupt vector based on the address passed in, sets the priority 
+  85:Generated_Source\PSoC5/ISR_Sw.c **** *  from the value in the Design Wide Resources Interrupt Editor, then enables 
+  86:Generated_Source\PSoC5/ISR_Sw.c **** *  the interrupt to the interrupt controller.
+  87:Generated_Source\PSoC5/ISR_Sw.c **** *  
+  88:Generated_Source\PSoC5/ISR_Sw.c **** *  When defining ISR functions, the CY_ISR and CY_ISR_PROTO macros should be 
+  89:Generated_Source\PSoC5/ISR_Sw.c **** *  used to provide consistent definition across compilers:
+  90:Generated_Source\PSoC5/ISR_Sw.c **** *  
+  91:Generated_Source\PSoC5/ISR_Sw.c **** *  Function definition example:
+  92:Generated_Source\PSoC5/ISR_Sw.c **** *   CY_ISR(MyISR)
+  93:Generated_Source\PSoC5/ISR_Sw.c **** *   {
+  94:Generated_Source\PSoC5/ISR_Sw.c **** *   }
+  95:Generated_Source\PSoC5/ISR_Sw.c **** *   Function prototype example:
+  96:Generated_Source\PSoC5/ISR_Sw.c **** *   CY_ISR_PROTO(MyISR);
+  97:Generated_Source\PSoC5/ISR_Sw.c **** *
+  98:Generated_Source\PSoC5/ISR_Sw.c **** * Parameters:  
+  99:Generated_Source\PSoC5/ISR_Sw.c **** *   address: Address of the ISR to set in the interrupt vector table.
+ 100:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 101:Generated_Source\PSoC5/ISR_Sw.c **** * Return:
+ 102:Generated_Source\PSoC5/ISR_Sw.c **** *   None
+ 103:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 104:Generated_Source\PSoC5/ISR_Sw.c **** *******************************************************************************/
+ 105:Generated_Source\PSoC5/ISR_Sw.c **** void ISR_Sw_StartEx(cyisraddress address)
+ 106:Generated_Source\PSoC5/ISR_Sw.c **** {
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 4
+
+
+  66              		.loc 1 106 0
+  67              		.cfi_startproc
+  68              		@ args = 0, pretend = 0, frame = 8
+  69              		@ frame_needed = 1, uses_anonymous_args = 0
+  70 0000 80B5     		push	{r7, lr}
+  71              		.cfi_def_cfa_offset 8
+  72              		.cfi_offset 7, -8
+  73              		.cfi_offset 14, -4
+  74 0002 82B0     		sub	sp, sp, #8
+  75              		.cfi_def_cfa_offset 16
+  76 0004 00AF     		add	r7, sp, #0
+  77              		.cfi_def_cfa_register 7
+  78 0006 7860     		str	r0, [r7, #4]
+ 107:Generated_Source\PSoC5/ISR_Sw.c ****     /* For all we know the interrupt is active. */
+ 108:Generated_Source\PSoC5/ISR_Sw.c ****     ISR_Sw_Disable();
+  79              		.loc 1 108 0
+  80 0008 FFF7FEFF 		bl	ISR_Sw_Disable
+ 109:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 110:Generated_Source\PSoC5/ISR_Sw.c ****     /* Set the ISR to point to the ISR_Sw Interrupt. */
+ 111:Generated_Source\PSoC5/ISR_Sw.c ****     ISR_Sw_SetVector(address);
+  81              		.loc 1 111 0
+  82 000c 7868     		ldr	r0, [r7, #4]
+  83 000e FFF7FEFF 		bl	ISR_Sw_SetVector
+ 112:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 113:Generated_Source\PSoC5/ISR_Sw.c ****     /* Set the priority. */
+ 114:Generated_Source\PSoC5/ISR_Sw.c ****     ISR_Sw_SetPriority((uint8)ISR_Sw_INTC_PRIOR_NUMBER);
+  84              		.loc 1 114 0
+  85 0012 0720     		movs	r0, #7
+  86 0014 FFF7FEFF 		bl	ISR_Sw_SetPriority
+ 115:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 116:Generated_Source\PSoC5/ISR_Sw.c ****     /* Enable it. */
+ 117:Generated_Source\PSoC5/ISR_Sw.c ****     ISR_Sw_Enable();
+  87              		.loc 1 117 0
+  88 0018 FFF7FEFF 		bl	ISR_Sw_Enable
+ 118:Generated_Source\PSoC5/ISR_Sw.c **** }
+  89              		.loc 1 118 0
+  90 001c 00BF     		nop
+  91 001e 0837     		adds	r7, r7, #8
+  92              		.cfi_def_cfa_offset 8
+  93 0020 BD46     		mov	sp, r7
+  94              		.cfi_def_cfa_register 13
+  95              		@ sp needed
+  96 0022 80BD     		pop	{r7, pc}
+  97              		.cfi_endproc
+  98              	.LFE1:
+  99              		.size	ISR_Sw_StartEx, .-ISR_Sw_StartEx
+ 100              		.section	.text.ISR_Sw_Stop,"ax",%progbits
+ 101              		.align	2
+ 102              		.global	ISR_Sw_Stop
+ 103              		.thumb
+ 104              		.thumb_func
+ 105              		.type	ISR_Sw_Stop, %function
+ 106              	ISR_Sw_Stop:
+ 107              	.LFB2:
+ 119:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 120:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 121:Generated_Source\PSoC5/ISR_Sw.c **** /*******************************************************************************
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 5
+
+
+ 122:Generated_Source\PSoC5/ISR_Sw.c **** * Function Name: ISR_Sw_Stop
+ 123:Generated_Source\PSoC5/ISR_Sw.c **** ********************************************************************************
+ 124:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 125:Generated_Source\PSoC5/ISR_Sw.c **** * Summary:
+ 126:Generated_Source\PSoC5/ISR_Sw.c **** *   Disables and removes the interrupt.
+ 127:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 128:Generated_Source\PSoC5/ISR_Sw.c **** * Parameters:  
+ 129:Generated_Source\PSoC5/ISR_Sw.c **** *   None
+ 130:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 131:Generated_Source\PSoC5/ISR_Sw.c **** * Return:
+ 132:Generated_Source\PSoC5/ISR_Sw.c **** *   None
+ 133:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 134:Generated_Source\PSoC5/ISR_Sw.c **** *******************************************************************************/
+ 135:Generated_Source\PSoC5/ISR_Sw.c **** void ISR_Sw_Stop(void)
+ 136:Generated_Source\PSoC5/ISR_Sw.c **** {
+ 108              		.loc 1 136 0
+ 109              		.cfi_startproc
+ 110              		@ args = 0, pretend = 0, frame = 0
+ 111              		@ frame_needed = 1, uses_anonymous_args = 0
+ 112 0000 80B5     		push	{r7, lr}
+ 113              		.cfi_def_cfa_offset 8
+ 114              		.cfi_offset 7, -8
+ 115              		.cfi_offset 14, -4
+ 116 0002 00AF     		add	r7, sp, #0
+ 117              		.cfi_def_cfa_register 7
+ 137:Generated_Source\PSoC5/ISR_Sw.c ****     /* Disable this interrupt. */
+ 138:Generated_Source\PSoC5/ISR_Sw.c ****     ISR_Sw_Disable();
+ 118              		.loc 1 138 0
+ 119 0004 FFF7FEFF 		bl	ISR_Sw_Disable
+ 139:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 140:Generated_Source\PSoC5/ISR_Sw.c ****     /* Set the ISR to point to the passive one. */
+ 141:Generated_Source\PSoC5/ISR_Sw.c ****     ISR_Sw_SetVector(&IntDefaultHandler);
+ 120              		.loc 1 141 0
+ 121 0008 0248     		ldr	r0, .L6
+ 122 000a FFF7FEFF 		bl	ISR_Sw_SetVector
+ 142:Generated_Source\PSoC5/ISR_Sw.c **** }
+ 123              		.loc 1 142 0
+ 124 000e 00BF     		nop
+ 125 0010 80BD     		pop	{r7, pc}
+ 126              	.L7:
+ 127 0012 00BF     		.align	2
+ 128              	.L6:
+ 129 0014 00000000 		.word	IntDefaultHandler
+ 130              		.cfi_endproc
+ 131              	.LFE2:
+ 132              		.size	ISR_Sw_Stop, .-ISR_Sw_Stop
+ 133              		.section	.text.ISR_Sw_Interrupt,"ax",%progbits
+ 134              		.align	2
+ 135              		.global	ISR_Sw_Interrupt
+ 136              		.thumb
+ 137              		.thumb_func
+ 138              		.type	ISR_Sw_Interrupt, %function
+ 139              	ISR_Sw_Interrupt:
+ 140              	.LFB3:
+ 143:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 144:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 145:Generated_Source\PSoC5/ISR_Sw.c **** /*******************************************************************************
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 6
+
+
+ 146:Generated_Source\PSoC5/ISR_Sw.c **** * Function Name: ISR_Sw_Interrupt
+ 147:Generated_Source\PSoC5/ISR_Sw.c **** ********************************************************************************
+ 148:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 149:Generated_Source\PSoC5/ISR_Sw.c **** * Summary:
+ 150:Generated_Source\PSoC5/ISR_Sw.c **** *   The default Interrupt Service Routine for ISR_Sw.
+ 151:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 152:Generated_Source\PSoC5/ISR_Sw.c **** *   Add custom code between the coments to keep the next version of this file
+ 153:Generated_Source\PSoC5/ISR_Sw.c **** *   from over writting your code.
+ 154:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 155:Generated_Source\PSoC5/ISR_Sw.c **** * Parameters:  
+ 156:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 157:Generated_Source\PSoC5/ISR_Sw.c **** * Return:
+ 158:Generated_Source\PSoC5/ISR_Sw.c **** *   None
+ 159:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 160:Generated_Source\PSoC5/ISR_Sw.c **** *******************************************************************************/
+ 161:Generated_Source\PSoC5/ISR_Sw.c **** CY_ISR(ISR_Sw_Interrupt)
+ 162:Generated_Source\PSoC5/ISR_Sw.c **** {
+ 141              		.loc 1 162 0
+ 142              		.cfi_startproc
+ 143              		@ args = 0, pretend = 0, frame = 0
+ 144              		@ frame_needed = 1, uses_anonymous_args = 0
+ 145 0000 80B5     		push	{r7, lr}
+ 146              		.cfi_def_cfa_offset 8
+ 147              		.cfi_offset 7, -8
+ 148              		.cfi_offset 14, -4
+ 149 0002 00AF     		add	r7, sp, #0
+ 150              		.cfi_def_cfa_register 7
+ 163:Generated_Source\PSoC5/ISR_Sw.c ****     #ifdef ISR_Sw_INTERRUPT_INTERRUPT_CALLBACK
+ 164:Generated_Source\PSoC5/ISR_Sw.c ****         ISR_Sw_Interrupt_InterruptCallback();
+ 165:Generated_Source\PSoC5/ISR_Sw.c ****     #endif /* ISR_Sw_INTERRUPT_INTERRUPT_CALLBACK */ 
+ 166:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 167:Generated_Source\PSoC5/ISR_Sw.c ****     /*  Place your Interrupt code here. */
+ 168:Generated_Source\PSoC5/ISR_Sw.c ****     /* `#START ISR_Sw_Interrupt` */
+ 169:Generated_Source\PSoC5/ISR_Sw.c ****     switch_flag = 1;
+ 151              		.loc 1 169 0
+ 152 0004 034B     		ldr	r3, .L9
+ 153 0006 0122     		movs	r2, #1
+ 154 0008 1A70     		strb	r2, [r3]
+ 170:Generated_Source\PSoC5/ISR_Sw.c ****     PIN_SWITCH_ClearInterrupt();
+ 155              		.loc 1 170 0
+ 156 000a FFF7FEFF 		bl	PIN_SWITCH_ClearInterrupt
+ 171:Generated_Source\PSoC5/ISR_Sw.c ****     /* `#END` */
+ 172:Generated_Source\PSoC5/ISR_Sw.c **** }
+ 157              		.loc 1 172 0
+ 158 000e 00BF     		nop
+ 159 0010 80BD     		pop	{r7, pc}
+ 160              	.L10:
+ 161 0012 00BF     		.align	2
+ 162              	.L9:
+ 163 0014 00000000 		.word	switch_flag
+ 164              		.cfi_endproc
+ 165              	.LFE3:
+ 166              		.size	ISR_Sw_Interrupt, .-ISR_Sw_Interrupt
+ 167              		.section	.text.ISR_Sw_SetVector,"ax",%progbits
+ 168              		.align	2
+ 169              		.global	ISR_Sw_SetVector
+ 170              		.thumb
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 7
+
+
+ 171              		.thumb_func
+ 172              		.type	ISR_Sw_SetVector, %function
+ 173              	ISR_Sw_SetVector:
+ 174              	.LFB4:
+ 173:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 174:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 175:Generated_Source\PSoC5/ISR_Sw.c **** /*******************************************************************************
+ 176:Generated_Source\PSoC5/ISR_Sw.c **** * Function Name: ISR_Sw_SetVector
+ 177:Generated_Source\PSoC5/ISR_Sw.c **** ********************************************************************************
+ 178:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 179:Generated_Source\PSoC5/ISR_Sw.c **** * Summary:
+ 180:Generated_Source\PSoC5/ISR_Sw.c **** *   Change the ISR vector for the Interrupt. Note calling ISR_Sw_Start
+ 181:Generated_Source\PSoC5/ISR_Sw.c **** *   will override any effect this method would have had. To set the vector 
+ 182:Generated_Source\PSoC5/ISR_Sw.c **** *   before the component has been started use ISR_Sw_StartEx instead.
+ 183:Generated_Source\PSoC5/ISR_Sw.c **** * 
+ 184:Generated_Source\PSoC5/ISR_Sw.c **** *   When defining ISR functions, the CY_ISR and CY_ISR_PROTO macros should be 
+ 185:Generated_Source\PSoC5/ISR_Sw.c **** *   used to provide consistent definition across compilers:
+ 186:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 187:Generated_Source\PSoC5/ISR_Sw.c **** *   Function definition example:
+ 188:Generated_Source\PSoC5/ISR_Sw.c **** *   CY_ISR(MyISR)
+ 189:Generated_Source\PSoC5/ISR_Sw.c **** *   {
+ 190:Generated_Source\PSoC5/ISR_Sw.c **** *   }
+ 191:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 192:Generated_Source\PSoC5/ISR_Sw.c **** *   Function prototype example:
+ 193:Generated_Source\PSoC5/ISR_Sw.c **** *     CY_ISR_PROTO(MyISR);
+ 194:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 195:Generated_Source\PSoC5/ISR_Sw.c **** * Parameters:
+ 196:Generated_Source\PSoC5/ISR_Sw.c **** *   address: Address of the ISR to set in the interrupt vector table.
+ 197:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 198:Generated_Source\PSoC5/ISR_Sw.c **** * Return:
+ 199:Generated_Source\PSoC5/ISR_Sw.c **** *   None
+ 200:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 201:Generated_Source\PSoC5/ISR_Sw.c **** *******************************************************************************/
+ 202:Generated_Source\PSoC5/ISR_Sw.c **** void ISR_Sw_SetVector(cyisraddress address)
+ 203:Generated_Source\PSoC5/ISR_Sw.c **** {
+ 175              		.loc 1 203 0
+ 176              		.cfi_startproc
+ 177              		@ args = 0, pretend = 0, frame = 16
+ 178              		@ frame_needed = 1, uses_anonymous_args = 0
+ 179              		@ link register save eliminated.
+ 180 0000 80B4     		push	{r7}
+ 181              		.cfi_def_cfa_offset 4
+ 182              		.cfi_offset 7, -4
+ 183 0002 85B0     		sub	sp, sp, #20
+ 184              		.cfi_def_cfa_offset 24
+ 185 0004 00AF     		add	r7, sp, #0
+ 186              		.cfi_def_cfa_register 7
+ 187 0006 7860     		str	r0, [r7, #4]
+ 204:Generated_Source\PSoC5/ISR_Sw.c ****     cyisraddress * ramVectorTable;
+ 205:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 206:Generated_Source\PSoC5/ISR_Sw.c ****     ramVectorTable = (cyisraddress *) *CYINT_VECT_TABLE;
+ 188              		.loc 1 206 0
+ 189 0008 054B     		ldr	r3, .L12
+ 190 000a 1B68     		ldr	r3, [r3]
+ 191 000c FB60     		str	r3, [r7, #12]
+ 207:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 208:Generated_Source\PSoC5/ISR_Sw.c ****     ramVectorTable[CYINT_IRQ_BASE + (uint32)ISR_Sw__INTC_NUMBER] = address;
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 8
+
+
+ 192              		.loc 1 208 0
+ 193 000e FB68     		ldr	r3, [r7, #12]
+ 194 0010 5833     		adds	r3, r3, #88
+ 195 0012 7A68     		ldr	r2, [r7, #4]
+ 196 0014 1A60     		str	r2, [r3]
+ 209:Generated_Source\PSoC5/ISR_Sw.c **** }
+ 197              		.loc 1 209 0
+ 198 0016 00BF     		nop
+ 199 0018 1437     		adds	r7, r7, #20
+ 200              		.cfi_def_cfa_offset 4
+ 201 001a BD46     		mov	sp, r7
+ 202              		.cfi_def_cfa_register 13
+ 203              		@ sp needed
+ 204 001c 80BC     		pop	{r7}
+ 205              		.cfi_restore 7
+ 206              		.cfi_def_cfa_offset 0
+ 207 001e 7047     		bx	lr
+ 208              	.L13:
+ 209              		.align	2
+ 210              	.L12:
+ 211 0020 08ED00E0 		.word	-536810232
+ 212              		.cfi_endproc
+ 213              	.LFE4:
+ 214              		.size	ISR_Sw_SetVector, .-ISR_Sw_SetVector
+ 215              		.section	.text.ISR_Sw_GetVector,"ax",%progbits
+ 216              		.align	2
+ 217              		.global	ISR_Sw_GetVector
+ 218              		.thumb
+ 219              		.thumb_func
+ 220              		.type	ISR_Sw_GetVector, %function
+ 221              	ISR_Sw_GetVector:
+ 222              	.LFB5:
+ 210:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 211:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 212:Generated_Source\PSoC5/ISR_Sw.c **** /*******************************************************************************
+ 213:Generated_Source\PSoC5/ISR_Sw.c **** * Function Name: ISR_Sw_GetVector
+ 214:Generated_Source\PSoC5/ISR_Sw.c **** ********************************************************************************
+ 215:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 216:Generated_Source\PSoC5/ISR_Sw.c **** * Summary:
+ 217:Generated_Source\PSoC5/ISR_Sw.c **** *   Gets the "address" of the current ISR vector for the Interrupt.
+ 218:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 219:Generated_Source\PSoC5/ISR_Sw.c **** * Parameters:
+ 220:Generated_Source\PSoC5/ISR_Sw.c **** *   None
+ 221:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 222:Generated_Source\PSoC5/ISR_Sw.c **** * Return:
+ 223:Generated_Source\PSoC5/ISR_Sw.c **** *   Address of the ISR in the interrupt vector table.
+ 224:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 225:Generated_Source\PSoC5/ISR_Sw.c **** *******************************************************************************/
+ 226:Generated_Source\PSoC5/ISR_Sw.c **** cyisraddress ISR_Sw_GetVector(void)
+ 227:Generated_Source\PSoC5/ISR_Sw.c **** {
+ 223              		.loc 1 227 0
+ 224              		.cfi_startproc
+ 225              		@ args = 0, pretend = 0, frame = 8
+ 226              		@ frame_needed = 1, uses_anonymous_args = 0
+ 227              		@ link register save eliminated.
+ 228 0000 80B4     		push	{r7}
+ 229              		.cfi_def_cfa_offset 4
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 9
+
+
+ 230              		.cfi_offset 7, -4
+ 231 0002 83B0     		sub	sp, sp, #12
+ 232              		.cfi_def_cfa_offset 16
+ 233 0004 00AF     		add	r7, sp, #0
+ 234              		.cfi_def_cfa_register 7
+ 228:Generated_Source\PSoC5/ISR_Sw.c ****     cyisraddress * ramVectorTable;
+ 229:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 230:Generated_Source\PSoC5/ISR_Sw.c ****     ramVectorTable = (cyisraddress *) *CYINT_VECT_TABLE;
+ 235              		.loc 1 230 0
+ 236 0006 054B     		ldr	r3, .L16
+ 237 0008 1B68     		ldr	r3, [r3]
+ 238 000a 7B60     		str	r3, [r7, #4]
+ 231:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 232:Generated_Source\PSoC5/ISR_Sw.c ****     return ramVectorTable[CYINT_IRQ_BASE + (uint32)ISR_Sw__INTC_NUMBER];
+ 239              		.loc 1 232 0
+ 240 000c 7B68     		ldr	r3, [r7, #4]
+ 241 000e 9B6D     		ldr	r3, [r3, #88]
+ 233:Generated_Source\PSoC5/ISR_Sw.c **** }
+ 242              		.loc 1 233 0
+ 243 0010 1846     		mov	r0, r3
+ 244 0012 0C37     		adds	r7, r7, #12
+ 245              		.cfi_def_cfa_offset 4
+ 246 0014 BD46     		mov	sp, r7
+ 247              		.cfi_def_cfa_register 13
+ 248              		@ sp needed
+ 249 0016 80BC     		pop	{r7}
+ 250              		.cfi_restore 7
+ 251              		.cfi_def_cfa_offset 0
+ 252 0018 7047     		bx	lr
+ 253              	.L17:
+ 254 001a 00BF     		.align	2
+ 255              	.L16:
+ 256 001c 08ED00E0 		.word	-536810232
+ 257              		.cfi_endproc
+ 258              	.LFE5:
+ 259              		.size	ISR_Sw_GetVector, .-ISR_Sw_GetVector
+ 260              		.section	.text.ISR_Sw_SetPriority,"ax",%progbits
+ 261              		.align	2
+ 262              		.global	ISR_Sw_SetPriority
+ 263              		.thumb
+ 264              		.thumb_func
+ 265              		.type	ISR_Sw_SetPriority, %function
+ 266              	ISR_Sw_SetPriority:
+ 267              	.LFB6:
+ 234:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 235:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 236:Generated_Source\PSoC5/ISR_Sw.c **** /*******************************************************************************
+ 237:Generated_Source\PSoC5/ISR_Sw.c **** * Function Name: ISR_Sw_SetPriority
+ 238:Generated_Source\PSoC5/ISR_Sw.c **** ********************************************************************************
+ 239:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 240:Generated_Source\PSoC5/ISR_Sw.c **** * Summary:
+ 241:Generated_Source\PSoC5/ISR_Sw.c **** *   Sets the Priority of the Interrupt. 
+ 242:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 243:Generated_Source\PSoC5/ISR_Sw.c **** *   Note calling ISR_Sw_Start or ISR_Sw_StartEx will 
+ 244:Generated_Source\PSoC5/ISR_Sw.c **** *   override any effect this API would have had. This API should only be called
+ 245:Generated_Source\PSoC5/ISR_Sw.c **** *   after ISR_Sw_Start or ISR_Sw_StartEx has been called. 
+ 246:Generated_Source\PSoC5/ISR_Sw.c **** *   To set the initial priority for the component, use the Design-Wide Resources
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 10
+
+
+ 247:Generated_Source\PSoC5/ISR_Sw.c **** *   Interrupt Editor.
+ 248:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 249:Generated_Source\PSoC5/ISR_Sw.c **** *   Note This API has no effect on Non-maskable interrupt NMI).
+ 250:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 251:Generated_Source\PSoC5/ISR_Sw.c **** * Parameters:
+ 252:Generated_Source\PSoC5/ISR_Sw.c **** *   priority: Priority of the interrupt, 0 being the highest priority
+ 253:Generated_Source\PSoC5/ISR_Sw.c **** *             PSoC 3 and PSoC 5LP: Priority is from 0 to 7.
+ 254:Generated_Source\PSoC5/ISR_Sw.c **** *             PSoC 4: Priority is from 0 to 3.
+ 255:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 256:Generated_Source\PSoC5/ISR_Sw.c **** * Return:
+ 257:Generated_Source\PSoC5/ISR_Sw.c **** *   None
+ 258:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 259:Generated_Source\PSoC5/ISR_Sw.c **** *******************************************************************************/
+ 260:Generated_Source\PSoC5/ISR_Sw.c **** void ISR_Sw_SetPriority(uint8 priority)
+ 261:Generated_Source\PSoC5/ISR_Sw.c **** {
+ 268              		.loc 1 261 0
+ 269              		.cfi_startproc
+ 270              		@ args = 0, pretend = 0, frame = 8
+ 271              		@ frame_needed = 1, uses_anonymous_args = 0
+ 272              		@ link register save eliminated.
+ 273 0000 80B4     		push	{r7}
+ 274              		.cfi_def_cfa_offset 4
+ 275              		.cfi_offset 7, -4
+ 276 0002 83B0     		sub	sp, sp, #12
+ 277              		.cfi_def_cfa_offset 16
+ 278 0004 00AF     		add	r7, sp, #0
+ 279              		.cfi_def_cfa_register 7
+ 280 0006 0346     		mov	r3, r0
+ 281 0008 FB71     		strb	r3, [r7, #7]
+ 262:Generated_Source\PSoC5/ISR_Sw.c ****     *ISR_Sw_INTC_PRIOR = priority << 5;
+ 282              		.loc 1 262 0
+ 283 000a 054A     		ldr	r2, .L19
+ 284 000c FB79     		ldrb	r3, [r7, #7]
+ 285 000e 5B01     		lsls	r3, r3, #5
+ 286 0010 DBB2     		uxtb	r3, r3
+ 287 0012 1370     		strb	r3, [r2]
+ 263:Generated_Source\PSoC5/ISR_Sw.c **** }
+ 288              		.loc 1 263 0
+ 289 0014 00BF     		nop
+ 290 0016 0C37     		adds	r7, r7, #12
+ 291              		.cfi_def_cfa_offset 4
+ 292 0018 BD46     		mov	sp, r7
+ 293              		.cfi_def_cfa_register 13
+ 294              		@ sp needed
+ 295 001a 80BC     		pop	{r7}
+ 296              		.cfi_restore 7
+ 297              		.cfi_def_cfa_offset 0
+ 298 001c 7047     		bx	lr
+ 299              	.L20:
+ 300 001e 00BF     		.align	2
+ 301              	.L19:
+ 302 0020 06E400E0 		.word	-536812538
+ 303              		.cfi_endproc
+ 304              	.LFE6:
+ 305              		.size	ISR_Sw_SetPriority, .-ISR_Sw_SetPriority
+ 306              		.section	.text.ISR_Sw_GetPriority,"ax",%progbits
+ 307              		.align	2
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 11
+
+
+ 308              		.global	ISR_Sw_GetPriority
+ 309              		.thumb
+ 310              		.thumb_func
+ 311              		.type	ISR_Sw_GetPriority, %function
+ 312              	ISR_Sw_GetPriority:
+ 313              	.LFB7:
+ 264:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 265:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 266:Generated_Source\PSoC5/ISR_Sw.c **** /*******************************************************************************
+ 267:Generated_Source\PSoC5/ISR_Sw.c **** * Function Name: ISR_Sw_GetPriority
+ 268:Generated_Source\PSoC5/ISR_Sw.c **** ********************************************************************************
+ 269:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 270:Generated_Source\PSoC5/ISR_Sw.c **** * Summary:
+ 271:Generated_Source\PSoC5/ISR_Sw.c **** *   Gets the Priority of the Interrupt.
+ 272:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 273:Generated_Source\PSoC5/ISR_Sw.c **** * Parameters:
+ 274:Generated_Source\PSoC5/ISR_Sw.c **** *   None
+ 275:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 276:Generated_Source\PSoC5/ISR_Sw.c **** * Return:
+ 277:Generated_Source\PSoC5/ISR_Sw.c **** *   Priority of the interrupt, 0 being the highest priority
+ 278:Generated_Source\PSoC5/ISR_Sw.c **** *    PSoC 3 and PSoC 5LP: Priority is from 0 to 7.
+ 279:Generated_Source\PSoC5/ISR_Sw.c **** *    PSoC 4: Priority is from 0 to 3.
+ 280:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 281:Generated_Source\PSoC5/ISR_Sw.c **** *******************************************************************************/
+ 282:Generated_Source\PSoC5/ISR_Sw.c **** uint8 ISR_Sw_GetPriority(void)
+ 283:Generated_Source\PSoC5/ISR_Sw.c **** {
+ 314              		.loc 1 283 0
+ 315              		.cfi_startproc
+ 316              		@ args = 0, pretend = 0, frame = 8
+ 317              		@ frame_needed = 1, uses_anonymous_args = 0
+ 318              		@ link register save eliminated.
+ 319 0000 80B4     		push	{r7}
+ 320              		.cfi_def_cfa_offset 4
+ 321              		.cfi_offset 7, -4
+ 322 0002 83B0     		sub	sp, sp, #12
+ 323              		.cfi_def_cfa_offset 16
+ 324 0004 00AF     		add	r7, sp, #0
+ 325              		.cfi_def_cfa_register 7
+ 284:Generated_Source\PSoC5/ISR_Sw.c ****     uint8 priority;
+ 285:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 286:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 287:Generated_Source\PSoC5/ISR_Sw.c ****     priority = *ISR_Sw_INTC_PRIOR >> 5;
+ 326              		.loc 1 287 0
+ 327 0006 054B     		ldr	r3, .L23
+ 328 0008 1B78     		ldrb	r3, [r3]
+ 329 000a DBB2     		uxtb	r3, r3
+ 330 000c 5B09     		lsrs	r3, r3, #5
+ 331 000e FB71     		strb	r3, [r7, #7]
+ 288:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 289:Generated_Source\PSoC5/ISR_Sw.c ****     return priority;
+ 332              		.loc 1 289 0
+ 333 0010 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 290:Generated_Source\PSoC5/ISR_Sw.c **** }
+ 334              		.loc 1 290 0
+ 335 0012 1846     		mov	r0, r3
+ 336 0014 0C37     		adds	r7, r7, #12
+ 337              		.cfi_def_cfa_offset 4
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 12
+
+
+ 338 0016 BD46     		mov	sp, r7
+ 339              		.cfi_def_cfa_register 13
+ 340              		@ sp needed
+ 341 0018 80BC     		pop	{r7}
+ 342              		.cfi_restore 7
+ 343              		.cfi_def_cfa_offset 0
+ 344 001a 7047     		bx	lr
+ 345              	.L24:
+ 346              		.align	2
+ 347              	.L23:
+ 348 001c 06E400E0 		.word	-536812538
+ 349              		.cfi_endproc
+ 350              	.LFE7:
+ 351              		.size	ISR_Sw_GetPriority, .-ISR_Sw_GetPriority
+ 352              		.section	.text.ISR_Sw_Enable,"ax",%progbits
+ 353              		.align	2
+ 354              		.global	ISR_Sw_Enable
+ 355              		.thumb
+ 356              		.thumb_func
+ 357              		.type	ISR_Sw_Enable, %function
+ 358              	ISR_Sw_Enable:
+ 359              	.LFB8:
+ 291:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 292:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 293:Generated_Source\PSoC5/ISR_Sw.c **** /*******************************************************************************
+ 294:Generated_Source\PSoC5/ISR_Sw.c **** * Function Name: ISR_Sw_Enable
+ 295:Generated_Source\PSoC5/ISR_Sw.c **** ********************************************************************************
+ 296:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 297:Generated_Source\PSoC5/ISR_Sw.c **** * Summary:
+ 298:Generated_Source\PSoC5/ISR_Sw.c **** *   Enables the interrupt to the interrupt controller. Do not call this function
+ 299:Generated_Source\PSoC5/ISR_Sw.c **** *   unless ISR_Start() has been called or the functionality of the ISR_Start() 
+ 300:Generated_Source\PSoC5/ISR_Sw.c **** *   function, which sets the vector and the priority, has been called.
+ 301:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 302:Generated_Source\PSoC5/ISR_Sw.c **** * Parameters:
+ 303:Generated_Source\PSoC5/ISR_Sw.c **** *   None
+ 304:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 305:Generated_Source\PSoC5/ISR_Sw.c **** * Return:
+ 306:Generated_Source\PSoC5/ISR_Sw.c **** *   None
+ 307:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 308:Generated_Source\PSoC5/ISR_Sw.c **** *******************************************************************************/
+ 309:Generated_Source\PSoC5/ISR_Sw.c **** void ISR_Sw_Enable(void)
+ 310:Generated_Source\PSoC5/ISR_Sw.c **** {
+ 360              		.loc 1 310 0
+ 361              		.cfi_startproc
+ 362              		@ args = 0, pretend = 0, frame = 0
+ 363              		@ frame_needed = 1, uses_anonymous_args = 0
+ 364              		@ link register save eliminated.
+ 365 0000 80B4     		push	{r7}
+ 366              		.cfi_def_cfa_offset 4
+ 367              		.cfi_offset 7, -4
+ 368 0002 00AF     		add	r7, sp, #0
+ 369              		.cfi_def_cfa_register 7
+ 311:Generated_Source\PSoC5/ISR_Sw.c ****     /* Enable the general interrupt. */
+ 312:Generated_Source\PSoC5/ISR_Sw.c ****     *ISR_Sw_INTC_SET_EN = ISR_Sw__INTC_MASK;
+ 370              		.loc 1 312 0
+ 371 0004 034B     		ldr	r3, .L26
+ 372 0006 4022     		movs	r2, #64
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 13
+
+
+ 373 0008 1A60     		str	r2, [r3]
+ 313:Generated_Source\PSoC5/ISR_Sw.c **** }
+ 374              		.loc 1 313 0
+ 375 000a 00BF     		nop
+ 376 000c BD46     		mov	sp, r7
+ 377              		.cfi_def_cfa_register 13
+ 378              		@ sp needed
+ 379 000e 80BC     		pop	{r7}
+ 380              		.cfi_restore 7
+ 381              		.cfi_def_cfa_offset 0
+ 382 0010 7047     		bx	lr
+ 383              	.L27:
+ 384 0012 00BF     		.align	2
+ 385              	.L26:
+ 386 0014 00E100E0 		.word	-536813312
+ 387              		.cfi_endproc
+ 388              	.LFE8:
+ 389              		.size	ISR_Sw_Enable, .-ISR_Sw_Enable
+ 390              		.section	.text.ISR_Sw_GetState,"ax",%progbits
+ 391              		.align	2
+ 392              		.global	ISR_Sw_GetState
+ 393              		.thumb
+ 394              		.thumb_func
+ 395              		.type	ISR_Sw_GetState, %function
+ 396              	ISR_Sw_GetState:
+ 397              	.LFB9:
+ 314:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 315:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 316:Generated_Source\PSoC5/ISR_Sw.c **** /*******************************************************************************
+ 317:Generated_Source\PSoC5/ISR_Sw.c **** * Function Name: ISR_Sw_GetState
+ 318:Generated_Source\PSoC5/ISR_Sw.c **** ********************************************************************************
+ 319:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 320:Generated_Source\PSoC5/ISR_Sw.c **** * Summary:
+ 321:Generated_Source\PSoC5/ISR_Sw.c **** *   Gets the state (enabled, disabled) of the Interrupt.
+ 322:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 323:Generated_Source\PSoC5/ISR_Sw.c **** * Parameters:
+ 324:Generated_Source\PSoC5/ISR_Sw.c **** *   None
+ 325:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 326:Generated_Source\PSoC5/ISR_Sw.c **** * Return:
+ 327:Generated_Source\PSoC5/ISR_Sw.c **** *   1 if enabled, 0 if disabled.
+ 328:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 329:Generated_Source\PSoC5/ISR_Sw.c **** *******************************************************************************/
+ 330:Generated_Source\PSoC5/ISR_Sw.c **** uint8 ISR_Sw_GetState(void)
+ 331:Generated_Source\PSoC5/ISR_Sw.c **** {
+ 398              		.loc 1 331 0
+ 399              		.cfi_startproc
+ 400              		@ args = 0, pretend = 0, frame = 0
+ 401              		@ frame_needed = 1, uses_anonymous_args = 0
+ 402              		@ link register save eliminated.
+ 403 0000 80B4     		push	{r7}
+ 404              		.cfi_def_cfa_offset 4
+ 405              		.cfi_offset 7, -4
+ 406 0002 00AF     		add	r7, sp, #0
+ 407              		.cfi_def_cfa_register 7
+ 332:Generated_Source\PSoC5/ISR_Sw.c ****     /* Get the state of the general interrupt. */
+ 333:Generated_Source\PSoC5/ISR_Sw.c ****     return ((*ISR_Sw_INTC_SET_EN & (uint32)ISR_Sw__INTC_MASK) != 0u) ? 1u:0u;
+ 408              		.loc 1 333 0
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 14
+
+
+ 409 0004 064B     		ldr	r3, .L32
+ 410 0006 1B68     		ldr	r3, [r3]
+ 411 0008 03F04003 		and	r3, r3, #64
+ 412 000c 002B     		cmp	r3, #0
+ 413 000e 01D0     		beq	.L29
+ 414              		.loc 1 333 0 is_stmt 0 discriminator 1
+ 415 0010 0123     		movs	r3, #1
+ 416 0012 00E0     		b	.L30
+ 417              	.L29:
+ 418              		.loc 1 333 0 discriminator 2
+ 419 0014 0023     		movs	r3, #0
+ 420              	.L30:
+ 334:Generated_Source\PSoC5/ISR_Sw.c **** }
+ 421              		.loc 1 334 0 is_stmt 1 discriminator 4
+ 422 0016 1846     		mov	r0, r3
+ 423 0018 BD46     		mov	sp, r7
+ 424              		.cfi_def_cfa_register 13
+ 425              		@ sp needed
+ 426 001a 80BC     		pop	{r7}
+ 427              		.cfi_restore 7
+ 428              		.cfi_def_cfa_offset 0
+ 429 001c 7047     		bx	lr
+ 430              	.L33:
+ 431 001e 00BF     		.align	2
+ 432              	.L32:
+ 433 0020 00E100E0 		.word	-536813312
+ 434              		.cfi_endproc
+ 435              	.LFE9:
+ 436              		.size	ISR_Sw_GetState, .-ISR_Sw_GetState
+ 437              		.section	.text.ISR_Sw_Disable,"ax",%progbits
+ 438              		.align	2
+ 439              		.global	ISR_Sw_Disable
+ 440              		.thumb
+ 441              		.thumb_func
+ 442              		.type	ISR_Sw_Disable, %function
+ 443              	ISR_Sw_Disable:
+ 444              	.LFB10:
+ 335:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 336:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 337:Generated_Source\PSoC5/ISR_Sw.c **** /*******************************************************************************
+ 338:Generated_Source\PSoC5/ISR_Sw.c **** * Function Name: ISR_Sw_Disable
+ 339:Generated_Source\PSoC5/ISR_Sw.c **** ********************************************************************************
+ 340:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 341:Generated_Source\PSoC5/ISR_Sw.c **** * Summary:
+ 342:Generated_Source\PSoC5/ISR_Sw.c **** *   Disables the Interrupt in the interrupt controller.
+ 343:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 344:Generated_Source\PSoC5/ISR_Sw.c **** * Parameters:
+ 345:Generated_Source\PSoC5/ISR_Sw.c **** *   None
+ 346:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 347:Generated_Source\PSoC5/ISR_Sw.c **** * Return:
+ 348:Generated_Source\PSoC5/ISR_Sw.c **** *   None
+ 349:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 350:Generated_Source\PSoC5/ISR_Sw.c **** *******************************************************************************/
+ 351:Generated_Source\PSoC5/ISR_Sw.c **** void ISR_Sw_Disable(void)
+ 352:Generated_Source\PSoC5/ISR_Sw.c **** {
+ 445              		.loc 1 352 0
+ 446              		.cfi_startproc
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 15
+
+
+ 447              		@ args = 0, pretend = 0, frame = 0
+ 448              		@ frame_needed = 1, uses_anonymous_args = 0
+ 449              		@ link register save eliminated.
+ 450 0000 80B4     		push	{r7}
+ 451              		.cfi_def_cfa_offset 4
+ 452              		.cfi_offset 7, -4
+ 453 0002 00AF     		add	r7, sp, #0
+ 454              		.cfi_def_cfa_register 7
+ 353:Generated_Source\PSoC5/ISR_Sw.c ****     /* Disable the general interrupt. */
+ 354:Generated_Source\PSoC5/ISR_Sw.c ****     *ISR_Sw_INTC_CLR_EN = ISR_Sw__INTC_MASK;
+ 455              		.loc 1 354 0
+ 456 0004 034B     		ldr	r3, .L35
+ 457 0006 4022     		movs	r2, #64
+ 458 0008 1A60     		str	r2, [r3]
+ 355:Generated_Source\PSoC5/ISR_Sw.c **** }
+ 459              		.loc 1 355 0
+ 460 000a 00BF     		nop
+ 461 000c BD46     		mov	sp, r7
+ 462              		.cfi_def_cfa_register 13
+ 463              		@ sp needed
+ 464 000e 80BC     		pop	{r7}
+ 465              		.cfi_restore 7
+ 466              		.cfi_def_cfa_offset 0
+ 467 0010 7047     		bx	lr
+ 468              	.L36:
+ 469 0012 00BF     		.align	2
+ 470              	.L35:
+ 471 0014 80E100E0 		.word	-536813184
+ 472              		.cfi_endproc
+ 473              	.LFE10:
+ 474              		.size	ISR_Sw_Disable, .-ISR_Sw_Disable
+ 475              		.section	.text.ISR_Sw_SetPending,"ax",%progbits
+ 476              		.align	2
+ 477              		.global	ISR_Sw_SetPending
+ 478              		.thumb
+ 479              		.thumb_func
+ 480              		.type	ISR_Sw_SetPending, %function
+ 481              	ISR_Sw_SetPending:
+ 482              	.LFB11:
+ 356:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 357:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 358:Generated_Source\PSoC5/ISR_Sw.c **** /*******************************************************************************
+ 359:Generated_Source\PSoC5/ISR_Sw.c **** * Function Name: ISR_Sw_SetPending
+ 360:Generated_Source\PSoC5/ISR_Sw.c **** ********************************************************************************
+ 361:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 362:Generated_Source\PSoC5/ISR_Sw.c **** * Summary:
+ 363:Generated_Source\PSoC5/ISR_Sw.c **** *   Causes the Interrupt to enter the pending state, a software method of
+ 364:Generated_Source\PSoC5/ISR_Sw.c **** *   generating the interrupt.
+ 365:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 366:Generated_Source\PSoC5/ISR_Sw.c **** * Parameters:
+ 367:Generated_Source\PSoC5/ISR_Sw.c **** *   None
+ 368:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 369:Generated_Source\PSoC5/ISR_Sw.c **** * Return:
+ 370:Generated_Source\PSoC5/ISR_Sw.c **** *   None
+ 371:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 372:Generated_Source\PSoC5/ISR_Sw.c **** * Side Effects:
+ 373:Generated_Source\PSoC5/ISR_Sw.c **** *   If interrupts are enabled and the interrupt is set up properly, the ISR is
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 16
+
+
+ 374:Generated_Source\PSoC5/ISR_Sw.c **** *   entered (depending on the priority of this interrupt and other pending 
+ 375:Generated_Source\PSoC5/ISR_Sw.c **** *   interrupts).
+ 376:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 377:Generated_Source\PSoC5/ISR_Sw.c **** *******************************************************************************/
+ 378:Generated_Source\PSoC5/ISR_Sw.c **** void ISR_Sw_SetPending(void)
+ 379:Generated_Source\PSoC5/ISR_Sw.c **** {
+ 483              		.loc 1 379 0
+ 484              		.cfi_startproc
+ 485              		@ args = 0, pretend = 0, frame = 0
+ 486              		@ frame_needed = 1, uses_anonymous_args = 0
+ 487              		@ link register save eliminated.
+ 488 0000 80B4     		push	{r7}
+ 489              		.cfi_def_cfa_offset 4
+ 490              		.cfi_offset 7, -4
+ 491 0002 00AF     		add	r7, sp, #0
+ 492              		.cfi_def_cfa_register 7
+ 380:Generated_Source\PSoC5/ISR_Sw.c ****     *ISR_Sw_INTC_SET_PD = ISR_Sw__INTC_MASK;
+ 493              		.loc 1 380 0
+ 494 0004 034B     		ldr	r3, .L38
+ 495 0006 4022     		movs	r2, #64
+ 496 0008 1A60     		str	r2, [r3]
+ 381:Generated_Source\PSoC5/ISR_Sw.c **** }
+ 497              		.loc 1 381 0
+ 498 000a 00BF     		nop
+ 499 000c BD46     		mov	sp, r7
+ 500              		.cfi_def_cfa_register 13
+ 501              		@ sp needed
+ 502 000e 80BC     		pop	{r7}
+ 503              		.cfi_restore 7
+ 504              		.cfi_def_cfa_offset 0
+ 505 0010 7047     		bx	lr
+ 506              	.L39:
+ 507 0012 00BF     		.align	2
+ 508              	.L38:
+ 509 0014 00E200E0 		.word	-536813056
+ 510              		.cfi_endproc
+ 511              	.LFE11:
+ 512              		.size	ISR_Sw_SetPending, .-ISR_Sw_SetPending
+ 513              		.section	.text.ISR_Sw_ClearPending,"ax",%progbits
+ 514              		.align	2
+ 515              		.global	ISR_Sw_ClearPending
+ 516              		.thumb
+ 517              		.thumb_func
+ 518              		.type	ISR_Sw_ClearPending, %function
+ 519              	ISR_Sw_ClearPending:
+ 520              	.LFB12:
+ 382:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 383:Generated_Source\PSoC5/ISR_Sw.c **** 
+ 384:Generated_Source\PSoC5/ISR_Sw.c **** /*******************************************************************************
+ 385:Generated_Source\PSoC5/ISR_Sw.c **** * Function Name: ISR_Sw_ClearPending
+ 386:Generated_Source\PSoC5/ISR_Sw.c **** ********************************************************************************
+ 387:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 388:Generated_Source\PSoC5/ISR_Sw.c **** * Summary:
+ 389:Generated_Source\PSoC5/ISR_Sw.c **** *   Clears a pending interrupt in the interrupt controller.
+ 390:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 391:Generated_Source\PSoC5/ISR_Sw.c **** *   Note Some interrupt sources are clear-on-read and require the block 
+ 392:Generated_Source\PSoC5/ISR_Sw.c **** *   interrupt/status register to be read/cleared with the appropriate block API 
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 17
+
+
+ 393:Generated_Source\PSoC5/ISR_Sw.c **** *   (GPIO, UART, and so on). Otherwise the ISR will continue to remain in 
+ 394:Generated_Source\PSoC5/ISR_Sw.c **** *   pending state even though the interrupt itself is cleared using this API.
+ 395:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 396:Generated_Source\PSoC5/ISR_Sw.c **** * Parameters:
+ 397:Generated_Source\PSoC5/ISR_Sw.c **** *   None
+ 398:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 399:Generated_Source\PSoC5/ISR_Sw.c **** * Return:
+ 400:Generated_Source\PSoC5/ISR_Sw.c **** *   None
+ 401:Generated_Source\PSoC5/ISR_Sw.c **** *
+ 402:Generated_Source\PSoC5/ISR_Sw.c **** *******************************************************************************/
+ 403:Generated_Source\PSoC5/ISR_Sw.c **** void ISR_Sw_ClearPending(void)
+ 404:Generated_Source\PSoC5/ISR_Sw.c **** {
+ 521              		.loc 1 404 0
+ 522              		.cfi_startproc
+ 523              		@ args = 0, pretend = 0, frame = 0
+ 524              		@ frame_needed = 1, uses_anonymous_args = 0
+ 525              		@ link register save eliminated.
+ 526 0000 80B4     		push	{r7}
+ 527              		.cfi_def_cfa_offset 4
+ 528              		.cfi_offset 7, -4
+ 529 0002 00AF     		add	r7, sp, #0
+ 530              		.cfi_def_cfa_register 7
+ 405:Generated_Source\PSoC5/ISR_Sw.c ****     *ISR_Sw_INTC_CLR_PD = ISR_Sw__INTC_MASK;
+ 531              		.loc 1 405 0
+ 532 0004 034B     		ldr	r3, .L41
+ 533 0006 4022     		movs	r2, #64
+ 534 0008 1A60     		str	r2, [r3]
+ 406:Generated_Source\PSoC5/ISR_Sw.c **** }
+ 535              		.loc 1 406 0
+ 536 000a 00BF     		nop
+ 537 000c BD46     		mov	sp, r7
+ 538              		.cfi_def_cfa_register 13
+ 539              		@ sp needed
+ 540 000e 80BC     		pop	{r7}
+ 541              		.cfi_restore 7
+ 542              		.cfi_def_cfa_offset 0
+ 543 0010 7047     		bx	lr
+ 544              	.L42:
+ 545 0012 00BF     		.align	2
+ 546              	.L41:
+ 547 0014 80E200E0 		.word	-536812928
+ 548              		.cfi_endproc
+ 549              	.LFE12:
+ 550              		.size	ISR_Sw_ClearPending, .-ISR_Sw_ClearPending
+ 551              		.text
+ 552              	.Letext0:
+ 553              		.file 2 "Generated_Source\\PSoC5/cytypes.h"
+ 554              		.section	.debug_info,"",%progbits
+ 555              	.Ldebug_info0:
+ 556 0000 48020000 		.4byte	0x248
+ 557 0004 0400     		.2byte	0x4
+ 558 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 559 000a 04       		.byte	0x4
+ 560 000b 01       		.uleb128 0x1
+ 561 000c 1A000000 		.4byte	.LASF34
+ 562 0010 0C       		.byte	0xc
+ 563 0011 44020000 		.4byte	.LASF35
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 18
+
+
+ 564 0015 2D010000 		.4byte	.LASF36
+ 565 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 566 001d 00000000 		.4byte	0
+ 567 0021 00000000 		.4byte	.Ldebug_line0
+ 568 0025 02       		.uleb128 0x2
+ 569 0026 04       		.byte	0x4
+ 570 0027 05       		.byte	0x5
+ 571 0028 696E7400 		.ascii	"int\000"
+ 572 002c 03       		.uleb128 0x3
+ 573 002d 04       		.byte	0x4
+ 574 002e 07       		.byte	0x7
+ 575 002f E1010000 		.4byte	.LASF0
+ 576 0033 03       		.uleb128 0x3
+ 577 0034 08       		.byte	0x8
+ 578 0035 05       		.byte	0x5
+ 579 0036 36020000 		.4byte	.LASF1
+ 580 003a 03       		.uleb128 0x3
+ 581 003b 08       		.byte	0x8
+ 582 003c 04       		.byte	0x4
+ 583 003d AB020000 		.4byte	.LASF2
+ 584 0041 03       		.uleb128 0x3
+ 585 0042 01       		.byte	0x1
+ 586 0043 06       		.byte	0x6
+ 587 0044 B7020000 		.4byte	.LASF3
+ 588 0048 03       		.uleb128 0x3
+ 589 0049 01       		.byte	0x1
+ 590 004a 08       		.byte	0x8
+ 591 004b F3000000 		.4byte	.LASF4
+ 592 004f 03       		.uleb128 0x3
+ 593 0050 02       		.byte	0x2
+ 594 0051 05       		.byte	0x5
+ 595 0052 85020000 		.4byte	.LASF5
+ 596 0056 03       		.uleb128 0x3
+ 597 0057 02       		.byte	0x2
+ 598 0058 07       		.byte	0x7
+ 599 0059 B9000000 		.4byte	.LASF6
+ 600 005d 03       		.uleb128 0x3
+ 601 005e 04       		.byte	0x4
+ 602 005f 05       		.byte	0x5
+ 603 0060 A2020000 		.4byte	.LASF7
+ 604 0064 03       		.uleb128 0x3
+ 605 0065 04       		.byte	0x4
+ 606 0066 07       		.byte	0x7
+ 607 0067 06010000 		.4byte	.LASF8
+ 608 006b 03       		.uleb128 0x3
+ 609 006c 08       		.byte	0x8
+ 610 006d 07       		.byte	0x7
+ 611 006e 09020000 		.4byte	.LASF9
+ 612 0072 03       		.uleb128 0x3
+ 613 0073 04       		.byte	0x4
+ 614 0074 07       		.byte	0x7
+ 615 0075 2D020000 		.4byte	.LASF10
+ 616 0079 03       		.uleb128 0x3
+ 617 007a 01       		.byte	0x1
+ 618 007b 08       		.byte	0x8
+ 619 007c 64020000 		.4byte	.LASF11
+ 620 0080 04       		.uleb128 0x4
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 19
+
+
+ 621 0081 04       		.byte	0x4
+ 622 0082 86000000 		.4byte	0x86
+ 623 0086 05       		.uleb128 0x5
+ 624 0087 06       		.uleb128 0x6
+ 625 0088 18010000 		.4byte	.LASF12
+ 626 008c 02       		.byte	0x2
+ 627 008d E401     		.2byte	0x1e4
+ 628 008f 48000000 		.4byte	0x48
+ 629 0093 06       		.uleb128 0x6
+ 630 0094 CB010000 		.4byte	.LASF13
+ 631 0098 02       		.byte	0x2
+ 632 0099 E601     		.2byte	0x1e6
+ 633 009b 64000000 		.4byte	0x64
+ 634 009f 03       		.uleb128 0x3
+ 635 00a0 04       		.byte	0x4
+ 636 00a1 04       		.byte	0x4
+ 637 00a2 DD000000 		.4byte	.LASF14
+ 638 00a6 03       		.uleb128 0x3
+ 639 00a7 08       		.byte	0x8
+ 640 00a8 04       		.byte	0x4
+ 641 00a9 B8010000 		.4byte	.LASF15
+ 642 00ad 06       		.uleb128 0x6
+ 643 00ae 01010000 		.4byte	.LASF16
+ 644 00b2 02       		.byte	0x2
+ 645 00b3 8E02     		.2byte	0x28e
+ 646 00b5 B9000000 		.4byte	0xb9
+ 647 00b9 07       		.uleb128 0x7
+ 648 00ba 87000000 		.4byte	0x87
+ 649 00be 06       		.uleb128 0x6
+ 650 00bf 14000000 		.4byte	.LASF17
+ 651 00c3 02       		.byte	0x2
+ 652 00c4 9002     		.2byte	0x290
+ 653 00c6 CA000000 		.4byte	0xca
+ 654 00ca 07       		.uleb128 0x7
+ 655 00cb 93000000 		.4byte	0x93
+ 656 00cf 06       		.uleb128 0x6
+ 657 00d0 20020000 		.4byte	.LASF18
+ 658 00d4 02       		.byte	0x2
+ 659 00d5 A002     		.2byte	0x2a0
+ 660 00d7 80000000 		.4byte	0x80
+ 661 00db 08       		.uleb128 0x8
+ 662 00dc 78020000 		.4byte	.LASF19
+ 663 00e0 01       		.byte	0x1
+ 664 00e1 3E       		.byte	0x3e
+ 665 00e2 00000000 		.4byte	.LFB0
+ 666 00e6 20000000 		.4byte	.LFE0-.LFB0
+ 667 00ea 01       		.uleb128 0x1
+ 668 00eb 9C       		.byte	0x9c
+ 669 00ec 09       		.uleb128 0x9
+ 670 00ed 1E010000 		.4byte	.LASF22
+ 671 00f1 01       		.byte	0x1
+ 672 00f2 69       		.byte	0x69
+ 673 00f3 00000000 		.4byte	.LFB1
+ 674 00f7 24000000 		.4byte	.LFE1-.LFB1
+ 675 00fb 01       		.uleb128 0x1
+ 676 00fc 9C       		.byte	0x9c
+ 677 00fd 10010000 		.4byte	0x110
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 20
+
+
+ 678 0101 0A       		.uleb128 0xa
+ 679 0102 01020000 		.4byte	.LASF24
+ 680 0106 01       		.byte	0x1
+ 681 0107 69       		.byte	0x69
+ 682 0108 CF000000 		.4byte	0xcf
+ 683 010c 02       		.uleb128 0x2
+ 684 010d 91       		.byte	0x91
+ 685 010e 74       		.sleb128 -12
+ 686 010f 00       		.byte	0
+ 687 0110 08       		.uleb128 0x8
+ 688 0111 BF010000 		.4byte	.LASF20
+ 689 0115 01       		.byte	0x1
+ 690 0116 87       		.byte	0x87
+ 691 0117 00000000 		.4byte	.LFB2
+ 692 011b 18000000 		.4byte	.LFE2-.LFB2
+ 693 011f 01       		.uleb128 0x1
+ 694 0120 9C       		.byte	0x9c
+ 695 0121 08       		.uleb128 0x8
+ 696 0122 A8000000 		.4byte	.LASF21
+ 697 0126 01       		.byte	0x1
+ 698 0127 A1       		.byte	0xa1
+ 699 0128 00000000 		.4byte	.LFB3
+ 700 012c 18000000 		.4byte	.LFE3-.LFB3
+ 701 0130 01       		.uleb128 0x1
+ 702 0131 9C       		.byte	0x9c
+ 703 0132 0B       		.uleb128 0xb
+ 704 0133 CC000000 		.4byte	.LASF23
+ 705 0137 01       		.byte	0x1
+ 706 0138 CA       		.byte	0xca
+ 707 0139 00000000 		.4byte	.LFB4
+ 708 013d 24000000 		.4byte	.LFE4-.LFB4
+ 709 0141 01       		.uleb128 0x1
+ 710 0142 9C       		.byte	0x9c
+ 711 0143 64010000 		.4byte	0x164
+ 712 0147 0A       		.uleb128 0xa
+ 713 0148 01020000 		.4byte	.LASF24
+ 714 014c 01       		.byte	0x1
+ 715 014d CA       		.byte	0xca
+ 716 014e CF000000 		.4byte	0xcf
+ 717 0152 02       		.uleb128 0x2
+ 718 0153 91       		.byte	0x91
+ 719 0154 6C       		.sleb128 -20
+ 720 0155 0C       		.uleb128 0xc
+ 721 0156 69020000 		.4byte	.LASF25
+ 722 015a 01       		.byte	0x1
+ 723 015b CC       		.byte	0xcc
+ 724 015c 64010000 		.4byte	0x164
+ 725 0160 02       		.uleb128 0x2
+ 726 0161 91       		.byte	0x91
+ 727 0162 74       		.sleb128 -12
+ 728 0163 00       		.byte	0
+ 729 0164 04       		.uleb128 0x4
+ 730 0165 04       		.byte	0x4
+ 731 0166 CF000000 		.4byte	0xcf
+ 732 016a 0D       		.uleb128 0xd
+ 733 016b D5020000 		.4byte	.LASF28
+ 734 016f 01       		.byte	0x1
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 21
+
+
+ 735 0170 E2       		.byte	0xe2
+ 736 0171 CF000000 		.4byte	0xcf
+ 737 0175 00000000 		.4byte	.LFB5
+ 738 0179 20000000 		.4byte	.LFE5-.LFB5
+ 739 017d 01       		.uleb128 0x1
+ 740 017e 9C       		.byte	0x9c
+ 741 017f 92010000 		.4byte	0x192
+ 742 0183 0C       		.uleb128 0xc
+ 743 0184 69020000 		.4byte	.LASF25
+ 744 0188 01       		.byte	0x1
+ 745 0189 E4       		.byte	0xe4
+ 746 018a 64010000 		.4byte	0x164
+ 747 018e 02       		.uleb128 0x2
+ 748 018f 91       		.byte	0x91
+ 749 0190 74       		.sleb128 -12
+ 750 0191 00       		.byte	0
+ 751 0192 0E       		.uleb128 0xe
+ 752 0193 8F020000 		.4byte	.LASF26
+ 753 0197 01       		.byte	0x1
+ 754 0198 0401     		.2byte	0x104
+ 755 019a 00000000 		.4byte	.LFB6
+ 756 019e 24000000 		.4byte	.LFE6-.LFB6
+ 757 01a2 01       		.uleb128 0x1
+ 758 01a3 9C       		.byte	0x9c
+ 759 01a4 B8010000 		.4byte	0x1b8
+ 760 01a8 0F       		.uleb128 0xf
+ 761 01a9 A1010000 		.4byte	.LASF27
+ 762 01ad 01       		.byte	0x1
+ 763 01ae 0401     		.2byte	0x104
+ 764 01b0 87000000 		.4byte	0x87
+ 765 01b4 02       		.uleb128 0x2
+ 766 01b5 91       		.byte	0x91
+ 767 01b6 77       		.sleb128 -9
+ 768 01b7 00       		.byte	0
+ 769 01b8 10       		.uleb128 0x10
+ 770 01b9 EE010000 		.4byte	.LASF29
+ 771 01bd 01       		.byte	0x1
+ 772 01be 1A01     		.2byte	0x11a
+ 773 01c0 87000000 		.4byte	0x87
+ 774 01c4 00000000 		.4byte	.LFB7
+ 775 01c8 20000000 		.4byte	.LFE7-.LFB7
+ 776 01cc 01       		.uleb128 0x1
+ 777 01cd 9C       		.byte	0x9c
+ 778 01ce E2010000 		.4byte	0x1e2
+ 779 01d2 11       		.uleb128 0x11
+ 780 01d3 A1010000 		.4byte	.LASF27
+ 781 01d7 01       		.byte	0x1
+ 782 01d8 1C01     		.2byte	0x11c
+ 783 01da 87000000 		.4byte	0x87
+ 784 01de 02       		.uleb128 0x2
+ 785 01df 91       		.byte	0x91
+ 786 01e0 77       		.sleb128 -9
+ 787 01e1 00       		.byte	0
+ 788 01e2 12       		.uleb128 0x12
+ 789 01e3 AA010000 		.4byte	.LASF30
+ 790 01e7 01       		.byte	0x1
+ 791 01e8 3501     		.2byte	0x135
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 22
+
+
+ 792 01ea 00000000 		.4byte	.LFB8
+ 793 01ee 18000000 		.4byte	.LFE8-.LFB8
+ 794 01f2 01       		.uleb128 0x1
+ 795 01f3 9C       		.byte	0x9c
+ 796 01f4 13       		.uleb128 0x13
+ 797 01f5 E3000000 		.4byte	.LASF37
+ 798 01f9 01       		.byte	0x1
+ 799 01fa 4A01     		.2byte	0x14a
+ 800 01fc 87000000 		.4byte	0x87
+ 801 0200 00000000 		.4byte	.LFB9
+ 802 0204 24000000 		.4byte	.LFE9-.LFB9
+ 803 0208 01       		.uleb128 0x1
+ 804 0209 9C       		.byte	0x9c
+ 805 020a 12       		.uleb128 0x12
+ 806 020b D2010000 		.4byte	.LASF31
+ 807 020f 01       		.byte	0x1
+ 808 0210 5F01     		.2byte	0x15f
+ 809 0212 00000000 		.4byte	.LFB10
+ 810 0216 18000000 		.4byte	.LFE10-.LFB10
+ 811 021a 01       		.uleb128 0x1
+ 812 021b 9C       		.byte	0x9c
+ 813 021c 12       		.uleb128 0x12
+ 814 021d C3020000 		.4byte	.LASF32
+ 815 0221 01       		.byte	0x1
+ 816 0222 7A01     		.2byte	0x17a
+ 817 0224 00000000 		.4byte	.LFB11
+ 818 0228 18000000 		.4byte	.LFE11-.LFB11
+ 819 022c 01       		.uleb128 0x1
+ 820 022d 9C       		.byte	0x9c
+ 821 022e 12       		.uleb128 0x12
+ 822 022f 00000000 		.4byte	.LASF33
+ 823 0233 01       		.byte	0x1
+ 824 0234 9301     		.2byte	0x193
+ 825 0236 00000000 		.4byte	.LFB12
+ 826 023a 18000000 		.4byte	.LFE12-.LFB12
+ 827 023e 01       		.uleb128 0x1
+ 828 023f 9C       		.byte	0x9c
+ 829 0240 14       		.uleb128 0x14
+ 830 0241 E6020000 		.4byte	.LASF38
+ 831 0245 01       		.byte	0x1
+ 832 0246 1F       		.byte	0x1f
+ 833 0247 B9000000 		.4byte	0xb9
+ 834 024b 00       		.byte	0
+ 835              		.section	.debug_abbrev,"",%progbits
+ 836              	.Ldebug_abbrev0:
+ 837 0000 01       		.uleb128 0x1
+ 838 0001 11       		.uleb128 0x11
+ 839 0002 01       		.byte	0x1
+ 840 0003 25       		.uleb128 0x25
+ 841 0004 0E       		.uleb128 0xe
+ 842 0005 13       		.uleb128 0x13
+ 843 0006 0B       		.uleb128 0xb
+ 844 0007 03       		.uleb128 0x3
+ 845 0008 0E       		.uleb128 0xe
+ 846 0009 1B       		.uleb128 0x1b
+ 847 000a 0E       		.uleb128 0xe
+ 848 000b 55       		.uleb128 0x55
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 23
+
+
+ 849 000c 17       		.uleb128 0x17
+ 850 000d 11       		.uleb128 0x11
+ 851 000e 01       		.uleb128 0x1
+ 852 000f 10       		.uleb128 0x10
+ 853 0010 17       		.uleb128 0x17
+ 854 0011 00       		.byte	0
+ 855 0012 00       		.byte	0
+ 856 0013 02       		.uleb128 0x2
+ 857 0014 24       		.uleb128 0x24
+ 858 0015 00       		.byte	0
+ 859 0016 0B       		.uleb128 0xb
+ 860 0017 0B       		.uleb128 0xb
+ 861 0018 3E       		.uleb128 0x3e
+ 862 0019 0B       		.uleb128 0xb
+ 863 001a 03       		.uleb128 0x3
+ 864 001b 08       		.uleb128 0x8
+ 865 001c 00       		.byte	0
+ 866 001d 00       		.byte	0
+ 867 001e 03       		.uleb128 0x3
+ 868 001f 24       		.uleb128 0x24
+ 869 0020 00       		.byte	0
+ 870 0021 0B       		.uleb128 0xb
+ 871 0022 0B       		.uleb128 0xb
+ 872 0023 3E       		.uleb128 0x3e
+ 873 0024 0B       		.uleb128 0xb
+ 874 0025 03       		.uleb128 0x3
+ 875 0026 0E       		.uleb128 0xe
+ 876 0027 00       		.byte	0
+ 877 0028 00       		.byte	0
+ 878 0029 04       		.uleb128 0x4
+ 879 002a 0F       		.uleb128 0xf
+ 880 002b 00       		.byte	0
+ 881 002c 0B       		.uleb128 0xb
+ 882 002d 0B       		.uleb128 0xb
+ 883 002e 49       		.uleb128 0x49
+ 884 002f 13       		.uleb128 0x13
+ 885 0030 00       		.byte	0
+ 886 0031 00       		.byte	0
+ 887 0032 05       		.uleb128 0x5
+ 888 0033 15       		.uleb128 0x15
+ 889 0034 00       		.byte	0
+ 890 0035 27       		.uleb128 0x27
+ 891 0036 19       		.uleb128 0x19
+ 892 0037 00       		.byte	0
+ 893 0038 00       		.byte	0
+ 894 0039 06       		.uleb128 0x6
+ 895 003a 16       		.uleb128 0x16
+ 896 003b 00       		.byte	0
+ 897 003c 03       		.uleb128 0x3
+ 898 003d 0E       		.uleb128 0xe
+ 899 003e 3A       		.uleb128 0x3a
+ 900 003f 0B       		.uleb128 0xb
+ 901 0040 3B       		.uleb128 0x3b
+ 902 0041 05       		.uleb128 0x5
+ 903 0042 49       		.uleb128 0x49
+ 904 0043 13       		.uleb128 0x13
+ 905 0044 00       		.byte	0
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 24
+
+
+ 906 0045 00       		.byte	0
+ 907 0046 07       		.uleb128 0x7
+ 908 0047 35       		.uleb128 0x35
+ 909 0048 00       		.byte	0
+ 910 0049 49       		.uleb128 0x49
+ 911 004a 13       		.uleb128 0x13
+ 912 004b 00       		.byte	0
+ 913 004c 00       		.byte	0
+ 914 004d 08       		.uleb128 0x8
+ 915 004e 2E       		.uleb128 0x2e
+ 916 004f 00       		.byte	0
+ 917 0050 3F       		.uleb128 0x3f
+ 918 0051 19       		.uleb128 0x19
+ 919 0052 03       		.uleb128 0x3
+ 920 0053 0E       		.uleb128 0xe
+ 921 0054 3A       		.uleb128 0x3a
+ 922 0055 0B       		.uleb128 0xb
+ 923 0056 3B       		.uleb128 0x3b
+ 924 0057 0B       		.uleb128 0xb
+ 925 0058 27       		.uleb128 0x27
+ 926 0059 19       		.uleb128 0x19
+ 927 005a 11       		.uleb128 0x11
+ 928 005b 01       		.uleb128 0x1
+ 929 005c 12       		.uleb128 0x12
+ 930 005d 06       		.uleb128 0x6
+ 931 005e 40       		.uleb128 0x40
+ 932 005f 18       		.uleb128 0x18
+ 933 0060 9642     		.uleb128 0x2116
+ 934 0062 19       		.uleb128 0x19
+ 935 0063 00       		.byte	0
+ 936 0064 00       		.byte	0
+ 937 0065 09       		.uleb128 0x9
+ 938 0066 2E       		.uleb128 0x2e
+ 939 0067 01       		.byte	0x1
+ 940 0068 3F       		.uleb128 0x3f
+ 941 0069 19       		.uleb128 0x19
+ 942 006a 03       		.uleb128 0x3
+ 943 006b 0E       		.uleb128 0xe
+ 944 006c 3A       		.uleb128 0x3a
+ 945 006d 0B       		.uleb128 0xb
+ 946 006e 3B       		.uleb128 0x3b
+ 947 006f 0B       		.uleb128 0xb
+ 948 0070 27       		.uleb128 0x27
+ 949 0071 19       		.uleb128 0x19
+ 950 0072 11       		.uleb128 0x11
+ 951 0073 01       		.uleb128 0x1
+ 952 0074 12       		.uleb128 0x12
+ 953 0075 06       		.uleb128 0x6
+ 954 0076 40       		.uleb128 0x40
+ 955 0077 18       		.uleb128 0x18
+ 956 0078 9642     		.uleb128 0x2116
+ 957 007a 19       		.uleb128 0x19
+ 958 007b 01       		.uleb128 0x1
+ 959 007c 13       		.uleb128 0x13
+ 960 007d 00       		.byte	0
+ 961 007e 00       		.byte	0
+ 962 007f 0A       		.uleb128 0xa
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 25
+
+
+ 963 0080 05       		.uleb128 0x5
+ 964 0081 00       		.byte	0
+ 965 0082 03       		.uleb128 0x3
+ 966 0083 0E       		.uleb128 0xe
+ 967 0084 3A       		.uleb128 0x3a
+ 968 0085 0B       		.uleb128 0xb
+ 969 0086 3B       		.uleb128 0x3b
+ 970 0087 0B       		.uleb128 0xb
+ 971 0088 49       		.uleb128 0x49
+ 972 0089 13       		.uleb128 0x13
+ 973 008a 02       		.uleb128 0x2
+ 974 008b 18       		.uleb128 0x18
+ 975 008c 00       		.byte	0
+ 976 008d 00       		.byte	0
+ 977 008e 0B       		.uleb128 0xb
+ 978 008f 2E       		.uleb128 0x2e
+ 979 0090 01       		.byte	0x1
+ 980 0091 3F       		.uleb128 0x3f
+ 981 0092 19       		.uleb128 0x19
+ 982 0093 03       		.uleb128 0x3
+ 983 0094 0E       		.uleb128 0xe
+ 984 0095 3A       		.uleb128 0x3a
+ 985 0096 0B       		.uleb128 0xb
+ 986 0097 3B       		.uleb128 0x3b
+ 987 0098 0B       		.uleb128 0xb
+ 988 0099 27       		.uleb128 0x27
+ 989 009a 19       		.uleb128 0x19
+ 990 009b 11       		.uleb128 0x11
+ 991 009c 01       		.uleb128 0x1
+ 992 009d 12       		.uleb128 0x12
+ 993 009e 06       		.uleb128 0x6
+ 994 009f 40       		.uleb128 0x40
+ 995 00a0 18       		.uleb128 0x18
+ 996 00a1 9742     		.uleb128 0x2117
+ 997 00a3 19       		.uleb128 0x19
+ 998 00a4 01       		.uleb128 0x1
+ 999 00a5 13       		.uleb128 0x13
+ 1000 00a6 00       		.byte	0
+ 1001 00a7 00       		.byte	0
+ 1002 00a8 0C       		.uleb128 0xc
+ 1003 00a9 34       		.uleb128 0x34
+ 1004 00aa 00       		.byte	0
+ 1005 00ab 03       		.uleb128 0x3
+ 1006 00ac 0E       		.uleb128 0xe
+ 1007 00ad 3A       		.uleb128 0x3a
+ 1008 00ae 0B       		.uleb128 0xb
+ 1009 00af 3B       		.uleb128 0x3b
+ 1010 00b0 0B       		.uleb128 0xb
+ 1011 00b1 49       		.uleb128 0x49
+ 1012 00b2 13       		.uleb128 0x13
+ 1013 00b3 02       		.uleb128 0x2
+ 1014 00b4 18       		.uleb128 0x18
+ 1015 00b5 00       		.byte	0
+ 1016 00b6 00       		.byte	0
+ 1017 00b7 0D       		.uleb128 0xd
+ 1018 00b8 2E       		.uleb128 0x2e
+ 1019 00b9 01       		.byte	0x1
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 26
+
+
+ 1020 00ba 3F       		.uleb128 0x3f
+ 1021 00bb 19       		.uleb128 0x19
+ 1022 00bc 03       		.uleb128 0x3
+ 1023 00bd 0E       		.uleb128 0xe
+ 1024 00be 3A       		.uleb128 0x3a
+ 1025 00bf 0B       		.uleb128 0xb
+ 1026 00c0 3B       		.uleb128 0x3b
+ 1027 00c1 0B       		.uleb128 0xb
+ 1028 00c2 27       		.uleb128 0x27
+ 1029 00c3 19       		.uleb128 0x19
+ 1030 00c4 49       		.uleb128 0x49
+ 1031 00c5 13       		.uleb128 0x13
+ 1032 00c6 11       		.uleb128 0x11
+ 1033 00c7 01       		.uleb128 0x1
+ 1034 00c8 12       		.uleb128 0x12
+ 1035 00c9 06       		.uleb128 0x6
+ 1036 00ca 40       		.uleb128 0x40
+ 1037 00cb 18       		.uleb128 0x18
+ 1038 00cc 9742     		.uleb128 0x2117
+ 1039 00ce 19       		.uleb128 0x19
+ 1040 00cf 01       		.uleb128 0x1
+ 1041 00d0 13       		.uleb128 0x13
+ 1042 00d1 00       		.byte	0
+ 1043 00d2 00       		.byte	0
+ 1044 00d3 0E       		.uleb128 0xe
+ 1045 00d4 2E       		.uleb128 0x2e
+ 1046 00d5 01       		.byte	0x1
+ 1047 00d6 3F       		.uleb128 0x3f
+ 1048 00d7 19       		.uleb128 0x19
+ 1049 00d8 03       		.uleb128 0x3
+ 1050 00d9 0E       		.uleb128 0xe
+ 1051 00da 3A       		.uleb128 0x3a
+ 1052 00db 0B       		.uleb128 0xb
+ 1053 00dc 3B       		.uleb128 0x3b
+ 1054 00dd 05       		.uleb128 0x5
+ 1055 00de 27       		.uleb128 0x27
+ 1056 00df 19       		.uleb128 0x19
+ 1057 00e0 11       		.uleb128 0x11
+ 1058 00e1 01       		.uleb128 0x1
+ 1059 00e2 12       		.uleb128 0x12
+ 1060 00e3 06       		.uleb128 0x6
+ 1061 00e4 40       		.uleb128 0x40
+ 1062 00e5 18       		.uleb128 0x18
+ 1063 00e6 9742     		.uleb128 0x2117
+ 1064 00e8 19       		.uleb128 0x19
+ 1065 00e9 01       		.uleb128 0x1
+ 1066 00ea 13       		.uleb128 0x13
+ 1067 00eb 00       		.byte	0
+ 1068 00ec 00       		.byte	0
+ 1069 00ed 0F       		.uleb128 0xf
+ 1070 00ee 05       		.uleb128 0x5
+ 1071 00ef 00       		.byte	0
+ 1072 00f0 03       		.uleb128 0x3
+ 1073 00f1 0E       		.uleb128 0xe
+ 1074 00f2 3A       		.uleb128 0x3a
+ 1075 00f3 0B       		.uleb128 0xb
+ 1076 00f4 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 27
+
+
+ 1077 00f5 05       		.uleb128 0x5
+ 1078 00f6 49       		.uleb128 0x49
+ 1079 00f7 13       		.uleb128 0x13
+ 1080 00f8 02       		.uleb128 0x2
+ 1081 00f9 18       		.uleb128 0x18
+ 1082 00fa 00       		.byte	0
+ 1083 00fb 00       		.byte	0
+ 1084 00fc 10       		.uleb128 0x10
+ 1085 00fd 2E       		.uleb128 0x2e
+ 1086 00fe 01       		.byte	0x1
+ 1087 00ff 3F       		.uleb128 0x3f
+ 1088 0100 19       		.uleb128 0x19
+ 1089 0101 03       		.uleb128 0x3
+ 1090 0102 0E       		.uleb128 0xe
+ 1091 0103 3A       		.uleb128 0x3a
+ 1092 0104 0B       		.uleb128 0xb
+ 1093 0105 3B       		.uleb128 0x3b
+ 1094 0106 05       		.uleb128 0x5
+ 1095 0107 27       		.uleb128 0x27
+ 1096 0108 19       		.uleb128 0x19
+ 1097 0109 49       		.uleb128 0x49
+ 1098 010a 13       		.uleb128 0x13
+ 1099 010b 11       		.uleb128 0x11
+ 1100 010c 01       		.uleb128 0x1
+ 1101 010d 12       		.uleb128 0x12
+ 1102 010e 06       		.uleb128 0x6
+ 1103 010f 40       		.uleb128 0x40
+ 1104 0110 18       		.uleb128 0x18
+ 1105 0111 9742     		.uleb128 0x2117
+ 1106 0113 19       		.uleb128 0x19
+ 1107 0114 01       		.uleb128 0x1
+ 1108 0115 13       		.uleb128 0x13
+ 1109 0116 00       		.byte	0
+ 1110 0117 00       		.byte	0
+ 1111 0118 11       		.uleb128 0x11
+ 1112 0119 34       		.uleb128 0x34
+ 1113 011a 00       		.byte	0
+ 1114 011b 03       		.uleb128 0x3
+ 1115 011c 0E       		.uleb128 0xe
+ 1116 011d 3A       		.uleb128 0x3a
+ 1117 011e 0B       		.uleb128 0xb
+ 1118 011f 3B       		.uleb128 0x3b
+ 1119 0120 05       		.uleb128 0x5
+ 1120 0121 49       		.uleb128 0x49
+ 1121 0122 13       		.uleb128 0x13
+ 1122 0123 02       		.uleb128 0x2
+ 1123 0124 18       		.uleb128 0x18
+ 1124 0125 00       		.byte	0
+ 1125 0126 00       		.byte	0
+ 1126 0127 12       		.uleb128 0x12
+ 1127 0128 2E       		.uleb128 0x2e
+ 1128 0129 00       		.byte	0
+ 1129 012a 3F       		.uleb128 0x3f
+ 1130 012b 19       		.uleb128 0x19
+ 1131 012c 03       		.uleb128 0x3
+ 1132 012d 0E       		.uleb128 0xe
+ 1133 012e 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 28
+
+
+ 1134 012f 0B       		.uleb128 0xb
+ 1135 0130 3B       		.uleb128 0x3b
+ 1136 0131 05       		.uleb128 0x5
+ 1137 0132 27       		.uleb128 0x27
+ 1138 0133 19       		.uleb128 0x19
+ 1139 0134 11       		.uleb128 0x11
+ 1140 0135 01       		.uleb128 0x1
+ 1141 0136 12       		.uleb128 0x12
+ 1142 0137 06       		.uleb128 0x6
+ 1143 0138 40       		.uleb128 0x40
+ 1144 0139 18       		.uleb128 0x18
+ 1145 013a 9742     		.uleb128 0x2117
+ 1146 013c 19       		.uleb128 0x19
+ 1147 013d 00       		.byte	0
+ 1148 013e 00       		.byte	0
+ 1149 013f 13       		.uleb128 0x13
+ 1150 0140 2E       		.uleb128 0x2e
+ 1151 0141 00       		.byte	0
+ 1152 0142 3F       		.uleb128 0x3f
+ 1153 0143 19       		.uleb128 0x19
+ 1154 0144 03       		.uleb128 0x3
+ 1155 0145 0E       		.uleb128 0xe
+ 1156 0146 3A       		.uleb128 0x3a
+ 1157 0147 0B       		.uleb128 0xb
+ 1158 0148 3B       		.uleb128 0x3b
+ 1159 0149 05       		.uleb128 0x5
+ 1160 014a 27       		.uleb128 0x27
+ 1161 014b 19       		.uleb128 0x19
+ 1162 014c 49       		.uleb128 0x49
+ 1163 014d 13       		.uleb128 0x13
+ 1164 014e 11       		.uleb128 0x11
+ 1165 014f 01       		.uleb128 0x1
+ 1166 0150 12       		.uleb128 0x12
+ 1167 0151 06       		.uleb128 0x6
+ 1168 0152 40       		.uleb128 0x40
+ 1169 0153 18       		.uleb128 0x18
+ 1170 0154 9742     		.uleb128 0x2117
+ 1171 0156 19       		.uleb128 0x19
+ 1172 0157 00       		.byte	0
+ 1173 0158 00       		.byte	0
+ 1174 0159 14       		.uleb128 0x14
+ 1175 015a 34       		.uleb128 0x34
+ 1176 015b 00       		.byte	0
+ 1177 015c 03       		.uleb128 0x3
+ 1178 015d 0E       		.uleb128 0xe
+ 1179 015e 3A       		.uleb128 0x3a
+ 1180 015f 0B       		.uleb128 0xb
+ 1181 0160 3B       		.uleb128 0x3b
+ 1182 0161 0B       		.uleb128 0xb
+ 1183 0162 49       		.uleb128 0x49
+ 1184 0163 13       		.uleb128 0x13
+ 1185 0164 3F       		.uleb128 0x3f
+ 1186 0165 19       		.uleb128 0x19
+ 1187 0166 3C       		.uleb128 0x3c
+ 1188 0167 19       		.uleb128 0x19
+ 1189 0168 00       		.byte	0
+ 1190 0169 00       		.byte	0
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 29
+
+
+ 1191 016a 00       		.byte	0
+ 1192              		.section	.debug_aranges,"",%progbits
+ 1193 0000 7C000000 		.4byte	0x7c
+ 1194 0004 0200     		.2byte	0x2
+ 1195 0006 00000000 		.4byte	.Ldebug_info0
+ 1196 000a 04       		.byte	0x4
+ 1197 000b 00       		.byte	0
+ 1198 000c 0000     		.2byte	0
+ 1199 000e 0000     		.2byte	0
+ 1200 0010 00000000 		.4byte	.LFB0
+ 1201 0014 20000000 		.4byte	.LFE0-.LFB0
+ 1202 0018 00000000 		.4byte	.LFB1
+ 1203 001c 24000000 		.4byte	.LFE1-.LFB1
+ 1204 0020 00000000 		.4byte	.LFB2
+ 1205 0024 18000000 		.4byte	.LFE2-.LFB2
+ 1206 0028 00000000 		.4byte	.LFB3
+ 1207 002c 18000000 		.4byte	.LFE3-.LFB3
+ 1208 0030 00000000 		.4byte	.LFB4
+ 1209 0034 24000000 		.4byte	.LFE4-.LFB4
+ 1210 0038 00000000 		.4byte	.LFB5
+ 1211 003c 20000000 		.4byte	.LFE5-.LFB5
+ 1212 0040 00000000 		.4byte	.LFB6
+ 1213 0044 24000000 		.4byte	.LFE6-.LFB6
+ 1214 0048 00000000 		.4byte	.LFB7
+ 1215 004c 20000000 		.4byte	.LFE7-.LFB7
+ 1216 0050 00000000 		.4byte	.LFB8
+ 1217 0054 18000000 		.4byte	.LFE8-.LFB8
+ 1218 0058 00000000 		.4byte	.LFB9
+ 1219 005c 24000000 		.4byte	.LFE9-.LFB9
+ 1220 0060 00000000 		.4byte	.LFB10
+ 1221 0064 18000000 		.4byte	.LFE10-.LFB10
+ 1222 0068 00000000 		.4byte	.LFB11
+ 1223 006c 18000000 		.4byte	.LFE11-.LFB11
+ 1224 0070 00000000 		.4byte	.LFB12
+ 1225 0074 18000000 		.4byte	.LFE12-.LFB12
+ 1226 0078 00000000 		.4byte	0
+ 1227 007c 00000000 		.4byte	0
+ 1228              		.section	.debug_ranges,"",%progbits
+ 1229              	.Ldebug_ranges0:
+ 1230 0000 00000000 		.4byte	.LFB0
+ 1231 0004 20000000 		.4byte	.LFE0
+ 1232 0008 00000000 		.4byte	.LFB1
+ 1233 000c 24000000 		.4byte	.LFE1
+ 1234 0010 00000000 		.4byte	.LFB2
+ 1235 0014 18000000 		.4byte	.LFE2
+ 1236 0018 00000000 		.4byte	.LFB3
+ 1237 001c 18000000 		.4byte	.LFE3
+ 1238 0020 00000000 		.4byte	.LFB4
+ 1239 0024 24000000 		.4byte	.LFE4
+ 1240 0028 00000000 		.4byte	.LFB5
+ 1241 002c 20000000 		.4byte	.LFE5
+ 1242 0030 00000000 		.4byte	.LFB6
+ 1243 0034 24000000 		.4byte	.LFE6
+ 1244 0038 00000000 		.4byte	.LFB7
+ 1245 003c 20000000 		.4byte	.LFE7
+ 1246 0040 00000000 		.4byte	.LFB8
+ 1247 0044 18000000 		.4byte	.LFE8
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 30
+
+
+ 1248 0048 00000000 		.4byte	.LFB9
+ 1249 004c 24000000 		.4byte	.LFE9
+ 1250 0050 00000000 		.4byte	.LFB10
+ 1251 0054 18000000 		.4byte	.LFE10
+ 1252 0058 00000000 		.4byte	.LFB11
+ 1253 005c 18000000 		.4byte	.LFE11
+ 1254 0060 00000000 		.4byte	.LFB12
+ 1255 0064 18000000 		.4byte	.LFE12
+ 1256 0068 00000000 		.4byte	0
+ 1257 006c 00000000 		.4byte	0
+ 1258              		.section	.debug_line,"",%progbits
+ 1259              	.Ldebug_line0:
+ 1260 0000 4D010000 		.section	.debug_str,"MS",%progbits,1
+ 1260      02004300 
+ 1260      00000201 
+ 1260      FB0E0D00 
+ 1260      01010101 
+ 1261              	.LASF33:
+ 1262 0000 4953525F 		.ascii	"ISR_Sw_ClearPending\000"
+ 1262      53775F43 
+ 1262      6C656172 
+ 1262      50656E64 
+ 1262      696E6700 
+ 1263              	.LASF17:
+ 1264 0014 72656733 		.ascii	"reg32\000"
+ 1264      3200
+ 1265              	.LASF34:
+ 1266 001a 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1266      43313120 
+ 1266      352E342E 
+ 1266      31203230 
+ 1266      31363036 
+ 1267 004d 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1267      20726576 
+ 1267      6973696F 
+ 1267      6E203233 
+ 1267      37373135 
+ 1268 0080 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 1268      66756E63 
+ 1268      74696F6E 
+ 1268      2D736563 
+ 1268      74696F6E 
+ 1269              	.LASF21:
+ 1270 00a8 4953525F 		.ascii	"ISR_Sw_Interrupt\000"
+ 1270      53775F49 
+ 1270      6E746572 
+ 1270      72757074 
+ 1270      00
+ 1271              	.LASF6:
+ 1272 00b9 73686F72 		.ascii	"short unsigned int\000"
+ 1272      7420756E 
+ 1272      7369676E 
+ 1272      65642069 
+ 1272      6E7400
+ 1273              	.LASF23:
+ 1274 00cc 4953525F 		.ascii	"ISR_Sw_SetVector\000"
+ 1274      53775F53 
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 31
+
+
+ 1274      65745665 
+ 1274      63746F72 
+ 1274      00
+ 1275              	.LASF14:
+ 1276 00dd 666C6F61 		.ascii	"float\000"
+ 1276      7400
+ 1277              	.LASF37:
+ 1278 00e3 4953525F 		.ascii	"ISR_Sw_GetState\000"
+ 1278      53775F47 
+ 1278      65745374 
+ 1278      61746500 
+ 1279              	.LASF4:
+ 1280 00f3 756E7369 		.ascii	"unsigned char\000"
+ 1280      676E6564 
+ 1280      20636861 
+ 1280      7200
+ 1281              	.LASF16:
+ 1282 0101 72656738 		.ascii	"reg8\000"
+ 1282      00
+ 1283              	.LASF8:
+ 1284 0106 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1284      20756E73 
+ 1284      69676E65 
+ 1284      6420696E 
+ 1284      7400
+ 1285              	.LASF12:
+ 1286 0118 75696E74 		.ascii	"uint8\000"
+ 1286      3800
+ 1287              	.LASF22:
+ 1288 011e 4953525F 		.ascii	"ISR_Sw_StartEx\000"
+ 1288      53775F53 
+ 1288      74617274 
+ 1288      457800
+ 1289              	.LASF36:
+ 1290 012d 433A5C55 		.ascii	"C:\\Users\\almsk\\Dropbox\\P5 - B2-203\\Projekt\\PS"
+ 1290      73657273 
+ 1290      5C616C6D 
+ 1290      736B5C44 
+ 1290      726F7062 
+ 1291 015a 6F435C53 		.ascii	"oC\\SampleOgMotor\\Project_Done_V0.4DisCon\\Project"
+ 1291      616D706C 
+ 1291      654F674D 
+ 1291      6F746F72 
+ 1291      5C50726F 
+ 1292 018a 5F446F6E 		.ascii	"_Done_V0.4DisCon.cydsn\000"
+ 1292      655F5630 
+ 1292      2E344469 
+ 1292      73436F6E 
+ 1292      2E637964 
+ 1293              	.LASF27:
+ 1294 01a1 7072696F 		.ascii	"priority\000"
+ 1294      72697479 
+ 1294      00
+ 1295              	.LASF30:
+ 1296 01aa 4953525F 		.ascii	"ISR_Sw_Enable\000"
+ 1296      53775F45 
+ 1296      6E61626C 
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 32
+
+
+ 1296      6500
+ 1297              	.LASF15:
+ 1298 01b8 646F7562 		.ascii	"double\000"
+ 1298      6C6500
+ 1299              	.LASF20:
+ 1300 01bf 4953525F 		.ascii	"ISR_Sw_Stop\000"
+ 1300      53775F53 
+ 1300      746F7000 
+ 1301              	.LASF13:
+ 1302 01cb 75696E74 		.ascii	"uint32\000"
+ 1302      333200
+ 1303              	.LASF31:
+ 1304 01d2 4953525F 		.ascii	"ISR_Sw_Disable\000"
+ 1304      53775F44 
+ 1304      69736162 
+ 1304      6C6500
+ 1305              	.LASF0:
+ 1306 01e1 756E7369 		.ascii	"unsigned int\000"
+ 1306      676E6564 
+ 1306      20696E74 
+ 1306      00
+ 1307              	.LASF29:
+ 1308 01ee 4953525F 		.ascii	"ISR_Sw_GetPriority\000"
+ 1308      53775F47 
+ 1308      65745072 
+ 1308      696F7269 
+ 1308      747900
+ 1309              	.LASF24:
+ 1310 0201 61646472 		.ascii	"address\000"
+ 1310      65737300 
+ 1311              	.LASF9:
+ 1312 0209 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1312      206C6F6E 
+ 1312      6720756E 
+ 1312      7369676E 
+ 1312      65642069 
+ 1313              	.LASF18:
+ 1314 0220 63796973 		.ascii	"cyisraddress\000"
+ 1314      72616464 
+ 1314      72657373 
+ 1314      00
+ 1315              	.LASF10:
+ 1316 022d 73697A65 		.ascii	"sizetype\000"
+ 1316      74797065 
+ 1316      00
+ 1317              	.LASF1:
+ 1318 0236 6C6F6E67 		.ascii	"long long int\000"
+ 1318      206C6F6E 
+ 1318      6720696E 
+ 1318      7400
+ 1319              	.LASF35:
+ 1320 0244 47656E65 		.ascii	"Generated_Source\\PSoC5\\ISR_Sw.c\000"
+ 1320      72617465 
+ 1320      645F536F 
+ 1320      75726365 
+ 1320      5C50536F 
+ 1321              	.LASF11:
+ARM GAS  C:\Users\almsk\AppData\Local\Temp\ccyMdYdm.s 			page 33
+
+
+ 1322 0264 63686172 		.ascii	"char\000"
+ 1322      00
+ 1323              	.LASF25:
+ 1324 0269 72616D56 		.ascii	"ramVectorTable\000"
+ 1324      6563746F 
+ 1324      72546162 
+ 1324      6C6500
+ 1325              	.LASF19:
+ 1326 0278 4953525F 		.ascii	"ISR_Sw_Start\000"
+ 1326      53775F53 
+ 1326      74617274 
+ 1326      00
+ 1327              	.LASF5:
+ 1328 0285 73686F72 		.ascii	"short int\000"
+ 1328      7420696E 
+ 1328      7400
+ 1329              	.LASF26:
+ 1330 028f 4953525F 		.ascii	"ISR_Sw_SetPriority\000"
+ 1330      53775F53 
+ 1330      65745072 
+ 1330      696F7269 
+ 1330      747900
+ 1331              	.LASF7:
+ 1332 02a2 6C6F6E67 		.ascii	"long int\000"
+ 1332      20696E74 
+ 1332      00
+ 1333              	.LASF2:
+ 1334 02ab 6C6F6E67 		.ascii	"long double\000"
+ 1334      20646F75 
+ 1334      626C6500 
+ 1335              	.LASF3:
+ 1336 02b7 7369676E 		.ascii	"signed char\000"
+ 1336      65642063 
+ 1336      68617200 
+ 1337              	.LASF32:
+ 1338 02c3 4953525F 		.ascii	"ISR_Sw_SetPending\000"
+ 1338      53775F53 
+ 1338      65745065 
+ 1338      6E64696E 
+ 1338      6700
+ 1339              	.LASF28:
+ 1340 02d5 4953525F 		.ascii	"ISR_Sw_GetVector\000"
+ 1340      53775F47 
+ 1340      65745665 
+ 1340      63746F72 
+ 1340      00
+ 1341              	.LASF38:
+ 1342 02e6 73776974 		.ascii	"switch_flag\000"
+ 1342      63685F66 
+ 1342      6C616700 
+ 1343              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

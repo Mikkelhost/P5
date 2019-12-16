@@ -1,0 +1,6 @@
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|0cdac292-e055-4ffa-955b-b5977e0c20f9
+C:\Users\almsk\Documents\PSoC Creator\4.2\Downloads ( 4.2).cylib\Downloads ( 4.2).cyprj|45d236e5-5774-4fe7-bbd4-ab04cabdee3b
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|938d2296-6343-4bd1-be52-c9228f658af8
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|b0357605-9110-4571-9538-d4f332ac6514
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|e9b55317-ede5-4da4-8047-4d2cdcfdc6da
+C:\Users\almsk\Dropbox\P5 - B2-203\Projekt\PSoC\SampleOgMotor\Project_Done_V0.4DisCon\Project_Done_V0.4DisCon.cydsn\Project_Done_V0.4DisCon.cyprj|59d4cc29-517e-4817-8e9f-37a4fcb8ce48
