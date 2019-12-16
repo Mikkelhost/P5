@@ -8,4 +8,4 @@ More specifically here is what software used:
 
 # What can the system do?
 The system can detect and track a 2.4-2.483 GHz signal coming from a beacon. It can track the beacon in both the horizontal axis and the vertical axis and turn 360 degrees around itself with the help from a slipring.
-![A happy cow]{https://i.imgur.com/YtniODD.png}
+![A happy cow](https://i.imgur.com/YtniODD.png)
